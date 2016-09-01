@@ -1,1 +1,1 @@
-# Wise.GoodRest
+# <a href="http://goodrest.io/">Wise.GoodRest</a>
