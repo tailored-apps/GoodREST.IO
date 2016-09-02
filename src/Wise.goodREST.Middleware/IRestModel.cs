@@ -4,6 +4,7 @@ namespace Wise.goodREST.Middleware
 {
     public interface IRestModel
     {
-        void RegisterMessageModel<T>() ;
+       void  RegisterMessageModel<T>() ;
+
     }
 }

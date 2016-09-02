@@ -7,5 +7,6 @@ namespace Wise.goodREST.Middleware.Interface
 {
     public interface IRequestMatcher
     {
+
     }
 }

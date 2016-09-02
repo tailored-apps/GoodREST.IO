@@ -4,7 +4,7 @@ using Wise.goodREST.Core.Enums;
 
 namespace Wise.goodREST.Core.Test.DataModel.Messages
 {
-    [Route("/Customers", HttpVerb.PUT)]
+    [Route("Customers", HttpVerb.GET)]
     public class GetCustomer : IHasResponse<GetCustomerResponse>
     {
         public string UserName { get; set; }
