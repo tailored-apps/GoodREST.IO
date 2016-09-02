@@ -8,6 +8,8 @@ namespace Wise.goodREST.Core.Test.DataModel
 {
     public class GetCustomerResponse : IResponse
     {
+        public string CorrelationId { get; set; }
+
         public IList<Customer> Customers { get; set; }
 
         public int HttpStatusCode { get; set; }

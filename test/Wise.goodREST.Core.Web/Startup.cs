@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using WebApplication.Data;
 using WebApplication.Models;
 using WebApplication.Services;
+using Wise.goodREST.Middleware;
+using Wise.goodREST.Core.Test.DataModel.Messages;
 
 namespace WebApplication
 {
@@ -82,6 +84,11 @@ namespace WebApplication
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.TakeGoodRest(configure=>
+            {
+                configure.RegisterMessageModel<GetCustomer>();
             });
         }
     }

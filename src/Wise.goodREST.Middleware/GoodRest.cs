@@ -12,6 +12,7 @@ namespace Wise.goodREST.Middleware
             return app;
 
         }
+
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app)
         {
             return app;
