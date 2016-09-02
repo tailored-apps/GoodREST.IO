@@ -4,9 +4,8 @@
     "debugType": "portable"
   },
   "dependencies": {
-    "Wise.goodREST.Core": "1.0.0-*",
-    "System.Runtime.Loader": "4.0.0",
-    "Microsoft.AspNetCore.Routing": "1.0.0"
+    "System.Runtime.Extensions": "4.1.0",
+    "Wise.goodREST.Core": "1.0.0-*"
   },
   "frameworks": {
     "netstandard1.6": {
