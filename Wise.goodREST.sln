@@ -7,7 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7894F9E8-594
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4FF508FB-2F34-4F1E-9C44-505C5926C7B9}"
 	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
 		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Wise.goodREST.Core", "src\Wise.goodREST.Core\Wise.goodREST.Core.xproj", "{AA5539A4-560D-46C5-8459-A32580FCF392}"
