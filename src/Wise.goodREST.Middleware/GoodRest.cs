@@ -17,6 +17,8 @@ namespace Wise.goodREST.Middleware
             var model = new RestModel();
             configureRoutes.Invoke(model);
 
+            
+
             var trackPackageRouteHandler = new RouteHandler(context =>
             {
                 var routeValues = context.GetRouteData().Values;
@@ -45,6 +47,7 @@ namespace Wise.goodREST.Middleware
                        }
                    }
                    context.Items.Add("requestmMdel", requestmMdel);
+
 
                    context.Response.ContentType = "application/json";
                    
