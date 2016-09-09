@@ -14,6 +14,7 @@ using WebApplication.Models;
 using WebApplication.Services;
 using Wise.goodREST.Middleware;
 using Wise.goodREST.Core.Test.DataModel.Messages;
+using Wise.goodREST.Core.Test.Services;
 
 namespace WebApplication
 {
@@ -89,6 +90,7 @@ namespace WebApplication
             app.TakeGoodRest(configure=>
             {
                 configure.RegisterMessageModel<GetCustomer>();
+                configure.RegisterSercice<CustomerService>();
             });
         }
     }

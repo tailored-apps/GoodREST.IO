@@ -27,7 +27,7 @@ namespace Wise.goodREST.Middleware
             });
 
             var routeBuilder = new RouteBuilder(app, trackPackageRouteHandler);
-            
+            model.Build();
             foreach (var route in model.GetRouteForType())
             {
                 var template = route.Key.Key;
