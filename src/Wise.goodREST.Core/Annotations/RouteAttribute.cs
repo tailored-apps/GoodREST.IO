@@ -19,6 +19,8 @@ namespace Wise.goodREST.Core.Annotations
             this.path = path;
             this.verbs = verbs;
         }
+        public string Path { get { return path; } }
 
+        public Enum Verb { get { return verbs; } }
     }
 }

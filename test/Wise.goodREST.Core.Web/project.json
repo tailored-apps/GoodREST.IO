@@ -40,7 +40,8 @@
     },
     "Wise.goodREST.Core.Test.DataModel": "1.0.0-*",
     "Wise.goodREST.Middleware": "1.0.0-*",
-    "Wise.goodREST.Core": "1.0.0-*"
+    "Wise.goodREST.Core": "1.0.0-*",
+    "Wise.goodREST.Core.Test.Services": "1.0.0-*"
   },
 
   "tools": {
