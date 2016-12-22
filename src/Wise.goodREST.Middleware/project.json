@@ -8,6 +8,7 @@
     "System.Runtime.Loader": "4.0.0",
     "System.Reflection.Extensions": "4.0.1",
     "Newtonsoft.Json": "9.0.1",
+    "Microsoft.Extensions.DependencyInjection": "1.0.0",
     "Microsoft.AspNetCore.Routing": "1.0.0",
     "Microsoft.AspNetCore.Mvc.Formatters.Json": "1.0.0",
     "Microsoft.AspNetCore.Http.Abstractions": "1.0.0"

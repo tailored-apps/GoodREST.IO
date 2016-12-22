@@ -5,11 +5,17 @@ using Wise.goodREST.Core.Annotations;
 using System.Linq;
 using Wise.goodREST.Core.Enums;
 using Wise.goodREST.Middleware.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Wise.goodREST.Middleware
 {
     public class RestModel : IRestModel
     {
+        private IServiceCollection servicesDi;
+        public RestModel(IServiceCollection services)
+        {
+            servicesDi = services;
+        }
         Dictionary<KeyValuePair<string, HttpVerb>, Type> types = new Dictionary<KeyValuePair<string, HttpVerb>, Type>();
         Dictionary<KeyValuePair<HttpVerb, Type>, MethodInfo> services = new Dictionary<KeyValuePair<HttpVerb, Type>, MethodInfo>();
 
@@ -38,10 +44,16 @@ namespace Wise.goodREST.Middleware
 
         public void RegisterSercice<T>() where T : ServiceBase
         {
-            var methods = typeof(T).GetTypeInfo().GetMethods(BindingFlags.Public);
+            servicesDi.AddTransient(typeof(T));
+            var methods = typeof(T).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
             serviceMethods.Add(typeof(T), new List<MethodInfo>(methods));
 
+        }
 
+        public MethodInfo GetServiceMethodForType(HttpVerb verb, Type requestType)
+        {
+
+            return services[new KeyValuePair<HttpVerb, Type>(verb, requestType)];
         }
 
         public void Build()
@@ -54,9 +66,9 @@ namespace Wise.goodREST.Middleware
                     .Single().Single();
                 
                 var matchingMethod = serviceMethods.Where(X => X.Value.Any(y=>y.ReturnType == returnType && y.GetParameters().SingleOrDefault(z=>z.ParameterType == element.Value) !=null));
-                if (matchingMethod != null)
+                if (matchingMethod != null && matchingMethod.Any())
                 {
-                    //services.Add(
+                    services.Add(new KeyValuePair<HttpVerb, Type>(element.Key.Value, element.Value), matchingMethod.Single().Value.Single() );
                 }
             }
         }
