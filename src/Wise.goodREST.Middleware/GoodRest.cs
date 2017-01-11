@@ -9,19 +9,27 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Wise.goodREST.Middleware.Interface;
+using Wise.goodREST.Middleware.Services;
 
 namespace Wise.goodREST.Middleware
 {
     public static class GoodRest
     {
-        public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app, IServiceCollection services, Action<IRestModel> configureRoutes)
+
+        public static IServiceCollection AddGoodRest(this IServiceCollection app)
         {
-            var model = new RestModel(services);
+            app.AddTransient<IRestModel, RestModel>();
+            
+            return app;
+        }
+
+        public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app, Action<IRestModel> configureRoutes)
+        {
+            var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
 
-            var sp = services.BuildServiceProvider();
 
-            var serializer = sp.GetRequiredService<IRequestResponseSerializer>();
+            var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();
 
             var trackPackageRouteHandler = new RouteHandler(context =>
             {
@@ -31,7 +39,7 @@ namespace Wise.goodREST.Middleware
             });
 
             var routeBuilder = new RouteBuilder(app, trackPackageRouteHandler);
-            model.Build();
+            model.Build(app.ApplicationServices.GetServices<ServiceBase>().Select(x=>x.GetType()));
             foreach (var route in model.GetRouteForType())
             {
                 var template = route.Key.Key;
@@ -53,9 +61,9 @@ namespace Wise.goodREST.Middleware
                    context.Items.Add("requestmMdel", requestmMdel);
 
                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
-                   var service = sp.GetRequiredService(method.DeclaringType);
+                   var service = app.ApplicationServices.GetServices<ServiceBase>().Single(x=>x.GetType()==method.DeclaringType);
                    var returnValueFromService = method.Invoke(service, new[] { requestmMdel });
-                   context.Response.ContentType = serializer.ContentType ;
+                   context.Response.ContentType = serializer.ContentType;
                    return context.Response.WriteAsync(serializer.Serialize(returnValueFromService));
                });
             }

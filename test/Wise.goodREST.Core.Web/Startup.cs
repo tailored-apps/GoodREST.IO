@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using Wise.goodREST.Middleware;
 using Wise.goodREST.Core.Test.DataModel.Messages;
 using Wise.goodREST.Core.Test.Services;
+using Wise.goodREST.Middleware.Services;
+using Wise.goodREST.Middleware.Interface;
 
 namespace WebApplication
 {
@@ -35,22 +37,21 @@ namespace WebApplication
         {
             // Add framework services.
             //services.AddDbContext<ApplicationDbContext>(options =>
-             //   options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            //   options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-           // services.AddIdentity<ApplicationUser, IdentityRole>()
-             //   .AddEntityFrameworkStores<ApplicationDbContext>()
-              //  .AddDefaultTokenProviders();
+            // services.AddIdentity<ApplicationUser, IdentityRole>()
+            //   .AddEntityFrameworkStores<ApplicationDbContext>()
+            //  .AddDefaultTokenProviders();
 
-            //services.AddMvc();
-
+            services.AddRouting();
+            services.AddGoodRest();
             // Add application services.
-            //services.AddTransient<IEmailSender, AuthMessageSender>();
-            //services.AddTransient<ISmsSender, AuthMessageSender>();
-            //services.AddSingleton(services);
+            services.AddTransient<IRequestResponseSerializer, Wise.goodREST.Middleware.Serializers.JsonSerializer>();
+            services.AddTransient<ServiceBase, CustomerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceCollection services)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             //loggerFactory.AddDebug();
@@ -79,10 +80,12 @@ namespace WebApplication
             //        template: "{controller=Home}/{action=Index}/{id?}");
             //});
 
-            app.TakeGoodRest(services,configure =>
+            app.TakeGoodRest(configure =>
             {
                 configure.RegisterMessageModel<GetCustomer>();
-                configure.RegisterSercice<CustomerService>();
+                configure.RegisterMessageModel<PostCustomer>();
+                configure.RegisterMessageModel<PutCustomer>();
+                configure.RegisterMessageModel<DeleteCustomer>();
             });
         }
     }

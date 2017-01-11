@@ -19,5 +19,20 @@ namespace Wise.goodREST.Core.Test.Services
             };
             return response;
         }
+        public PostCustomerResponse Post(PostCustomer request)
+        {
+            var response = new PostCustomerResponse();
+            return response;
+        }
+        public PutCustomerResponse Put(PutCustomer request)
+        {
+            var response = new PutCustomerResponse();
+            return response;
+        }
+        public DeleteCustomerResponse Delete(DeleteCustomer request)
+        {
+            var response = new DeleteCustomerResponse();
+            return response;
+        }
     }
 }
