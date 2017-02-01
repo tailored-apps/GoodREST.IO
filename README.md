@@ -1,1 +1,1 @@
-# <a href="http://goodrest.io/">Wise.GoodRest</a>
+# <a href="http://goodREST.IO/">Wise.goodREST</a>
