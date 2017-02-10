@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Wise.goodREST.Middleware.Interface;
 using Wise.goodREST.Middleware.Services;
+using System.Collections.Generic;
+using Wise.goodREST.Core.Interface;
 
 namespace Wise.goodREST.Middleware
 {
@@ -27,7 +29,7 @@ namespace Wise.goodREST.Middleware
         {
             var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
-
+            services = app.ApplicationServices.GetServices<ServiceBase>();
 
             var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();
 
@@ -39,7 +41,7 @@ namespace Wise.goodREST.Middleware
             });
 
             var routeBuilder = new RouteBuilder(app, trackPackageRouteHandler);
-            model.Build(app.ApplicationServices.GetServices<ServiceBase>().Select(x=>x.GetType()));
+            model.Build(services.Select(x=>x.GetType()));
             foreach (var route in model.GetRouteForType())
             {
                 var template = route.Key.Key;
@@ -61,7 +63,7 @@ namespace Wise.goodREST.Middleware
                    context.Items.Add("requestmMdel", requestmMdel);
 
                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
-                   var service = app.ApplicationServices.GetServices<ServiceBase>().Single(x=>x.GetType()==method.DeclaringType);
+                   var service = services.Single(x=>x.GetType()==method.DeclaringType);
                    var returnValueFromService = method.Invoke(service, new[] { requestmMdel });
                    context.Response.ContentType = serializer.ContentType;
                    return context.Response.WriteAsync(serializer.Serialize(returnValueFromService));
@@ -76,7 +78,7 @@ namespace Wise.goodREST.Middleware
             return app;
 
         }
-
+        private static IEnumerable<ServiceBase> services;
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app)
         {
             return app;

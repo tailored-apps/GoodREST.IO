@@ -69,7 +69,7 @@ namespace Wise.goodREST.Middleware
                 var matchingMethod = serviceMethods.Where(X => X.Value.Any(y => y.ReturnType == returnType && y.GetParameters().SingleOrDefault(z => z.ParameterType == element.Value) != null));
                 if (matchingMethod != null && matchingMethod.Any())
                 {
-                    services.Add(new KeyValuePair<HttpVerb, Type>(element.Key.Value, element.Value), matchingMethod.Single().Value.Single());
+                    services.Add(new KeyValuePair<HttpVerb, Type>(element.Key.Value, element.Value), matchingMethod.Single().Value.Single(x=>string.Equals(x.Name, element.Key.Value.ToString(),StringComparison.CurrentCultureIgnoreCase)));
                 }
             }
 
