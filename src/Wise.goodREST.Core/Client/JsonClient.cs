@@ -43,7 +43,7 @@ namespace Wise.goodREST.Core.Client
             }
             var call = client.GetAsync(MapVariablesToRequestValues<R, K>(request)).GetAwaiter();
             var result = call.GetResult().Content;
-            var reader = new System.IO.StringReader(result.ToString());
+            var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
             return serializer.Deserialize<R>(jsonReader);
 

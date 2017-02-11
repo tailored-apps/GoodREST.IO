@@ -7,15 +7,15 @@ using Wise.goodREST.Middleware.Services;
 
 namespace Wise.goodREST.Core.Test.Services
 {
-    public class CustomerService: ServiceBase
+    public class CustomerService : ServiceBase
     {
         public GetCustomerResponse Get(GetCustomer request)
         {
             var response = new GetCustomerResponse();
             response.Customers = new List<Customer>()
             {
-                new Customer() { Id=1},
-                new Customer() { Id=2},
+                new Customer() { Id=1, Address="Adres numer jeden",CreateDate =new DateTime(2012,12,2),Name="user name to: "+request.UserName ,Status=23},
+                new Customer() { Id=2, Address="Adres wesoły",CreateDate =new DateTime(2012,06,2),Name="Kierunek wałbrzych" ,Status=23},
             };
             return response;
         }
