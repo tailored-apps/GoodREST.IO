@@ -9,19 +9,30 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Wise.goodREST.Middleware.Interface;
+using Wise.goodREST.Middleware.Services;
+using System.Collections.Generic;
+using Wise.goodREST.Core.Interface;
+using System.IO;
 
 namespace Wise.goodREST.Middleware
 {
     public static class GoodRest
     {
-        public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app, IServiceCollection services, Action<IRestModel> configureRoutes)
+
+        public static IServiceCollection AddGoodRest(this IServiceCollection app)
         {
-            var model = new RestModel(services);
+            app.AddTransient<IRestModel, RestModel>();
+
+            return app;
+        }
+
+        public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app, Action<IRestModel> configureRoutes)
+        {
+            var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
+            services = app.ApplicationServices.GetServices<ServiceBase>();
 
-            var sp = services.BuildServiceProvider();
-
-            var serializer = sp.GetRequiredService<IRequestResponseSerializer>();
+            var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();
 
             var trackPackageRouteHandler = new RouteHandler(context =>
             {
@@ -31,7 +42,7 @@ namespace Wise.goodREST.Middleware
             });
 
             var routeBuilder = new RouteBuilder(app, trackPackageRouteHandler);
-            model.Build();
+            model.Build(services.Select(x => x.GetType()));
             foreach (var route in model.GetRouteForType())
             {
                 var template = route.Key.Key;
@@ -39,23 +50,25 @@ namespace Wise.goodREST.Middleware
                 var result = Regex.Matches(template, pattern);
                 routeBuilder.MapVerb(route.Key.Value.ToString(), template, context =>
                {
-                   var requestmMdel = Activator.CreateInstance(route.Value);
+                   var requestModel = serializer.Deserialize(route.Value,new StreamReader(context.Request.Body).ReadToEnd()) ?? Activator.CreateInstance(route.Value);
 
-                   var modelTypeInfo = requestmMdel.GetType().GetTypeInfo();
+                   var modelTypeInfo = requestModel.GetType().GetTypeInfo();
+                   
                    if (result != null)
                    {
                        foreach (Match param in result)
                        {
                            var propName = param.Value.Replace("{", string.Empty).Replace("}", string.Empty);
-                           modelTypeInfo.GetProperty(propName).SetValue(requestmMdel, context.GetRouteValue(propName));
+                           modelTypeInfo.GetProperty(propName).SetValue(requestModel, context.GetRouteValue(propName));
                        }
                    }
-                   context.Items.Add("requestmMdel", requestmMdel);
+                   context.Items.Add("requestModel", requestModel);
 
                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
-                   var service = sp.GetRequiredService(method.DeclaringType);
-                   var returnValueFromService = method.Invoke(service, new[] { requestmMdel });
-                   context.Response.ContentType = serializer.ContentType ;
+                   var service = services.Single(x => x.GetType() == method.DeclaringType);
+                   var returnValueFromService = method.Invoke(service, new[] { requestModel });
+                   context.Response.ContentType = serializer.ContentType;
+
                    return context.Response.WriteAsync(serializer.Serialize(returnValueFromService));
                });
             }
@@ -68,7 +81,7 @@ namespace Wise.goodREST.Middleware
             return app;
 
         }
-
+        private static IEnumerable<ServiceBase> services;
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app)
         {
             return app;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Wise.goodREST.Core.Interfaces;
 using Wise.goodREST.Core.Test.DataModel.DTO;
 
-namespace Wise.goodREST.Core.Test.DataModel
+namespace Wise.goodREST.Core.Test.DataModel.Messages
 
 {
     public class GetCustomerResponse : IResponse

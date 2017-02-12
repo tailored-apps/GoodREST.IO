@@ -1,11 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Wise.goodREST.Middleware.Interface;
+using Wise.goodREST.Core.Interface;
 
-namespace Wise.goodREST.Middleware.Serializers
+namespace Wise.goodREST.Core.Serializers
 {
     public class JsonSerializer : IRequestResponseSerializer
     {
@@ -26,6 +23,10 @@ namespace Wise.goodREST.Middleware.Serializers
         public T Deserialize<T>(string o)
         {
             return JsonConvert.DeserializeObject<T>(o);
+        }
+        public object Deserialize(Type type ,string o)
+        {
+            return JsonConvert.DeserializeObject(o,type);
         }
 
     }
