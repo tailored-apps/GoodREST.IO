@@ -13,6 +13,7 @@ using Wise.goodREST.Middleware.Services;
 using System.Collections.Generic;
 using Wise.goodREST.Core.Interface;
 using System.IO;
+using System.Text;
 
 namespace Wise.goodREST.Middleware
 {
@@ -41,8 +42,29 @@ namespace Wise.goodREST.Middleware
                     $"Hello! Route values: {string.Join(", ", routeValues)}");
             });
 
-            var routeBuilder = new RouteBuilder(app, trackPackageRouteHandler);
             model.Build(services.Select(x => x.GetType()));
+
+            var routeBuilder = new RouteBuilder(app, trackPackageRouteHandler);
+            routeBuilder.MapGet("", conext =>
+            {
+            var urls = new StringBuilder();
+            
+                urls.AppendLine("<html>");
+                urls.AppendLine("<body>");
+                urls.Append("<h3>API LIST:</h3>");
+                urls.AppendLine("<ul>");
+                foreach (var route in model.GetRouteForType())
+                {
+                    urls.AppendFormat(@"<li>{0} OPEARATION: {1}</li>", route.Key.Key, route.Key.Value);
+
+                }
+                urls.AppendLine("</ul>");
+
+                urls.AppendLine("</body>");
+                urls.AppendLine("</html>");
+                conext.Response.ContentType = "text/html; charset=UTF-8";
+                return conext.Response.WriteAsync(urls.ToString());
+            });
             foreach (var route in model.GetRouteForType())
             {
                 var template = route.Key.Key;
@@ -50,10 +72,10 @@ namespace Wise.goodREST.Middleware
                 var result = Regex.Matches(template, pattern);
                 routeBuilder.MapVerb(route.Key.Value.ToString(), template, context =>
                {
-                   var requestModel = serializer.Deserialize(route.Value,new StreamReader(context.Request.Body).ReadToEnd()) ?? Activator.CreateInstance(route.Value);
+                   var requestModel = serializer.Deserialize(route.Value, new StreamReader(context.Request.Body).ReadToEnd()) ?? Activator.CreateInstance(route.Value);
 
                    var modelTypeInfo = requestModel.GetType().GetTypeInfo();
-                   
+
                    if (result != null)
                    {
                        foreach (Match param in result)
