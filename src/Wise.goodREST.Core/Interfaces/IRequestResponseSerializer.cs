@@ -10,6 +10,7 @@ namespace Wise.goodREST.Core.Interface
 
         string Serialize<T>(T o);
         T Deserialize<T>(string o);
+        object Deserialize(Type type, string o);
         string ContentType { get;  }
     }
 }

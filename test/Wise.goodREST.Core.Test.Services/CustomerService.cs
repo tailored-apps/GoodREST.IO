@@ -22,6 +22,7 @@ namespace Wise.goodREST.Core.Test.Services
         public PostCustomerResponse Post(PostCustomer request)
         {
             var response = new PostCustomerResponse();
+            response.asd = request.Customer.Name;
             return response;
         }
         public PutCustomerResponse Put(PutCustomer request)

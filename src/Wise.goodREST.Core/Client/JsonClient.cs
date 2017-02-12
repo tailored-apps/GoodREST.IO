@@ -2,12 +2,14 @@
 using Wise.goodREST.Core.Enums;
 using Newtonsoft.Json;
 using Wise.goodREST.Core.Interfaces;
+using System.Net.Http;
+
 namespace Wise.goodREST.Core.Client
 {
     public class JsonClient : GoodClient<Serializers.JsonSerializer>, IDisposable
     {
-        System.Net.Http.HttpClient client;
-        Newtonsoft.Json.JsonSerializer serializer;
+        HttpClient client;
+        JsonSerializer serializer;
         public JsonClient(string endpointAddress)
         {
             serializer = new Newtonsoft.Json.JsonSerializer();
@@ -26,7 +28,13 @@ namespace Wise.goodREST.Core.Client
             {
                 throw new InvalidOperationException("Http verb different than DELETE is not allowed for that operation");
             }
-            return serializer.Deserialize<R>(new JsonTextReader(new System.IO.StringReader(client.DeleteAsync(MapVariablesToRequestValues<R, K>(request)).GetAwaiter().GetResult().Content.ToString())));
+
+            var call = client.DeleteAsync(MapVariablesToRequestValues<R, K>(request)).GetAwaiter();
+            var result = call.GetResult().Content;
+            var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
+            var jsonReader = new JsonTextReader(reader);
+            return serializer.Deserialize<R>(jsonReader);
+            
         }
 
         public void Dispose()
@@ -51,12 +59,35 @@ namespace Wise.goodREST.Core.Client
 
         public override R Post<R, K>(K request)
         {
-            throw new NotImplementedException();
+            var textWriter = new System.IO.StringWriter();
+            var jsonWriter = new JsonTextWriter(textWriter);
+            
+            serializer.Serialize(jsonWriter,request);
+
+            var data = new StringContent(textWriter.ToString()) ;
+            var url = MapVariablesToRequestValues<R, K>(request);
+            var call = client.PostAsync(url, data).GetAwaiter();
+            var result = call.GetResult().Content;
+            var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
+            var jsonReader = new JsonTextReader(reader);
+            return serializer.Deserialize<R>(jsonReader);
+
         }
 
         public override R Put<R, K>(K request)
         {
-            throw new NotImplementedException();
+            var textWriter = new System.IO.StringWriter();
+            var jsonWriter = new JsonTextWriter(textWriter);
+
+            serializer.Serialize(jsonWriter, request);
+
+            var data = new StringContent(textWriter.ToString());
+            var call = client.PutAsync(MapVariablesToRequestValues<R, K>(request), data).GetAwaiter();
+            var result = call.GetResult().Content;
+            var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
+            var jsonReader = new JsonTextReader(reader);
+            return serializer.Deserialize<R>(jsonReader);
+
 
         }
 
