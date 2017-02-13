@@ -10,5 +10,16 @@
     "netstandard1.6": {
       "imports": "dnxcore50"
     }
+  },
+  "buildOptions": {
+    "embed": {
+      "include": [
+        "swagger/dist/*.*",
+        "swagger/dist/css/*.*",
+        "swagger/dist/fonts/*.*",
+        "swagger/dist/images/*.*",
+        "swagger/dist/lib/*.*"
+      ]
+    }
   }
 }
