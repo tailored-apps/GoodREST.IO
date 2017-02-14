@@ -46,34 +46,29 @@ namespace Wise.goodREST.Middleware
             model.Build(services.Select(x => x.GetType()));
 
             var routeBuilder = new RouteBuilder(app, trackPackageRouteHandler);
-            routeBuilder.MapGet(@"swagger/{url}", conext =>
-            {
-                return extension.Swagger(conext);
-            }); routeBuilder.MapGet(@"swagger/{url}/{subdir}", conext =>
-            {
-                return extension.Swagger(conext);
-            });
 
             routeBuilder.MapGet("", conext =>
-        {
-            var urls = new StringBuilder();
-
-            urls.AppendLine("<html>");
-            urls.AppendLine("<body>");
-            urls.Append("<h3>API LIST:</h3>");
-            urls.AppendLine("<ul>");
-            foreach (var route in model.GetRouteForType())
             {
-                urls.AppendFormat(@"<li>{0} OPEARATION: {1}</li>", route.Key.Key, route.Key.Value);
+                var urls = new StringBuilder();
 
-            }
-            urls.AppendLine("</ul>");
+                urls.AppendLine("<html>");
+                urls.AppendLine("<body>");
+                urls.Append("<h3>API LIST:</h3>");
+                urls.AppendLine("<ul>");
+                foreach (var route in model.GetRouteForType())
+                {
+                    urls.AppendFormat(@"<li>{0} OPEARATION: {1}</li>", route.Key.Key, route.Key.Value);
 
-            urls.AppendLine("</body>");
-            urls.AppendLine("</html>");
-            conext.Response.ContentType = "text/html; charset=UTF-8";
-            return conext.Response.WriteAsync(urls.ToString());
-        });
+                }
+                urls.AppendLine("</ul>");
+
+                urls.AppendLine("</body>");
+                urls.AppendLine("</html>");
+                conext.Response.ContentType = "text/html; charset=UTF-8";
+                return conext.Response.WriteAsync(urls.ToString());
+            });
+
+            extension.Install(routeBuilder);
             foreach (var route in model.GetRouteForType())
             {
                 var template = route.Key.Key;

@@ -7,6 +7,7 @@ using Wise.goodREST.Middleware.Interface;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Routing;
 
 namespace Wise.goodREST.Extensions.SwaggerExtension
 {
@@ -17,7 +18,7 @@ namespace Wise.goodREST.Extensions.SwaggerExtension
 
         }
 
-        public Task Swagger(HttpContext builder)
+        private Task Swagger(HttpContext builder)
         {
 
             var assembly = typeof(SwaggerExtension).GetTypeInfo().Assembly;
@@ -69,6 +70,24 @@ namespace Wise.goodREST.Extensions.SwaggerExtension
             stream.Read(inArray, 0, (int)stream.Length);
             Convert.ToBase64CharArray(inArray, 0, inArray.Length, outArray, 0);
             return  Convert.ToBase64String( Encoding.UTF8.GetBytes(outArray));
+        }
+
+        public Task Install(HttpContext builder)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Install(RouteBuilder routeBuilder)
+        {
+            routeBuilder.MapGet(@"swagger/{url}", conext =>
+            {
+                return Swagger(conext);
+            }); routeBuilder.MapGet(@"swagger/{url}/{subdir}", conext =>
+            {
+                return Swagger(conext);
+            });
+
+           
         }
     }
 }
