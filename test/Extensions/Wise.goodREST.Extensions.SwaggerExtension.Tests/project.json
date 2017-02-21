@@ -1,14 +1,17 @@
 {
+  "version": "1.0.0-*",
   "buildOptions": {
     "debugType": "portable"
   },
   "dependencies": {
-    "System.Runtime.Serialization.Primitives": "4.1.1",
-    "xunit": "2.1.0",
     "dotnet-test-xunit": "1.0.0-rc2-192208-24",
+    "System.Runtime.Serialization.Primitives": "4.1.1",
     "Wise.goodREST.Core": "1.0.0-*",
-    "Wise.goodREST.Core.Test.DataModel": "1.0.0-*"
+    "Wise.goodREST.Core.Test.DataModel": "1.0.0-*",
+    "Wise.goodREST.Extensions.SwaggerExtension": "1.0.0-*",
+    "xunit": "2.1.0"
   },
+  "testRunner": "xunit",
   "frameworks": {
     "netcoreapp1.0": {
       "dependencies": {
@@ -22,7 +25,5 @@
         "portable-net451+win8"
       ]
     }
-  },
-  "testRunner": "xunit",
-  "version": "1.0.0-*"
+  }
 }

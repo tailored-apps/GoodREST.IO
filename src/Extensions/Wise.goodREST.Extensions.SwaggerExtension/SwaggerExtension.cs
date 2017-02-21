@@ -54,6 +54,11 @@ namespace Wise.goodREST.Extensions.SwaggerExtension
 
                         builder.Response.ContentType = "font/opentype";
                     }
+                    else if (requestResourceName.EndsWith("json"))
+                    {
+
+                        builder.Response.ContentType = "text/json; charset=UTF-8";
+                    }
                     else
                     {
 

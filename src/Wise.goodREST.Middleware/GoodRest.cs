@@ -32,7 +32,7 @@ namespace Wise.goodREST.Middleware
             var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
             services = app.ApplicationServices.GetServices<ServiceBase>();
-            var extension = app.ApplicationServices.GetService<IExtension>();
+            var extension = app.ApplicationServices.GetServices<IExtension>();
 
             var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();
 
@@ -68,7 +68,15 @@ namespace Wise.goodREST.Middleware
                 return conext.Response.WriteAsync(urls.ToString());
             });
 
-            extension.Install(routeBuilder);
+            if (extension != null && extension.Any())
+            {
+                foreach (var ext in extension)
+                {
+                    ext.Install(routeBuilder);
+
+                }
+            }
+             
             foreach (var route in model.GetRouteForType())
             {
                 var template = route.Key.Key;
