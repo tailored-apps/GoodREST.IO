@@ -80,8 +80,19 @@ namespace Wise.goodREST.Extensions.SwaggerExtension.Tests
                                     schema = new schema {@ref= "#/definitions/Pet"}
                                 }
                             },
-                            responses= new[] { new response {code ="405", description= new responseDescription { description="Invalid input" } } },
-                            security = new[] {new verbSecurity { value="petstore_auth", operations=new[] { "write:pets", "read:pets" } } }
+                            responses= new Dictionary<string, IDictionary<string, string>> {
+                                 { "405", new Dictionary<string,string>() { { "description", "Invalid input" }  } } } ,
+                            security = 
+                            new List<IDictionary<string,IEnumerable<string>>>
+                            {
+                                {
+                                     new Dictionary<string,IEnumerable<string>> { { "petstore_auth", new[]{ "write:pets", "read:pets" } } }
+                                    
+                                }
+
+                                
+                            
+                            }
                         }
                     }
                 }

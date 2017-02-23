@@ -56,18 +56,8 @@
               "schema": { "ref": "#/definitions/Pet" }
             }
           ],
-          "responses": [
-            {
-              "code": "405",
-              "description": { "description": "Invalid input" }
-            }
-          ],
-          "security": [
-            {
-              "operations": [ "write:pets", "read:pets" ],
-              "value": "petstore_auth"
-            }
-          ]
+          "responses": { "405": { "description": "Invalid input" } },
+          "security": [ { "petstore_auth": [ "write:pets", "read:pets" ] } ]
         }
       }
     ]

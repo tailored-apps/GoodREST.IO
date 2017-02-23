@@ -12,7 +12,7 @@ namespace Wise.goodREST.Extensions.SwaggerExtension
         public IEnumerable<string> consumes { get; set; }
         public IEnumerable<string> produces { get; set; }
         public IEnumerable<parameter> parameters { get; set; }
-        public IEnumerable<response> responses { get; set; }
-        public IEnumerable<verbSecurity> security { get; set; }
+        public IDictionary<string, IDictionary<string, string>> responses { get; set; }
+        public IEnumerable<IDictionary<string,IEnumerable<string>>> security { get; set; }
     }
 }

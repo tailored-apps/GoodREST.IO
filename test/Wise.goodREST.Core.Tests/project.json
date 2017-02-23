@@ -7,7 +7,17 @@
     "xunit": "2.1.0",
     "dotnet-test-xunit": "1.0.0-rc2-192208-24",
     "Wise.goodREST.Core": "1.0.0-*",
-    "Wise.goodREST.Core.Test.DataModel": "1.0.0-*"
+    "Wise.goodREST.Core.Test.DataModel": "1.0.0-*",
+    "Microsoft.NETCore.TestHost": "1.1.0",
+    "Microsoft.AspNetCore.Hosting": "1.0.0",
+    "Wise.goodREST.Middleware": "1.0.0-*",
+    "Wise.goodREST.Extensions.SwaggerExtension": "1.0.0-*",
+    "Wise.goodREST.Core.Test.Services": "1.0.0-*",
+    "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
+    "Microsoft.Extensions.Configuration.Json": "1.0.0",
+    "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0"
   },
   "frameworks": {
     "netcoreapp1.0": {
