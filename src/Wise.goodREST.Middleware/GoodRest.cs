@@ -32,6 +32,7 @@ namespace Wise.goodREST.Middleware
             var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
             services = app.ApplicationServices.GetServices<ServiceBase>();
+            var extension = app.ApplicationServices.GetServices<IExtension>();
 
             var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();
 
@@ -45,10 +46,11 @@ namespace Wise.goodREST.Middleware
             model.Build(services.Select(x => x.GetType()));
 
             var routeBuilder = new RouteBuilder(app, trackPackageRouteHandler);
+
             routeBuilder.MapGet("", conext =>
             {
-            var urls = new StringBuilder();
-            
+                var urls = new StringBuilder();
+
                 urls.AppendLine("<html>");
                 urls.AppendLine("<body>");
                 urls.Append("<h3>API LIST:</h3>");
@@ -65,6 +67,16 @@ namespace Wise.goodREST.Middleware
                 conext.Response.ContentType = "text/html; charset=UTF-8";
                 return conext.Response.WriteAsync(urls.ToString());
             });
+
+            if (extension != null && extension.Any())
+            {
+                foreach (var ext in extension)
+                {
+                    ext.Install(routeBuilder);
+
+                }
+            }
+             
             foreach (var route in model.GetRouteForType())
             {
                 var template = route.Key.Key;

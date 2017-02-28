@@ -36,14 +36,7 @@ namespace Wise.goodREST.Middleware
         {
             return types;
         }
-
-        //public void RegisterSercice<T>() where T : ServiceBase
-        //{
-        //    servicesDi.AddTransient(typeof(T));
-        //    var methods = typeof(T).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-        //    serviceMethods.Add(typeof(T), new List<MethodInfo>(methods));
-
-        //}
+        
 
         public MethodInfo GetServiceMethodForType(HttpVerb verb, Type requestType)
         {

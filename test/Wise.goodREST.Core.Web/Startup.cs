@@ -9,6 +9,7 @@ using Wise.goodREST.Core.Test.Services;
 using Wise.goodREST.Middleware.Services;
 using Wise.goodREST.Middleware.Interface;
 using Wise.goodREST.Core.Interface;
+using Wise.goodREST.Extensions.SwaggerExtension;
 
 namespace WebApplication
 {
@@ -47,6 +48,7 @@ namespace WebApplication
             services.AddRouting();
             services.AddGoodRest();
             // Add application services.
+            services.AddTransient<IExtension, SwaggerExtension>();
             services.AddTransient<IRequestResponseSerializer, Wise.goodREST.Core.Serializers.JsonSerializer>();
             services.AddTransient<ServiceBase, CustomerService>();
         }
