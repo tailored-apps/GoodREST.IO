@@ -1,5 +1,4 @@
 {
-  "version": "1.0.0-*",
   "buildOptions": {
     "debugType": "portable"
   },
@@ -10,7 +9,6 @@
     "Wise.goodREST.Core": "1.0.0-*",
     "Wise.goodREST.Core.Test.DataModel": "1.0.0-*"
   },
-  "testRunner": "xunit",
   "frameworks": {
     "netcoreapp1.0": {
       "dependencies": {
@@ -24,5 +22,7 @@
         "portable-net451+win8"
       ]
     }
-  }
+  },
+  "testRunner": "xunit",
+  "version": "1.0.0-*"
 }
