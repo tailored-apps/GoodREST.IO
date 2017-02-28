@@ -22,7 +22,7 @@ namespace Wise.goodREST.Middleware
 
         public static IServiceCollection AddGoodRest(this IServiceCollection app)
         {
-            app.AddTransient<IRestModel, RestModel>();
+            app.AddSingleton<IRestModel, RestModel>();
 
             return app;
         }

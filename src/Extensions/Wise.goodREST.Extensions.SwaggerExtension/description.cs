@@ -13,6 +13,17 @@ namespace Wise.goodREST.Extensions.SwaggerExtension
         public IEnumerable<string> produces { get; set; }
         public IEnumerable<parameter> parameters { get; set; }
         public IDictionary<string, IDictionary<string, string>> responses { get; set; }
-        public IEnumerable<IDictionary<string,IEnumerable<string>>> security { get; set; }
+        public IEnumerable<IDictionary<string, IEnumerable<string>>> security { get; set; }
+        public void AddResponse(response response)
+        {
+
+            if (responses == null) { responses = new Dictionary<string, IDictionary<string, string>>(); }
+            if (!responses.ContainsKey(response.code))
+            {
+                responses.Add(response.code, new Dictionary<string, string>());
+            }
+            var responseDescription = responses[response.code];
+            if (!string.IsNullOrWhiteSpace(response.description.description)) { responseDescription.Add("description", response.description.description); }
+        }
     }
 }

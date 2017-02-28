@@ -28,96 +28,29 @@ namespace Wise.goodREST.Extensions.SwaggerExtension.Tests
                 #endregion info
                 host = "petstore.swagger.io",
                 basePath = "/v2",
-                #region tags
-                tags = new[] { new tag
-                {
-                    name="pet",
-                    description="Everything about your Pets",
-                    externalDocs= new doc
-                        {
-                            description ="Find out more",
-                            url ="http://swagger.io"
-                        }
-                },new tag
-                {
-                    name="store",
-                    description="Access to Petstore orders",
-
-                },new tag
-                {
-                    name="user",
-                    description="Operations about user",
-                    externalDocs= new doc
-                        {
-                            description ="Find out more about our store",
-                            url ="http://swagger.io"
-                        }
-                }
-
-
-            },
-                #endregion tags
                 schemes = new[] { "http" },
-                #region paths
-                paths = new Dictionary<string, IEnumerable<IDictionary<string, pathDescription>>> { { "/pet",
-                new [] { new Dictionary<string, pathDescription>{
-                    { "post", new pathDescription
-                        {
-                            tags= new[] { "pet" },
-                            summary="Add a new pet to the store",
-                            description=string.Empty,
-                            operationId="addPet",
-                            consumes= new[] {"application/json", "application/xml" },
-                            produces =new[] {"application/xml", "application/json" },
-                            parameters = new[]
-                            {
-                                new parameter
-                                {
-                                    @in="body",
-                                    name="body",
-                                    description="Pet object that needs to be added to the store",
-                                    required=true,
-                                    schema = new schema {@ref= "#/definitions/Pet"}
-                                }
-                            },
-                            responses= new Dictionary<string, IDictionary<string, string>> {
-                                 { "405", new Dictionary<string,string>() { { "description", "Invalid input" }  } } } ,
-                            security = 
-                            new List<IDictionary<string,IEnumerable<string>>>
-                            {
-                                {
-                                     new Dictionary<string,IEnumerable<string>> { { "petstore_auth", new[]{ "write:pets", "read:pets" } } }
-                                    
-                                }
 
-                                
-                            
-                            }
-                        }
-                    }
-                }
-                }
-                    }
-            },
-                #endregion paths
+
+
+
                 #region securityDefinition
-                securityDefinition = new[] {new securityDefinition
+                securityDefinition = new Dictionary<string, securityDefinitionInfo> {
                 {
-                    value="petstore_auth",
-                    definition = new securityDefinitionInfo
+                    "petstore_auth",
+                     new securityDefinitionInfo
                     {
                         type="oauth2",
                         authorizationUrl="http://petstore.swagger.io/oauth/dialog",
                         flow="implicit",
-                        scopes =new[] { new scope {
-                            key= "write:pets",
-                            value="modify pets in your account"
+                        scopes =new Dictionary<string,string> { {
+                            "write:pets",
+                            "modify pets in your account"
                         } }
                     }
-                },
-                new securityDefinition() {
-                    value = "api_key",
-                    definition= new securityDefinitionInfo {
+                    },
+                 {
+                     "api_key",
+                   new securityDefinitionInfo {
                         type= "apiKey",
                         name="api_key",
                         @in="header"
@@ -127,16 +60,18 @@ namespace Wise.goodREST.Extensions.SwaggerExtension.Tests
             },
                 #endregion securityDefinition
                 #region objectDefinitions
-                definitions = new Dictionary<string, IDictionary<string, property>> { { "Pet", new Dictionary<string,property>
-                { { "object", 
-                    new property
-                             {
-                                 name= "id",
-                                 propertyDescription= new propertyDescription
+                definitions = new Dictionary<string, IDictionary<string, object>> { { "Pet", new Dictionary<string,object>
+                { {"type", "object" },
+                    {  "required" , new[] { "name", "photoUrls" } },
+                    { "properties", new Dictionary<string,object>
+                             { {
+                                 "id",
+                                  new Dictionary<string,string>
                                  {
-                                     type="integer",
-                                     format="int64",
+                                      { "type","integer" },
+                                      { "format","int64" },
                                  }
+                        }
                              }
                              }
                          }
@@ -145,6 +80,45 @@ namespace Wise.goodREST.Extensions.SwaggerExtension.Tests
                 #endregion objectDefinitions
                 externalDocs = new externalDocs { description = "Find out more about Swagger", url = "http://swagger.io" }
             };
+
+            swaggerDefinition.AddTag(new tag { name = "pet", description = "Everything about your Pets", externalDocs = new doc { description = "Find out more", url = "http://swagger.io" } });
+            swaggerDefinition.AddTag(new tag { name = "store", description = "Access to Petstore orders" });
+            swaggerDefinition.AddTag(new tag { name = "user", description = "Operations about user", externalDocs = new doc { description = "Find out more about our store", url = "http://swagger.io" } });
+
+            swaggerDefinition.AddOperation("/pet", "post", new pathDescription
+            {
+                tags = new[] { "pet" },
+                summary = "Add a new pet to the store",
+                description = string.Empty,
+                operationId = "addPet",
+                consumes = new[] { "application/json", "application/xml" },
+                produces = new[] { "application/xml", "application/json" },
+                parameters = new[]
+                                {
+                                    new parameter
+                                    {
+                                        @in="body",
+                                        name="body",
+                                        description="Pet object that needs to be added to the store",
+                                        required=true,
+                                        schema = new Dictionary<string,string>() { { "$ref", "#/definitions/Pet" } }
+                                    }
+                                },
+                                    responses = new Dictionary<string, IDictionary<string, string>> {
+                                    { "405", new Dictionary<string,string>() { { "description", "Invalid input" }  } } },
+                security =
+                                new List<IDictionary<string, IEnumerable<string>>>
+                                {
+                                    {
+                                        new Dictionary<string,IEnumerable<string>> { { "petstore_auth", new[]{ "write:pets", "read:pets" } } }
+
+                                    }
+                                }
+
+
+
+            });
+
             var serializedJson = JsonConvert.SerializeObject(swaggerDefinition);
             Console.WriteLine(serializedJson);
         }

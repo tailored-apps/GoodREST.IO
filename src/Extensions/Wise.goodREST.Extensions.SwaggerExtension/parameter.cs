@@ -1,4 +1,6 @@
-﻿namespace Wise.goodREST.Extensions.SwaggerExtension
+﻿using System.Collections.Generic;
+
+namespace Wise.goodREST.Extensions.SwaggerExtension
 {
     public class parameter
     {
@@ -6,7 +8,7 @@
         public string name { get; set; }
         public string description { get; set; }
         public bool required { get; set; }
-        public schema schema { get; set; }
+        public IDictionary<string,string> schema { get; set; }
 
     }
 }

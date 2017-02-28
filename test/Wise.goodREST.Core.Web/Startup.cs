@@ -48,9 +48,10 @@ namespace WebApplication
             services.AddRouting();
             services.AddGoodRest();
             // Add application services.
-            services.AddTransient<IExtension, SwaggerExtension>();
             services.AddTransient<IRequestResponseSerializer, Wise.goodREST.Core.Serializers.JsonSerializer>();
             services.AddTransient<ServiceBase, CustomerService>();
+
+            services.AddTransient<IExtension, SwaggerExtension>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

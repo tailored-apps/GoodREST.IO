@@ -8,16 +8,20 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Routing;
+using Wise.goodREST.Middleware;
 
 namespace Wise.goodREST.Extensions.SwaggerExtension
 {
     public class SwaggerExtension : IExtension
     {
-        public SwaggerExtension()
+        public SwaggerExtension(IRestModel restModel)
         {
 
         }
+        private void BuildServiceSchema()
+        {
 
+        }
         private Task Swagger(HttpContext builder)
         {
 
@@ -76,11 +80,7 @@ namespace Wise.goodREST.Extensions.SwaggerExtension
             Convert.ToBase64CharArray(inArray, 0, inArray.Length, outArray, 0);
             return  Convert.ToBase64String( Encoding.UTF8.GetBytes(outArray));
         }
-
-        public Task Install(HttpContext builder)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public void Install(RouteBuilder routeBuilder)
         {
