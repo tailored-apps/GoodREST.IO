@@ -2,4 +2,4 @@
 set -ev
 dotnet restore
 dotnet test
-dotnet build **/project.json -c Release
+dotnet build **\project.json
