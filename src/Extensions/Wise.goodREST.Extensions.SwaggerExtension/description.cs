@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Wise.goodREST.Extensions.SwaggerExtension
 {
@@ -24,6 +25,24 @@ namespace Wise.goodREST.Extensions.SwaggerExtension
             }
             var responseDescription = responses[response.code];
             if (!string.IsNullOrWhiteSpace(response.description.description)) { responseDescription.Add("description", response.description.description); }
+        }
+        public void AddParameter(parameter parameter)
+        {
+            if (parameters == null) { parameters = new List<parameter>(); }
+            var @params = parameters as List<parameter>;
+            @params.Add(parameter);
+        }
+        public void AddSecurity(verbSecurity securityToAdd)
+        {
+
+            if (security == null) { security = new List<IDictionary<string, IEnumerable<string>>>(); }
+            if (!security.Any(x => x.ContainsKey(securityToAdd.value)))
+            {
+                var @definitions = security as List<IDictionary<string, IEnumerable<string>>>;
+                @definitions.Add(new Dictionary<string, IEnumerable<string>>());
+            }
+            var responseDescription = security.Single();
+            responseDescription.Add(securityToAdd.value, securityToAdd.operations);
         }
     }
 }
