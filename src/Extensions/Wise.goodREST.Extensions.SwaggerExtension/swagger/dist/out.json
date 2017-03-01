@@ -83,8 +83,8 @@
       "required": [ "name", "photoUrls" ],
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "type": "integer"
         }
       }
     }

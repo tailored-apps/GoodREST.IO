@@ -3,6 +3,7 @@
 
   "dependencies": {
     "NETStandard.Library": "1.6.0",
+    "System.Linq": "4.1.0",
     "Wise.goodREST.Middleware": "1.0.0-*"
   },
 
