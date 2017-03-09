@@ -32,6 +32,7 @@ namespace Wise.goodREST.Middleware
             var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
             services = app.ApplicationServices.GetServices<ServiceBase>();
+            
             var extension = app.ApplicationServices.GetServices<IExtension>();
 
             var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();

@@ -19,6 +19,7 @@ namespace WebApplication
                 .Build();
 
             host.Run();
+            
         }
     }
 }
