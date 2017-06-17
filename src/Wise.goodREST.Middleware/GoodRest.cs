@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using Wise.goodREST.Core.Interface;
 using System.IO;
 using System.Text;
+using Wise.goodREST.Core.Interfaces;
 
 namespace Wise.goodREST.Middleware
 {
@@ -22,7 +23,7 @@ namespace Wise.goodREST.Middleware
 
         public static IServiceCollection AddGoodRest(this IServiceCollection app)
         {
-            app.AddTransient<IRestModel, RestModel>();
+            app.AddSingleton<IRestModel, RestModel>();
 
             return app;
         }
@@ -32,6 +33,7 @@ namespace Wise.goodREST.Middleware
             var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
             services = app.ApplicationServices.GetServices<ServiceBase>();
+            
             var extension = app.ApplicationServices.GetServices<IExtension>();
 
             var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();
@@ -96,11 +98,27 @@ namespace Wise.goodREST.Middleware
                            modelTypeInfo.GetProperty(propName).SetValue(requestModel, context.GetRouteValue(propName));
                        }
                    }
-                   context.Items.Add("requestModel", requestModel);
 
+                   var req = (requestModel as ICorrelation);
+                   if (req != null &&string.IsNullOrWhiteSpace(req.CorrelationId))
+                   {
+                       req.CorrelationId = Guid.NewGuid().ToString();
+                   }
+
+                   context.Items.Add("requestModel", requestModel);
                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
                    var service = services.Single(x => x.GetType() == method.DeclaringType);
+
                    var returnValueFromService = method.Invoke(service, new[] { requestModel });
+
+
+
+                   var resp = (returnValueFromService as ICorrelation);
+                   if (resp != null)
+                   {
+                       resp.CorrelationId = req.CorrelationId;
+                   }
+
                    context.Response.ContentType = serializer.ContentType;
 
                    return context.Response.WriteAsync(serializer.Serialize(returnValueFromService));

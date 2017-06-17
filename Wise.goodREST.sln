@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}"
 EndProject
@@ -10,37 +10,38 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		.travis.yml = .travis.yml
-		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Wise.goodREST.Core", "src\Wise.goodREST.Core\Wise.goodREST.Core.xproj", "{AA5539A4-560D-46C5-8459-A32580FCF392}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C66D8B82-1EEE-400A-BF21-25B6C7E35405}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Wise.goodREST.Core.Tests", "test\Wise.goodREST.Core.Tests\Wise.goodREST.Core.Tests.xproj", "{5673835E-970A-43BE-BA41-351222BD5551}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Wise.goodREST.Middleware", "src\Wise.goodREST.Middleware\Wise.goodREST.Middleware.xproj", "{DEEB8AB9-13F7-44B6-84D5-C84EF7A8D3D4}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Wise.goodREST.Core.Web", "test\Wise.goodREST.Core.Web\Wise.goodREST.Core.Web.xproj", "{B7D503C3-4288-46FE-A7CC-2AA88790225E}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Wise.goodREST.Core.Test.DataModel", "test\Wise.goodREST.Core.Test.DataModel\Wise.goodREST.Core.Test.DataModel.xproj", "{7808B14A-09A9-4C2D-99E2-AC7A95ADBF26}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Wise.goodREST.Core.Test.Services", "test\Wise.goodREST.Core.Test.Services\Wise.goodREST.Core.Test.Services.xproj", "{1A067C0E-7242-422D-8654-AA7EB924608C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{C57FC224-AEBD-4F0C-985D-060868CA8073}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Wise.goodREST.Extensions.SwaggerExtension", "src\Extensions\Wise.goodREST.Extensions.SwaggerExtension\Wise.goodREST.Extensions.SwaggerExtension.xproj", "{F5B0A533-46A1-4702-8179-492AF974BC85}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{E124EA4B-5E7A-4674-8D44-CBB763B2350E}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Wise.goodREST.Extensions.SwaggerExtension.Tests", "test\Extensions\Wise.goodREST.Extensions.SwaggerExtension.Tests\Wise.goodREST.Extensions.SwaggerExtension.Tests.xproj", "{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{AC49A9B4-64D4-434E-8B26-CF3AF261ED02}"
 	ProjectSection(SolutionItems) = preProject
 		NugetCreate.ps1 = NugetCreate.ps1
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Core", "src\Wise.goodREST.Core\Wise.goodREST.Core.csproj", "{AA5539A4-560D-46C5-8459-A32580FCF392}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Core.Tests", "test\Wise.goodREST.Core.Tests\Wise.goodREST.Core.Tests.csproj", "{5673835E-970A-43BE-BA41-351222BD5551}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Middleware", "src\Wise.goodREST.Middleware\Wise.goodREST.Middleware.csproj", "{DEEB8AB9-13F7-44B6-84D5-C84EF7A8D3D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Core.Web", "test\Wise.goodREST.Core.Web\Wise.goodREST.Core.Web.csproj", "{B7D503C3-4288-46FE-A7CC-2AA88790225E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Core.Test.DataModel", "test\Wise.goodREST.Core.Test.DataModel\Wise.goodREST.Core.Test.DataModel.csproj", "{7808B14A-09A9-4C2D-99E2-AC7A95ADBF26}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Core.Test.Services", "test\Wise.goodREST.Core.Test.Services\Wise.goodREST.Core.Test.Services.csproj", "{1A067C0E-7242-422D-8654-AA7EB924608C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Extensions.SwaggerExtension", "src\Extensions\Wise.goodREST.Extensions.SwaggerExtension\Wise.goodREST.Extensions.SwaggerExtension.csproj", "{F5B0A533-46A1-4702-8179-492AF974BC85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Extensions.SwaggerExtension.Tests", "test\Extensions\Wise.goodREST.Extensions.SwaggerExtension.Tests\Wise.goodREST.Extensions.SwaggerExtension.Tests.csproj", "{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{5D22C34B-B9F2-4127-9EC3-E10692FD1386}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,15 +86,16 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{C57FC224-AEBD-4F0C-985D-060868CA8073} = {7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}
+		{E124EA4B-5E7A-4674-8D44-CBB763B2350E} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
 		{AA5539A4-560D-46C5-8459-A32580FCF392} = {7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}
 		{5673835E-970A-43BE-BA41-351222BD5551} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
 		{DEEB8AB9-13F7-44B6-84D5-C84EF7A8D3D4} = {7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}
 		{B7D503C3-4288-46FE-A7CC-2AA88790225E} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
 		{7808B14A-09A9-4C2D-99E2-AC7A95ADBF26} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
 		{1A067C0E-7242-422D-8654-AA7EB924608C} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
-		{C57FC224-AEBD-4F0C-985D-060868CA8073} = {7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}
 		{F5B0A533-46A1-4702-8179-492AF974BC85} = {C57FC224-AEBD-4F0C-985D-060868CA8073}
-		{E124EA4B-5E7A-4674-8D44-CBB763B2350E} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
 		{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF} = {E124EA4B-5E7A-4674-8D44-CBB763B2350E}
+		{5D22C34B-B9F2-4127-9EC3-E10692FD1386} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
 	EndGlobalSection
 EndGlobal
