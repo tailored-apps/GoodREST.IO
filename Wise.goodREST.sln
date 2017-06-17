@@ -43,8 +43,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Extensions.Sw
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{5D22C34B-B9F2-4127-9EC3-E10692FD1386}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wise.Erp.Core.IntegrationTests", "Wise.Erp.Core.IntegrationTests\Wise.Erp.Core.IntegrationTests.csproj", "{E0C184F3-FACC-436A-848E-1ACBF16E59EE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,10 +81,6 @@ Global
 		{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0C184F3-FACC-436A-848E-1ACBF16E59EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0C184F3-FACC-436A-848E-1ACBF16E59EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0C184F3-FACC-436A-848E-1ACBF16E59EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0C184F3-FACC-436A-848E-1ACBF16E59EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +97,5 @@ Global
 		{F5B0A533-46A1-4702-8179-492AF974BC85} = {C57FC224-AEBD-4F0C-985D-060868CA8073}
 		{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF} = {E124EA4B-5E7A-4674-8D44-CBB763B2350E}
 		{5D22C34B-B9F2-4127-9EC3-E10692FD1386} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
-		{E0C184F3-FACC-436A-848E-1ACBF16E59EE} = {5D22C34B-B9F2-4127-9EC3-E10692FD1386}
 	EndGlobalSection
 EndGlobal
