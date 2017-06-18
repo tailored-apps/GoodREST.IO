@@ -21,4 +21,4 @@ before_script:
 
 script:
   dotnet build
-  dotnet pack --configuration release
+  dotnet pack
