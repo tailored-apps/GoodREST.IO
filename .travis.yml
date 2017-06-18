@@ -21,4 +21,7 @@ before_script:
 
 script:
   dotnet build
-  dotnet pack .\Wise.goodREST.sln /t:Build /p:Configuration=Release
+  dotnet pack ~/src/Wise.goodREST.Core/Wise.goodREST.Core.csproj
+  dotnet pack ~/src/Wise.goodREST.Middleware/Wise.goodREST.Middleware.csproj
+  dotnet pack ~/src/Extensions/Wise.goodREST.Extensions.SwaggerExtension/Wise.goodREST.Extensions.SwaggerExtension.csproj
+  
