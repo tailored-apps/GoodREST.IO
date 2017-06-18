@@ -1,4 +1,4 @@
 #!/bin/bash
 set -ev
 dotnet restore
-dotnet build 
+dotnet build Wise.goodREST.sln
