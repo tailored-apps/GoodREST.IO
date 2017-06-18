@@ -24,4 +24,11 @@ script:
 
 after_script:
   dotnet pack
-  
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+    - nuget push *.nupkg $NUGET_API_KEY -verbosity detailed
+  on:
+    branch: master
