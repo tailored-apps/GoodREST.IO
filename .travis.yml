@@ -21,4 +21,4 @@ before_script:
 
 script:
   dotnet build
-  dotnet pack
+  dotnet pack .\Wise.goodREST.sln /t:Build /p:Configuration=Release
