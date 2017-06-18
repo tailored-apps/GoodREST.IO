@@ -2,6 +2,7 @@ language: csharp
 solution: Wise.goodREST.sln
 sudo: required
 dist: trusty
+dotnet: "1.0.0-preview2-1-003177"
 addons:
   apt:
     packages:
