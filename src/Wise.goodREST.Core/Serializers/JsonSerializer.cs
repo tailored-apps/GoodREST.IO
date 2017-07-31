@@ -17,6 +17,11 @@ namespace Wise.goodREST.Core.Serializers
 
         public string Serialize<T>(T o)
         {
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+             {
+                 Formatting = Newtonsoft.Json.Formatting.Indented,
+                 ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+             };
             return JsonConvert.SerializeObject(o);
         }
 
