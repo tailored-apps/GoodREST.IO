@@ -18,14 +18,18 @@ namespace Wise.goodREST.Middleware
 
         public void RegisterMessageModel<T>()
         {
-            var attrib = typeof(T).GetTypeInfo().GetCustomAttributes<RouteAttribute>().SingleOrDefault();
-            if (attrib != null)
+            var attrib = typeof(T).GetTypeInfo().GetCustomAttributes<RouteAttribute>();
+
+            if (attrib != null && attrib.Any())
             {
-                foreach (Enum en in Enum.GetValues(typeof(HttpVerb)))
+                foreach (var item in attrib)
                 {
-                    if (attrib.Verb.HasFlag(en))
+                    foreach (Enum en in Enum.GetValues(typeof(HttpVerb)))
                     {
-                        types.Add(new KeyValuePair<string, HttpVerb>(attrib.Path, (HttpVerb)en), typeof(T));
+                        if (item.Verb.HasFlag(en))
+                        {
+                            types.Add(new KeyValuePair<string, HttpVerb>(item.Path, (HttpVerb)en), typeof(T));
+                        }
                     }
                 }
             }
@@ -36,7 +40,7 @@ namespace Wise.goodREST.Middleware
         {
             return types;
         }
-        
+
 
         public MethodInfo GetServiceMethodForType(HttpVerb verb, Type requestType)
         {
@@ -62,10 +66,13 @@ namespace Wise.goodREST.Middleware
                 var matchingMethod = serviceMethods.Where(X => X.Value.Any(y => y.ReturnType == returnType && y.GetParameters().SingleOrDefault(z => z.ParameterType == element.Value) != null));
                 if (matchingMethod != null && matchingMethod.Any())
                 {
-                    services.Add(
-                        new KeyValuePair<HttpVerb, Type>(element.Key.Value, element.Value), 
-                        matchingMethod.Single().Value.Single(x=>x.ReturnType ==returnType && x.GetParameters().SingleOrDefault(z=>z.ParameterType ==element.Value) !=null)
-                        );
+                    if (!services.ContainsKey(new KeyValuePair<HttpVerb, Type>(element.Key.Value, element.Value)))
+                    {
+                        services.Add(
+                            new KeyValuePair<HttpVerb, Type>(element.Key.Value, element.Value),
+                            matchingMethod.Single().Value.Single(x => x.ReturnType == returnType && x.GetParameters().SingleOrDefault(z => z.ParameterType == element.Value) != null)
+                            );
+                    }
                 }
             }
 

@@ -29,8 +29,12 @@ namespace Wise.goodREST.Core.Client
         {
             if (!dict.ContainsKey(typeof(K)))
             {
-                var attrib = typeof(K).GetTypeInfo().GetCustomAttribute<RouteAttribute>();
-                dict.Add(typeof(K), new KeyValuePair<string, HttpVerb>(attrib.Path, (HttpVerb)attrib.Verb));
+                var attrib = typeof(K).GetTypeInfo().GetCustomAttributes<RouteAttribute>();
+                foreach (var item in attrib)
+                {
+                    dict.Add(typeof(K), new KeyValuePair<string, HttpVerb>(item.Path, (HttpVerb)item.Verb));
+
+                }
             }
             return dict[typeof(K)].Key;
         }
@@ -38,9 +42,13 @@ namespace Wise.goodREST.Core.Client
         {
             if (!dict.ContainsKey(typeof(K)))
             {
-                var attrib = typeof(K).GetTypeInfo().GetCustomAttribute<RouteAttribute>();
+                var attrib = typeof(K).GetTypeInfo().GetCustomAttributes<RouteAttribute>();
 
-                dict.Add(typeof(K), new KeyValuePair<string, HttpVerb>(attrib.Path, (HttpVerb)attrib.Verb));
+                foreach (var item in attrib)
+                {
+
+                    dict.Add(typeof(K), new KeyValuePair<string, HttpVerb>(item.Path, (HttpVerb)item.Verb));
+                }
             }
             return dict[typeof(K)].Value;
         }

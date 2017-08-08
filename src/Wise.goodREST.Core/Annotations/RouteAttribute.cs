@@ -3,6 +3,7 @@ using Wise.goodREST.Core.Enums;
 
 namespace Wise.goodREST.Core.Annotations
 {
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple =true)]
     public class RouteAttribute : Attribute
     {
         private string path;
