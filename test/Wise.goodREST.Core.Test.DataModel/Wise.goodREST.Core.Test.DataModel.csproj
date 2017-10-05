@@ -5,7 +5,6 @@
     <DebugType>portable</DebugType>
     <AssemblyName>Wise.goodREST.Core.Test.DataModel</AssemblyName>
     <PackageId>Wise.goodREST.Core.Test.DataModel</PackageId>
-    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
 
   <ItemGroup>
