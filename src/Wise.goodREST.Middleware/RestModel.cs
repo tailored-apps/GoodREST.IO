@@ -4,8 +4,6 @@ using System.Reflection;
 using Wise.goodREST.Core.Annotations;
 using System.Linq;
 using Wise.goodREST.Core.Enums;
-using Wise.goodREST.Middleware.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Wise.goodREST.Middleware
 {
