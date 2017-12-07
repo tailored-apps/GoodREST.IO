@@ -39,7 +39,7 @@ namespace WebApplication
         {
             
             services.AddRouting();
-            services.AddGoodRest();
+            services.AddGoodRest(x => { });
             // Add application services.
             services.AddTransient<IExtension, SwaggerExtension>();
             services.AddTransient<IRequestResponseSerializer, Wise.goodREST.Core.Serializers.JsonSerializer>();

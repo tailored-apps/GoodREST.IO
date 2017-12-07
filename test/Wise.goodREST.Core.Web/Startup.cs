@@ -45,7 +45,7 @@ namespace WebApplication
             //  .AddDefaultTokenProviders();
 
             services.AddRouting();
-            services.AddGoodRest();
+            services.AddGoodRest(x=> { });
             // Add application services.
             services.AddTransient<IRequestResponseSerializer, Wise.goodREST.Core.Serializers.JsonSerializer>();
             services.AddTransient<ServiceBase, CustomerService>();
