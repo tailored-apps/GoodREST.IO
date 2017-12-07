@@ -3,6 +3,7 @@ using Wise.goodREST.Core.Enums;
 using Newtonsoft.Json;
 using Wise.goodREST.Core.Interfaces;
 using System.Net.Http;
+using System.Linq;
 
 namespace Wise.goodREST.Core.Client
 {
@@ -19,11 +20,21 @@ namespace Wise.goodREST.Core.Client
             {
                 client.BaseAddress = uri;
             }
+
+        }
+
+        public override void SetAuthorizationTokenHeader(string authToken)
+        {
+            base.SetAuthorizationTokenHeader(authToken);
+            if (!string.IsNullOrEmpty(authToken) )
+            {
+                client.DefaultRequestHeaders.Add("X-Auth-Token", authToken);
+            }
         }
 
         public override R Delete<R, K>(K request)
         {
-            var verb = GetRequestVerb<R, K>(request);
+            var verb = GetRequestVerbs<R, K>(request);
             if (verb != HttpVerb.DELETE)
             {
                 throw new InvalidOperationException("Http verb different than DELETE is not allowed for that operation");
@@ -34,7 +45,7 @@ namespace Wise.goodREST.Core.Client
             var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
             return serializer.Deserialize<R>(jsonReader);
-            
+
         }
 
         public void Dispose()
@@ -44,7 +55,7 @@ namespace Wise.goodREST.Core.Client
 
         public override R Get<R, K>(K request)
         {
-            var verb = GetRequestVerb<R, K>(request);
+            var verb = GetRequestVerbs<R, K>(request);
             if (verb != HttpVerb.GET)
             {
                 throw new InvalidOperationException("Http verb different than GET is not allowed for that operation");
@@ -61,12 +72,30 @@ namespace Wise.goodREST.Core.Client
         {
             var textWriter = new System.IO.StringWriter();
             var jsonWriter = new JsonTextWriter(textWriter);
-            
-            serializer.Serialize(jsonWriter,request);
 
-            var data = new StringContent(textWriter.ToString()) ;
+            serializer.Serialize(jsonWriter, request);
+            
+
+            var data = new StringContent(textWriter.ToString());
             var url = MapVariablesToRequestValues<R, K>(request);
             var call = client.PostAsync(url, data).GetAwaiter();
+            var result = call.GetResult().Content;
+            var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
+            var jsonReader = new JsonTextReader(reader);
+            return serializer.Deserialize<R>(jsonReader);
+
+        }
+
+        public override R Patch<R, K>(K request)
+        {
+            var textWriter = new System.IO.StringWriter();
+            var jsonWriter = new JsonTextWriter(textWriter);
+
+            serializer.Serialize(jsonWriter, request);
+
+            var data = new StringContent(textWriter.ToString());
+            var url = MapVariablesToRequestValues<R, K>(request);
+            var call = client.SendAsync(new HttpRequestMessage() { RequestUri = new Uri(client.BaseAddress, url), Content = data, Method = HttpMethod.Put }).GetAwaiter();
             var result = call.GetResult().Content;
             var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
@@ -82,7 +111,42 @@ namespace Wise.goodREST.Core.Client
             serializer.Serialize(jsonWriter, request);
 
             var data = new StringContent(textWriter.ToString());
+            client.DefaultRequestHeaders.Authorization = System.Net.Http.Headers.AuthenticationHeaderValue.Parse("x");
             var call = client.PutAsync(MapVariablesToRequestValues<R, K>(request), data).GetAwaiter();
+            var result = call.GetResult().Content;
+            var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
+            var jsonReader = new JsonTextReader(reader);
+            return serializer.Deserialize<R>(jsonReader);
+
+        }
+
+
+        public override R Get<R, K>(K request, string url)
+        {
+            var verb = GetRequestVerbs<R, K>(request);
+            if (verb != HttpVerb.GET)
+            {
+                throw new InvalidOperationException("Http verb different than GET is not allowed for that operation");
+            }
+            var call = client.GetAsync(MapVariablesToRequestValues<R, K>(request,url)).GetAwaiter();
+            var result = call.GetResult().Content;
+            var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
+            var jsonReader = new JsonTextReader(reader);
+            return serializer.Deserialize<R>(jsonReader);
+
+        }
+
+        public override R Post<R, K>(K request, string url)
+        {
+
+            var textWriter = new System.IO.StringWriter();
+            var jsonWriter = new JsonTextWriter(textWriter);
+
+            serializer.Serialize(jsonWriter, request);
+
+            var data = new StringContent(textWriter.ToString());
+            
+            var call = client.PostAsync(MapVariablesToRequestValues<R, K>(request, url), data).GetAwaiter();
             var result = call.GetResult().Content;
             var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
@@ -91,16 +155,42 @@ namespace Wise.goodREST.Core.Client
 
         }
 
-        private string MapVariablesToRequestValues<R, K>(K request) where K : IHasResponse<R> where R : IResponse
+        public override R Put<R, K>(K request, string url)
         {
-            var urlPattern = GetRequestUrl<R, K>(request);
-            var urlValuesForTokens = GetPropertiesValuesAsStrings(request);
-            foreach (var token in urlValuesForTokens)
-            {
-                urlPattern = urlPattern.Replace(string.Format("{{{0}}}", token.Key), token.Value);
-            }
-            return urlPattern;
+
+            var textWriter = new System.IO.StringWriter();
+            var jsonWriter = new JsonTextWriter(textWriter);
+
+            serializer.Serialize(jsonWriter, request);
+
+            var data = new StringContent(textWriter.ToString());
+            var call = client.PutAsync(MapVariablesToRequestValues<R, K>(request,url), data).GetAwaiter();
+            var result = call.GetResult().Content;
+            var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
+            var jsonReader = new JsonTextReader(reader);
+            return serializer.Deserialize<R>(jsonReader);
+
         }
 
+        public override R Patch<R, K>(K request, string url)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override R Delete<R, K>(K request, string url)
+        {
+
+            var verb = GetRequestVerbs<R, K>(request);
+            if (verb != HttpVerb.DELETE)
+            {
+                throw new InvalidOperationException("Http verb different than DELETE is not allowed for that operation");
+            }
+
+            var call = client.DeleteAsync(MapVariablesToRequestValues<R, K>(request)).GetAwaiter();
+            var result = call.GetResult().Content;
+            var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
+            var jsonReader = new JsonTextReader(reader);
+            return serializer.Deserialize<R>(jsonReader);
+        }
     }
 }

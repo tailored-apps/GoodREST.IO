@@ -21,19 +21,22 @@ namespace Wise.goodREST.Middleware
     public static class GoodRest
     {
 
-        public static IServiceCollection AddGoodRest(this IServiceCollection app)
+        public static IServiceCollection AddGoodRest(this IServiceCollection app, Action<RestModel> action)
         {
-            app.AddSingleton<IRestModel, RestModel>();
+            var model = new RestModel();
+            app.AddSingleton<IRestModel>(model);
+            action.Invoke(model);
 
             return app;
         }
 
+        private static ISecurityService securityService;
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app, Action<IRestModel> configureRoutes)
         {
             var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
             services = app.ApplicationServices.GetServices<ServiceBase>();
-            
+            securityService = app.ApplicationServices.GetService<ISecurityService>();
             var extension = app.ApplicationServices.GetServices<IExtension>();
 
             var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();
@@ -56,13 +59,14 @@ namespace Wise.goodREST.Middleware
                 urls.AppendLine("<html>");
                 urls.AppendLine("<body>");
                 urls.Append("<h3>API LIST:</h3>");
-                urls.AppendLine("<ul>");
-                foreach (var route in model.GetRouteForType())
+                urls.AppendLine("<table>");
+                urls.AppendFormat(@"<tr><th>Path</th> <th>Operation</th> <th>Message</th></tr>");
+                foreach (var route in model.GetRouteForType().OrderBy(x => x.Key.Key))
                 {
-                    urls.AppendFormat(@"<li>{0} OPEARATION: {1}</li>", route.Key.Key, route.Key.Value);
+                    urls.AppendFormat(@"<tr><td>{0}</td> <td>{1}</td> <td>{2}</td></tr>", route.Key.Key, route.Key.Value , route.Value.FullName);
 
                 }
-                urls.AppendLine("</ul>");
+                urls.AppendLine("</table>");
 
                 urls.AppendLine("</body>");
                 urls.AppendLine("</html>");
@@ -78,7 +82,7 @@ namespace Wise.goodREST.Middleware
 
                 }
             }
-             
+
             foreach (var route in model.GetRouteForType())
             {
                 var template = route.Key.Key;
@@ -86,6 +90,19 @@ namespace Wise.goodREST.Middleware
                 var result = Regex.Matches(template, pattern);
                 routeBuilder.MapVerb(route.Key.Value.ToString(), template, context =>
                {
+                   
+                   if (model.IsSecurityEnabled)
+                   {
+                       var verb = route.Key.Value.ToString();
+                       var path = route.Key.Key; //context.Request.Path;
+                       var headers = context.Request.Headers;
+                       string rightsResp = string.Empty;
+                       if (!path.Contains("Auth") && !CheckRights(model,verb, path, headers,out rightsResp))
+                       {
+                           return context.Response.WriteAsync(rightsResp);
+                       };
+                   }
+
                    var requestModel = serializer.Deserialize(route.Value, new StreamReader(context.Request.Body).ReadToEnd()) ?? Activator.CreateInstance(route.Value);
 
                    var modelTypeInfo = requestModel.GetType().GetTypeInfo();
@@ -95,12 +112,12 @@ namespace Wise.goodREST.Middleware
                        foreach (Match param in result)
                        {
                            var propName = param.Value.Replace("{", string.Empty).Replace("}", string.Empty);
-                           modelTypeInfo.GetProperty(propName).SetValue(requestModel, context.GetRouteValue(propName));
+                           modelTypeInfo.GetProperty(propName).SetValue(requestModel, Convert.ChangeType(context.GetRouteValue(propName), modelTypeInfo.GetProperty(propName).PropertyType));
                        }
                    }
 
                    var req = (requestModel as ICorrelation);
-                   if (req != null &&string.IsNullOrWhiteSpace(req.CorrelationId))
+                   if (req != null && string.IsNullOrWhiteSpace(req.CorrelationId))
                    {
                        req.CorrelationId = Guid.NewGuid().ToString();
                    }
@@ -133,6 +150,27 @@ namespace Wise.goodREST.Middleware
             return app;
 
         }
+
+        private static bool CheckRights(IRestModel model, string verb, string path, IHeaderDictionary headers, out string resp)
+        {
+            resp = string.Empty;
+            if (model.IsSecuritySetToReadOnlyForUnkownAuth && verb == "GET")
+            {
+                return true;
+            }
+
+            var token = headers.SingleOrDefault(x => x.Key == "X-Auth-Token").Value;
+
+            if (securityService == null)
+            {
+                throw new Exception("ISecurityService not registered");
+            }
+            return securityService.CheckAccess(token);
+
+            resp = "NoRights";
+            return false;
+        }
+
         private static IEnumerable<ServiceBase> services;
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app)
         {
