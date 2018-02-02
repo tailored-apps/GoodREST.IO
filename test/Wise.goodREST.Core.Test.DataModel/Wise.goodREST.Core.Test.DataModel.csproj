@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Wise.goodREST.Core\Wise.goodREST.Core.csproj" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
+    <ProjectReference Include="..\..\src\goodREST\goodREST.csproj" />
   </ItemGroup>
 
 </Project>

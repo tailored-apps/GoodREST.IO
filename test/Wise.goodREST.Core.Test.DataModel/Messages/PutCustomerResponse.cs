@@ -1,5 +1,5 @@
 ﻿using System;
-using Wise.goodREST.Core.Interfaces;
+using goodREST.Interfaces;
 
 namespace Wise.goodREST.Core.Test.DataModel.Messages
 {

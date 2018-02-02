@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Hosting;
-using Wise.goodREST.Core.Client;
+using goodREST.Client;
 using Wise.goodREST.Core.Test.DataModel.Messages;
 using Xunit;
 using System.IO;

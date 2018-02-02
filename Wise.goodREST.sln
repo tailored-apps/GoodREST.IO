@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}"
 EndProject
@@ -25,8 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{AC49A9B4
 		NugetCreate.ps1 = NugetCreate.ps1
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Core", "src\Wise.goodREST.Core\Wise.goodREST.Core.csproj", "{AA5539A4-560D-46C5-8459-A32580FCF392}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Core.Tests", "test\Wise.goodREST.Core.Tests\Wise.goodREST.Core.Tests.csproj", "{5673835E-970A-43BE-BA41-351222BD5551}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Middleware", "src\Wise.goodREST.Middleware\Wise.goodREST.Middleware.csproj", "{DEEB8AB9-13F7-44B6-84D5-C84EF7A8D3D4}"
@@ -43,16 +41,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Extensions.Sw
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{5D22C34B-B9F2-4127-9EC3-E10692FD1386}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "goodREST", "src\goodREST\goodREST.csproj", "{4F985A92-DED9-4FA0-89A3-0C7D47DE99ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AA5539A4-560D-46C5-8459-A32580FCF392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA5539A4-560D-46C5-8459-A32580FCF392}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA5539A4-560D-46C5-8459-A32580FCF392}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA5539A4-560D-46C5-8459-A32580FCF392}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5673835E-970A-43BE-BA41-351222BD5551}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5673835E-970A-43BE-BA41-351222BD5551}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5673835E-970A-43BE-BA41-351222BD5551}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -81,6 +77,10 @@ Global
 		{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F985A92-DED9-4FA0-89A3-0C7D47DE99ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F985A92-DED9-4FA0-89A3-0C7D47DE99ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F985A92-DED9-4FA0-89A3-0C7D47DE99ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F985A92-DED9-4FA0-89A3-0C7D47DE99ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,7 +88,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C57FC224-AEBD-4F0C-985D-060868CA8073} = {7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}
 		{E124EA4B-5E7A-4674-8D44-CBB763B2350E} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
-		{AA5539A4-560D-46C5-8459-A32580FCF392} = {7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}
 		{5673835E-970A-43BE-BA41-351222BD5551} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
 		{DEEB8AB9-13F7-44B6-84D5-C84EF7A8D3D4} = {7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}
 		{B7D503C3-4288-46FE-A7CC-2AA88790225E} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
@@ -97,5 +96,9 @@ Global
 		{F5B0A533-46A1-4702-8179-492AF974BC85} = {C57FC224-AEBD-4F0C-985D-060868CA8073}
 		{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF} = {E124EA4B-5E7A-4674-8D44-CBB763B2350E}
 		{5D22C34B-B9F2-4127-9EC3-E10692FD1386} = {C66D8B82-1EEE-400A-BF21-25B6C7E35405}
+		{4F985A92-DED9-4FA0-89A3-0C7D47DE99ED} = {7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5592FFFE-35F9-4D07-A64A-9349D45ECBB9}
 	EndGlobalSection
 EndGlobal

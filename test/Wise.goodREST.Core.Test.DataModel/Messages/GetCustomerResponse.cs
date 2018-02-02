@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Wise.goodREST.Core.Interfaces;
+using goodREST.Interfaces;
 using Wise.goodREST.Core.Test.DataModel.DTO;
 
 namespace Wise.goodREST.Core.Test.DataModel.Messages

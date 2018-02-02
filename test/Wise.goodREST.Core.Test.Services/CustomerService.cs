@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Wise.goodREST.Core.Annotations;
+using goodREST.Annotations;
 using Wise.goodREST.Core.Test.DataModel;
 using Wise.goodREST.Core.Test.DataModel.DTO;
 using Wise.goodREST.Core.Test.DataModel.Messages;

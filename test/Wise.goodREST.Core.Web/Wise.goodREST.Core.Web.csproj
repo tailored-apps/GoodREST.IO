@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Wise.goodREST.Core.Test.DataModel\Wise.goodREST.Core.Test.DataModel.csproj" />
     <ProjectReference Include="..\..\src\Wise.goodREST.Middleware\Wise.goodREST.Middleware.csproj" />
-    <ProjectReference Include="..\..\src\Wise.goodREST.Core\Wise.goodREST.Core.csproj" />
     <ProjectReference Include="..\Wise.goodREST.Core.Test.Services\Wise.goodREST.Core.Test.Services.csproj" />
     <ProjectReference Include="..\..\src\Extensions\Wise.goodREST.Extensions.SwaggerExtension\Wise.goodREST.Extensions.SwaggerExtension.csproj" />
   </ItemGroup>

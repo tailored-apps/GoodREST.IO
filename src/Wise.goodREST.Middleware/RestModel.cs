@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Wise.goodREST.Core.Annotations;
+using goodREST.Annotations;
 using System.Linq;
-using Wise.goodREST.Core.Enums;
+using goodREST.Enums;
 
 namespace Wise.goodREST.Middleware
 {

@@ -11,10 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Wise.goodREST.Middleware.Interface;
 using Wise.goodREST.Middleware.Services;
 using System.Collections.Generic;
-using Wise.goodREST.Core.Interface;
 using System.IO;
 using System.Text;
-using Wise.goodREST.Core.Interfaces;
+using goodREST.Interfaces;
 
 namespace Wise.goodREST.Middleware
 {

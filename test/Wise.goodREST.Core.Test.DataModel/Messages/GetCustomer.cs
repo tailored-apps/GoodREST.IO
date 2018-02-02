@@ -1,6 +1,6 @@
-﻿using Wise.goodREST.Core.Interfaces;
-using Wise.goodREST.Core.Annotations;
-using Wise.goodREST.Core.Enums;
+﻿using goodREST.Interfaces;
+using goodREST.Annotations;
+using goodREST.Enums;
 
 namespace Wise.goodREST.Core.Test.DataModel.Messages
 {

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Routing;
 using Wise.goodREST.Middleware;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
-using Wise.goodREST.Core.Annotations;
+using goodREST.Annotations;
 
 namespace Wise.goodREST.Extensions.SwaggerExtension
 {
@@ -98,8 +98,8 @@ namespace Wise.goodREST.Extensions.SwaggerExtension
                 var @pathDesc = new pathDescription
                 {
                     tags = new[] { item.Key.Key },
-                    summary = method.DeclaringType.GetTypeInfo().GetCustomAttribute<Wise.goodREST.Core.Annotations.ServiceDescriptionAttribute>().Description,
-                    description = method.DeclaringType.GetTypeInfo().GetCustomAttribute<Wise.goodREST.Core.Annotations.ServiceDescriptionAttribute>().Description,
+                    summary = method.DeclaringType.GetTypeInfo().GetCustomAttribute<ServiceDescriptionAttribute>().Description,
+                    description = method.DeclaringType.GetTypeInfo().GetCustomAttribute<ServiceDescriptionAttribute>().Description,
                     operationId = method.Name,
                     consumes = new[] { "application/json", "application/xml" },
                     produces = new[] { "application/xml", "application/json" },
