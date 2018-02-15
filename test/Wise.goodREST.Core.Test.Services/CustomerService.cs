@@ -11,6 +11,10 @@ namespace Wise.goodREST.Core.Test.Services
     [ServiceDescription("ASD")]
     public class CustomerService : ServiceBase
     {
+        public CustomerService()
+        {
+            Console.WriteLine(DateTime.Now.ToShortDateString());
+        }
         public GetCustomerResponse Get(GetCustomer request)
         {
             var response = new GetCustomerResponse();

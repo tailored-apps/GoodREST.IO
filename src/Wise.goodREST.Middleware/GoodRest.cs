@@ -34,7 +34,7 @@ namespace Wise.goodREST.Middleware
         {
             var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
-            services = app.ApplicationServices.GetServices<ServiceBase>();
+            
             securityService = app.ApplicationServices.GetService<ISecurityService>();
             var extension = app.ApplicationServices.GetServices<IExtension>();
 
@@ -47,7 +47,7 @@ namespace Wise.goodREST.Middleware
                     $"Hello! Route values: {string.Join(", ", routeValues)}");
             });
 
-            model.Build(services.Select(x => x.GetType()));
+            model.Build(app.ApplicationServices.GetServices<ServiceBase>().Select(x => x.GetType()));
 
             var routeBuilder = new RouteBuilder(app, trackPackageRouteHandler);
 
@@ -123,7 +123,7 @@ namespace Wise.goodREST.Middleware
 
                    context.Items.Add("requestModel", requestModel);
                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
-                   var service = services.Single(x => x.GetType() == method.DeclaringType);
+                   var service = app.ApplicationServices.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
 
                    var returnValueFromService = method.Invoke(service, new[] { requestModel });
 
@@ -169,8 +169,7 @@ namespace Wise.goodREST.Middleware
             resp = "NoRights";
             return false;
         }
-
-        private static IEnumerable<ServiceBase> services;
+        
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app)
         {
             return app;
