@@ -1,8 +1,8 @@
-﻿using goodREST.Interfaces;
-using goodREST.Annotations;
-using goodREST.Enums;
+﻿using GoodREST.Interfaces;
+using GoodREST.Annotations;
+using GoodREST.Enums;
 
-namespace Wise.goodREST.Core.Test.DataModel.Messages
+namespace GoodREST.Core.Test.DataModel.Messages
 {
     [Route("Customers/{Id}", HttpVerb.DELETE)]
     public class DeleteCustomer : IHasResponse<DeleteCustomerResponse>

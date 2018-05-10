@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Hosting;
-using goodREST.Client;
-using Wise.goodREST.Core.Test.DataModel.Messages;
+using GoodREST.Client;
+using GoodREST.Core.Test.DataModel.Messages;
 using Xunit;
 using System.IO;
 using WebApplication;
@@ -28,7 +28,7 @@ namespace Tests
         public void Test2()
         {
             JsonClient client = new JsonClient(HOST_LOCAL);
-            var resp = client.Post<PostCustomerResponse, PostCustomer>(new PostCustomer() { Customer = new Wise.goodREST.Core.Test.DataModel.DTO.Customer() { Name = "asd" } });
+            var resp = client.Post<PostCustomerResponse, PostCustomer>(new PostCustomer() { Customer = new GoodREST.Core.Test.DataModel.DTO.Customer() { Name = "asd" } });
             Assert.True(resp.asd == "asd");
         }
         [Fact]
@@ -45,7 +45,7 @@ namespace Tests
             host.Start();
 
             JsonClient client = new JsonClient(HOST_LOCAL_TEST);
-            var resp = client.Post<PostCustomerResponse, PostCustomer>(new PostCustomer() { Customer = new Wise.goodREST.Core.Test.DataModel.DTO.Customer() { Name = "asd" } });
+            var resp = client.Post<PostCustomerResponse, PostCustomer>(new PostCustomer() { Customer = new GoodREST.Core.Test.DataModel.DTO.Customer() { Name = "asd" } });
             Assert.True(resp.asd == "asd");
 
             host.Dispose();

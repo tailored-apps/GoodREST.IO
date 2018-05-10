@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
-using goodREST.Interfaces;
+using GoodREST.Interfaces;
 
-namespace goodREST.Serializers
+namespace GoodREST.Serializers
 {
     public class JsonSerializer : IRequestResponseSerializer
     {

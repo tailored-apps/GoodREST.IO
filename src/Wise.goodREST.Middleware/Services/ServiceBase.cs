@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Wise.goodREST.Middleware.Interface;
+using GoodREST.Middleware.Interface;
 
-namespace Wise.goodREST.Middleware.Services
+namespace GoodREST.Middleware.Services
 {
     public abstract class ServiceBase
     {
-        public HttpContext  Context { get; private set; }
+        public IAuthService AuthService { get; set; }
+        public ISecurityService SecurityService { get; set; }
     }
 }

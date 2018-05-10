@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Routing;
 
-namespace Wise.goodREST.Middleware.Interface
+namespace GoodREST.Middleware.Interface
 {
     public interface IExtension
     {

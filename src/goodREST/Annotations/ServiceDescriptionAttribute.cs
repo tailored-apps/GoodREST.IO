@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace goodREST.Annotations
+namespace GoodREST.Annotations
 {
     public class ServiceDescriptionAttribute : Attribute
     {

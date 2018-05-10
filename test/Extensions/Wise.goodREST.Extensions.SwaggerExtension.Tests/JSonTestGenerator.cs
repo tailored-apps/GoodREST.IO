@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Wise.goodREST.Extensions.SwaggerExtension.Tests
+namespace GoodREST.Extensions.SwaggerExtension.Tests
 {
     public class JSonTestGenerator
     {

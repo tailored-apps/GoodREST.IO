@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}"
 EndProject
@@ -25,23 +25,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{AC49A9B4
 		NugetCreate.ps1 = NugetCreate.ps1
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Core.Tests", "test\Wise.goodREST.Core.Tests\Wise.goodREST.Core.Tests.csproj", "{5673835E-970A-43BE-BA41-351222BD5551}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST.Core.Tests", "test\Wise.goodREST.Core.Tests\GoodREST.Core.Tests.csproj", "{5673835E-970A-43BE-BA41-351222BD5551}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Middleware", "src\Wise.goodREST.Middleware\Wise.goodREST.Middleware.csproj", "{DEEB8AB9-13F7-44B6-84D5-C84EF7A8D3D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST.Middleware", "src\Wise.goodREST.Middleware\GoodREST.Middleware.csproj", "{DEEB8AB9-13F7-44B6-84D5-C84EF7A8D3D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Core.Web", "test\Wise.goodREST.Core.Web\Wise.goodREST.Core.Web.csproj", "{B7D503C3-4288-46FE-A7CC-2AA88790225E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST.Core.Web", "test\Wise.goodREST.Core.Web\GoodREST.Core.Web.csproj", "{B7D503C3-4288-46FE-A7CC-2AA88790225E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Core.Test.DataModel", "test\Wise.goodREST.Core.Test.DataModel\Wise.goodREST.Core.Test.DataModel.csproj", "{7808B14A-09A9-4C2D-99E2-AC7A95ADBF26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST.Core.Test.DataModel", "test\Wise.goodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj", "{7808B14A-09A9-4C2D-99E2-AC7A95ADBF26}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Core.Test.Services", "test\Wise.goodREST.Core.Test.Services\Wise.goodREST.Core.Test.Services.csproj", "{1A067C0E-7242-422D-8654-AA7EB924608C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST.Core.Test.Services", "test\Wise.goodREST.Core.Test.Services\GoodREST.Core.Test.Services.csproj", "{1A067C0E-7242-422D-8654-AA7EB924608C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Extensions.SwaggerExtension", "src\Extensions\Wise.goodREST.Extensions.SwaggerExtension\Wise.goodREST.Extensions.SwaggerExtension.csproj", "{F5B0A533-46A1-4702-8179-492AF974BC85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST.Extensions.SwaggerExtension", "src\Extensions\Wise.goodREST.Extensions.SwaggerExtension\GoodREST.Extensions.SwaggerExtension.csproj", "{F5B0A533-46A1-4702-8179-492AF974BC85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wise.goodREST.Extensions.SwaggerExtension.Tests", "test\Extensions\Wise.goodREST.Extensions.SwaggerExtension.Tests\Wise.goodREST.Extensions.SwaggerExtension.Tests.csproj", "{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST.Extensions.SwaggerExtension.Tests", "test\Extensions\Wise.goodREST.Extensions.SwaggerExtension.Tests\GoodREST.Extensions.SwaggerExtension.Tests.csproj", "{2D3A4FDA-A82D-4EF9-92A0-8770D6B083BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{5D22C34B-B9F2-4127-9EC3-E10692FD1386}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "goodREST", "src\goodREST\goodREST.csproj", "{4F985A92-DED9-4FA0-89A3-0C7D47DE99ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST", "src\goodREST\GoodREST.csproj", "{4F985A92-DED9-4FA0-89A3-0C7D47DE99ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

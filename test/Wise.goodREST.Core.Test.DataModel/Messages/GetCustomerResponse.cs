@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using goodREST.Interfaces;
-using Wise.goodREST.Core.Test.DataModel.DTO;
+using GoodREST.Interfaces;
+using GoodREST.Core.Test.DataModel.DTO;
 
-namespace Wise.goodREST.Core.Test.DataModel.Messages
+namespace GoodREST.Core.Test.DataModel.Messages
 
 {
     public class GetCustomerResponse : IResponse

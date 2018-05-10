@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Wise.goodREST.Extensions.SwaggerExtension
+namespace GoodREST.Extensions.SwaggerExtension
 {
     public class pathDescription
     {

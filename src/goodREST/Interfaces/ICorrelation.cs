@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace goodREST.Interfaces
+namespace GoodREST.Interfaces
 {
     public interface ICorrelation
     {

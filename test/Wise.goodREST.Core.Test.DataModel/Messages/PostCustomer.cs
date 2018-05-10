@@ -1,9 +1,9 @@
-﻿using goodREST.Annotations;
-using goodREST.Enums;
-using goodREST.Interfaces;
-using Wise.goodREST.Core.Test.DataModel.DTO;
+﻿using GoodREST.Annotations;
+using GoodREST.Enums;
+using GoodREST.Interfaces;
+using GoodREST.Core.Test.DataModel.DTO;
 
-namespace Wise.goodREST.Core.Test.DataModel.Messages
+namespace GoodREST.Core.Test.DataModel.Messages
 {
 
     [Route("Customers/", HttpVerb.POST)]

@@ -8,14 +8,14 @@ using System.Linq;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Wise.goodREST.Middleware.Interface;
-using Wise.goodREST.Middleware.Services;
+using GoodREST.Middleware.Interface;
+using GoodREST.Middleware.Services;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using goodREST.Interfaces;
+using GoodREST.Interfaces;
 
-namespace Wise.goodREST.Middleware
+namespace GoodREST.Middleware
 {
     public static class GoodRest
     {
@@ -30,13 +30,13 @@ namespace Wise.goodREST.Middleware
             return app;
         }
 
-        private static ISecurityService securityService;
+        private static IAuthService authService;
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app, Action<IRestModel> configureRoutes)
         {
             //var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
             
-            securityService = app.ApplicationServices.GetService<ISecurityService>();
+            authService = app.ApplicationServices.GetService<IAuthService>();
             var extension = app.ApplicationServices.GetServices<IExtension>();
 
             var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();
@@ -99,7 +99,7 @@ namespace Wise.goodREST.Middleware
                        var path = route.Key.Key; //context.Request.Path;
                        var headers = context.Request.Headers;
                        string rightsResp = string.Empty;
-                       if (!path.Contains("Auth") && !CheckRights(model, verb, path, headers, out rightsResp))
+                       if (!path.Contains(authService.AuthUrl) && !CheckRights(model, verb, path, headers, out rightsResp))
                        {
                            return context.Response.WriteAsync(rightsResp);
                        };
@@ -127,7 +127,8 @@ namespace Wise.goodREST.Middleware
                    context.Items.Add("requestModel", requestModel);
                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
                    var service = app.ApplicationServices.CreateScope().ServiceProvider.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
-                   service.GetType().GetTypeInfo().GetProperty("Context").SetValue(service, context);
+                   service.AuthService = authService;
+                   service.SecurityService = app.ApplicationServices.GetService<ISecurityService>();
                    var returnValueFromService = method.Invoke(service, new[] { requestModel });
 
 
@@ -163,11 +164,11 @@ namespace Wise.goodREST.Middleware
 
             var token = headers.SingleOrDefault(x => x.Key == "X-Auth-Token").Value;
 
-            if (securityService == null)
+            if (authService == null)
             {
                 throw new Exception("ISecurityService not registered");
             }
-            return securityService.CheckAccess(token);
+            return authService.CheckAccess(token);
 
             resp = "NoRights";
             return false;

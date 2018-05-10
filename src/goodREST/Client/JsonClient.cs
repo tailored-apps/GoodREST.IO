@@ -1,11 +1,11 @@
 ﻿using System;
-using goodREST.Enums;
+using GoodREST.Enums;
 using Newtonsoft.Json;
-using goodREST.Interfaces;
+using GoodREST.Interfaces;
 using System.Net.Http;
 using System.Linq;
 
-namespace goodREST.Client
+namespace GoodREST.Client
 {
     public class JsonClient : GoodClient<Serializers.JsonSerializer>, IDisposable
     {

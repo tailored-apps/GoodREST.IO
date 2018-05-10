@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Wise.goodREST.Extensions.SwaggerExtension
+namespace GoodREST.Extensions.SwaggerExtension
 {
     public class objectDefiniton
     {

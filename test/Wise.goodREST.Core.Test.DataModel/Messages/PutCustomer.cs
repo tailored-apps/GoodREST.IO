@@ -1,9 +1,9 @@
-﻿using goodREST.Interfaces;
-using goodREST.Annotations;
-using goodREST.Enums;
-using Wise.goodREST.Core.Test.DataModel.DTO;
+﻿using GoodREST.Interfaces;
+using GoodREST.Annotations;
+using GoodREST.Enums;
+using GoodREST.Core.Test.DataModel.DTO;
 
-namespace Wise.goodREST.Core.Test.DataModel.Messages
+namespace GoodREST.Core.Test.DataModel.Messages
 {
     [Route("Customers/{Id}", HttpVerb.PUT)]
     public class PutCustomer : IHasResponse<PutCustomerResponse>

@@ -1,7 +1,7 @@
 ﻿using System;
-using goodREST.Interfaces;
+using GoodREST.Interfaces;
 
-namespace Wise.goodREST.Core.Test.DataModel.Messages
+namespace GoodREST.Core.Test.DataModel.Messages
 {
     public class PostCustomerResponse : IResponse
     {

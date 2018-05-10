@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Wise.goodREST.Extensions.SwaggerExtension
+namespace GoodREST.Extensions.SwaggerExtension
 {
     public class Swagger
     {

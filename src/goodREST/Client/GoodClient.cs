@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using goodREST.Annotations;
-using goodREST.Enums;
-using goodREST.Interfaces;
+using GoodREST.Annotations;
+using GoodREST.Enums;
+using GoodREST.Interfaces;
 
-namespace goodREST.Client
+namespace GoodREST.Client
 {
     public abstract class GoodClient<T> where T : IRequestResponseSerializer
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using goodREST.Annotations;
-using Wise.goodREST.Core.Test.DataModel;
-using Wise.goodREST.Core.Test.DataModel.DTO;
-using Wise.goodREST.Core.Test.DataModel.Messages;
-using Wise.goodREST.Middleware.Services;
+using GoodREST.Annotations;
+using GoodREST.Core.Test.DataModel;
+using GoodREST.Core.Test.DataModel.DTO;
+using GoodREST.Core.Test.DataModel.Messages;
+using GoodREST.Middleware.Services;
 
-namespace Wise.goodREST.Core.Test.Services
+namespace GoodREST.Core.Test.Services
 {
     [ServiceDescription("ASD")]
     public class CustomerService : ServiceBase

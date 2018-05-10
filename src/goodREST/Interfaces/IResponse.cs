@@ -1,4 +1,4 @@
-﻿namespace goodREST.Interfaces
+﻿namespace GoodREST.Interfaces
 {
 
     public interface IResponse 

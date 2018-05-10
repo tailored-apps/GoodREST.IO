@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using goodREST.Annotations;
+using GoodREST.Annotations;
 using System.Linq;
-using goodREST.Enums;
+using GoodREST.Enums;
 
-namespace Wise.goodREST.Middleware
+namespace GoodREST.Middleware
 {
     public class RestModel : IRestModel
     {

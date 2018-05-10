@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Wise.goodREST.Middleware.Interface;
+using GoodREST.Middleware.Interface;
 using System.Text;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Routing;
-using Wise.goodREST.Middleware;
+using GoodREST.Middleware;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
-using goodREST.Annotations;
+using GoodREST.Annotations;
 
-namespace Wise.goodREST.Extensions.SwaggerExtension
+namespace GoodREST.Extensions.SwaggerExtension
 {
     public class SwaggerExtension : IExtension
     {
@@ -148,7 +148,7 @@ namespace Wise.goodREST.Extensions.SwaggerExtension
         {
 
             var assembly = typeof(SwaggerExtension).GetTypeInfo().Assembly;
-            var requestResourceName = @"Wise.goodREST.Extensions.SwaggerExtension.swagger.dist" + builder.Request.Path.Value.Replace(@"swagger/", string.Empty).Replace("/", ".");
+            var requestResourceName = @"GoodREST.Extensions.SwaggerExtension.swagger.dist" + builder.Request.Path.Value.Replace(@"swagger/", string.Empty).Replace("/", ".");
             var resourceStream = assembly.GetManifestResourceStream(requestResourceName);
 
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using goodREST.Enums;
+using GoodREST.Enums;
 
-namespace Wise.goodREST.Middleware
+namespace GoodREST.Middleware
 {
     public interface IRestModel
     {

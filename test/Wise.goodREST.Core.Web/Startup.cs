@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Wise.goodREST.Middleware;
-using Wise.goodREST.Core.Test.DataModel.Messages;
-using Wise.goodREST.Core.Test.Services;
-using Wise.goodREST.Middleware.Services;
-using Wise.goodREST.Middleware.Interface;
-using goodREST.Interfaces;
-using Wise.goodREST.Extensions.SwaggerExtension;
+using GoodREST.Middleware;
+using GoodREST.Core.Test.DataModel.Messages;
+using GoodREST.Core.Test.Services;
+using GoodREST.Middleware.Services;
+using GoodREST.Middleware.Interface;
+using GoodREST.Interfaces;
+using GoodREST.Extensions.SwaggerExtension;
 
 namespace WebApplication
 {
@@ -47,8 +47,8 @@ namespace WebApplication
             services.AddRouting();
             services.AddGoodRest(x=> { });
             // Add application services.
-            services.AddTransient<IRequestResponseSerializer,goodREST.Serializers.JsonSerializer>();
-            services.AddTransient<ServiceBase, CustomerService>();
+            services.AddTransient<IRequestResponseSerializer,GoodREST.Serializers.JsonSerializer>();
+            services.AddScoped<ServiceBase, CustomerService>();
 
             services.AddTransient<IExtension, SwaggerExtension>();
         }

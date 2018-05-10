@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Wise.goodREST.Core.Test.DataModel.DTO
+namespace GoodREST.Core.Test.DataModel.DTO
 {
     public class Customer
     {

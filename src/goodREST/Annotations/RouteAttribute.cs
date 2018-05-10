@@ -1,7 +1,7 @@
 ﻿using System;
-using goodREST.Enums;
+using GoodREST.Enums;
 
-namespace goodREST.Annotations
+namespace GoodREST.Annotations
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple =true)]
     public class RouteAttribute : Attribute
