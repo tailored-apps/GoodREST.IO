@@ -11,5 +11,6 @@ namespace Wise.goodREST.Middleware.Interface
     public interface ISecurityService
     {
         bool CheckAccess(string xauth);
+        string AuthUser(string login, string pass);
     }
 }

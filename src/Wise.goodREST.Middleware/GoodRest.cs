@@ -19,12 +19,13 @@ namespace Wise.goodREST.Middleware
 {
     public static class GoodRest
     {
-
+        private static RestModel model;
         public static IServiceCollection AddGoodRest(this IServiceCollection app, Action<RestModel> action)
         {
-            var model = new RestModel();
-            app.AddSingleton<IRestModel>(model);
+             model = new RestModel();
             action.Invoke(model);
+
+            app.AddScoped<IRestModel>(x=> { return model; });
 
             return app;
         }
@@ -32,7 +33,7 @@ namespace Wise.goodREST.Middleware
         private static ISecurityService securityService;
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app, Action<IRestModel> configureRoutes)
         {
-            var model = app.ApplicationServices.GetService<IRestModel>();
+            //var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
             
             securityService = app.ApplicationServices.GetService<ISecurityService>();
@@ -47,7 +48,7 @@ namespace Wise.goodREST.Middleware
                     $"Hello! Route values: {string.Join(", ", routeValues)}");
             });
 
-            model.Build(app.ApplicationServices.GetServices<ServiceBase>().Select(x => x.GetType()));
+            model.Build(app.ApplicationServices.CreateScope().ServiceProvider.GetServices<ServiceBase>().Select(x => x.GetType()));
 
             var routeBuilder = new RouteBuilder(app, trackPackageRouteHandler);
 
@@ -69,7 +70,9 @@ namespace Wise.goodREST.Middleware
 
                 urls.AppendLine("</body>");
                 urls.AppendLine("</html>");
+                
                 conext.Response.ContentType = "text/html; charset=UTF-8";
+                
                 return conext.Response.WriteAsync(urls.ToString());
             });
 
@@ -89,14 +92,14 @@ namespace Wise.goodREST.Middleware
                 var result = Regex.Matches(template, pattern);
                 routeBuilder.MapVerb(route.Key.Value.ToString(), template, context =>
                {
-                   
+
                    if (model.IsSecurityEnabled)
                    {
                        var verb = route.Key.Value.ToString();
                        var path = route.Key.Key; //context.Request.Path;
                        var headers = context.Request.Headers;
                        string rightsResp = string.Empty;
-                       if (!path.Contains("Auth") && !CheckRights(model,verb, path, headers,out rightsResp))
+                       if (!path.Contains("Auth") && !CheckRights(model, verb, path, headers, out rightsResp))
                        {
                            return context.Response.WriteAsync(rightsResp);
                        };
@@ -123,8 +126,8 @@ namespace Wise.goodREST.Middleware
 
                    context.Items.Add("requestModel", requestModel);
                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
-                   var service = app.ApplicationServices.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
-
+                   var service = app.ApplicationServices.CreateScope().ServiceProvider.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
+                   service.GetType().GetTypeInfo().GetProperty("Context").SetValue(service, context);
                    var returnValueFromService = method.Invoke(service, new[] { requestModel });
 
 

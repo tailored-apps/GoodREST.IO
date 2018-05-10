@@ -15,6 +15,7 @@ namespace Wise.goodREST.Middleware
         Dictionary<Type, IList<MethodInfo>> serviceMethods = new Dictionary<Type, IList<MethodInfo>>();
 
         public bool IsSecurityEnabled { get; private set; }
+        public List<string> SecuirtyExcludedPaths { get; private set; }
         public bool IsSecuritySetToReadOnlyForUnkownAuth { get; private set; }
 
         public void RegisterMessageModel<T>()
