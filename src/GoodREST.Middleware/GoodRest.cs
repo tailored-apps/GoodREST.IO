@@ -22,7 +22,7 @@ namespace GoodREST.Middleware
         private static RestModel model;
         public static IServiceCollection AddGoodRest(this IServiceCollection app, Action<RestModel> action)
         {
-             model = new RestModel();
+            model = new RestModel();
             action.Invoke(model);
 
             app.AddScoped<IRestModel>(x=> { return model; });
@@ -71,7 +71,7 @@ namespace GoodREST.Middleware
                 urls.AppendLine("</body>");
                 urls.AppendLine("</html>");
                 
-                conext.Response.ContentType = "text/html; charset=UTF-8";
+				conext.Response.ContentType = "text/html; " + model.CharacterEncoding;
                 
                 return conext.Response.WriteAsync(urls.ToString());
             });
@@ -139,7 +139,7 @@ namespace GoodREST.Middleware
                        resp.CorrelationId = req.CorrelationId;
                    }
 
-                   context.Response.ContentType = serializer.ContentType;
+					context.Response.ContentType = serializer.ContentType + "; " + model.CharacterEncoding;
 
                    return context.Response.WriteAsync(serializer.Serialize(returnValueFromService));
                });
