@@ -6,7 +6,7 @@
     <PackageProjectUrl>http://goodREST.io</PackageProjectUrl>
     <Copyright>Tailored Apps. Łukasz Kowalski</Copyright>
     <Authors>Tailored Apps. Łukasz Kowalski</Authors>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
