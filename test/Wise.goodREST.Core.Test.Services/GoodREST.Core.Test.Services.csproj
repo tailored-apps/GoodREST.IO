@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Wise.goodREST.Middleware\GoodREST.Middleware.csproj" />
+    <ProjectReference Include="..\..\src\GoodREST.Middleware\GoodREST.Middleware.csproj" />
     <ProjectReference Include="..\Wise.goodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
   </ItemGroup>
 

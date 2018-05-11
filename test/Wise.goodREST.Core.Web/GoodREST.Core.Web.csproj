@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Extensions\Wise.goodREST.Extensions.SwaggerExtension\GoodREST.Extensions.SwaggerExtension.csproj" />
-    <ProjectReference Include="..\..\src\Wise.goodREST.Middleware\GoodREST.Middleware.csproj" />
     <ProjectReference Include="..\Wise.goodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
     <ProjectReference Include="..\Wise.goodREST.Core.Test.Services\GoodREST.Core.Test.Services.csproj" />
   </ItemGroup>

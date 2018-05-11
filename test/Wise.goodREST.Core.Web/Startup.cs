@@ -5,11 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using GoodREST.Middleware;
 using GoodREST.Core.Test.DataModel.Messages;
-using GoodREST.Core.Test.Services;
 using GoodREST.Middleware.Services;
 using GoodREST.Middleware.Interface;
 using GoodREST.Interfaces;
 using GoodREST.Extensions.SwaggerExtension;
+using GoodREST.Core.Test.Services;
 
 namespace WebApplication
 {
