@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DebugType>portable</DebugType>
-    <AssemblyName>Wise.goodREST.Core.Test.Services</AssemblyName>
+    <AssemblyName>GoodREST.Core.Test.Services</AssemblyName>
     <PackageId>Wise.goodREST.Core.Test.Services</PackageId>
   </PropertyGroup>
 

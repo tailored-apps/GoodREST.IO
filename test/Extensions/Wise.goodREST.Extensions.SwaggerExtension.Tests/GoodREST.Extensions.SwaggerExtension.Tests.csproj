@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DebugType>portable</DebugType>
-    <AssemblyName>Wise.goodREST.Extensions.SwaggerExtension.Tests</AssemblyName>
+    <AssemblyName>GoodREST.Extensions.SwaggerExtension.Tests</AssemblyName>
     <PackageId>Wise.goodREST.Extensions.SwaggerExtension.Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
