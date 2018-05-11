@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\GoodREST.Middleware\GoodREST.Middleware.csproj" />
-    <ProjectReference Include="..\Wise.goodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
+    <ProjectReference Include="..\GoodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
   </ItemGroup>
 
 </Project>

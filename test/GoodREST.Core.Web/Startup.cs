@@ -1,15 +1,15 @@
+using GoodREST.Core.Test.DataModel.Messages;
+using GoodREST.Core.Test.Services;
+using GoodREST.Extensions.SwaggerExtension;
+using GoodREST.Interfaces;
+using GoodREST.Middleware;
+using GoodREST.Middleware.Interface;
+using GoodREST.Middleware.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using GoodREST.Middleware;
-using GoodREST.Core.Test.DataModel.Messages;
-using GoodREST.Middleware.Services;
-using GoodREST.Middleware.Interface;
-using GoodREST.Interfaces;
-using GoodREST.Extensions.SwaggerExtension;
-using GoodREST.Core.Test.Services;
 
 namespace WebApplication
 {
