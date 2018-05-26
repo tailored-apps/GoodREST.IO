@@ -7,7 +7,7 @@ namespace GoodREST.Middleware.Interface
     public interface IAuthService
     {
         string AuthUrl { get; }
-        bool AuthUser(string login, string pass, string salt);
+        string AuthUser(string login, string pass, string salt);
         bool CheckAccess(string xauth);
     }
 }
