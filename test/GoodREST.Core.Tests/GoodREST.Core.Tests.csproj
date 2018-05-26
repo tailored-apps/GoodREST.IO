@@ -3,17 +3,18 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DebugType>portable</DebugType>
-    <AssemblyName>Wise.goodREST.Core.Tests</AssemblyName>
+    <AssemblyName>GoodREST.Core.Tests</AssemblyName>
     <PackageId>Wise.goodREST.Core.Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Extensions\Wise.goodREST.Extensions.SwaggerExtension\GoodREST.Extensions.SwaggerExtension.csproj" />
-    <ProjectReference Include="..\..\src\Wise.goodREST.Middleware\GoodREST.Middleware.csproj" />
-    <ProjectReference Include="..\Wise.goodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
-    <ProjectReference Include="..\Wise.goodREST.Core.Test.Services\GoodREST.Core.Test.Services.csproj" />
+    <ProjectReference Include="..\..\src\Extensions\GoodREST.Extensions.SwaggerExtension\GoodREST.Extensions.SwaggerExtension.csproj" />
+    <ProjectReference Include="..\..\src\GoodREST.Middleware\GoodREST.Middleware.csproj" />
+    <ProjectReference Include="..\..\src\goodREST\GoodREST.csproj" />
+    <ProjectReference Include="..\GoodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
+    <ProjectReference Include="..\GoodREST.Core.Test.Services\GoodREST.Core.Test.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

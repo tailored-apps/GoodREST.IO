@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoodREST.Annotations;
-using GoodREST.Core.Test.DataModel;
 using GoodREST.Core.Test.DataModel.DTO;
 using GoodREST.Core.Test.DataModel.Messages;
 using GoodREST.Middleware.Services;

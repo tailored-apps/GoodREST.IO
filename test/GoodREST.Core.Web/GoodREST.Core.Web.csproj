@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DebugType>portable</DebugType>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>Wise.goodREST.Core.Web</AssemblyName>
+    <AssemblyName>GoodREST.Core.Web</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>Wise.goodREST.Core.Web</PackageId>
     <UserSecretsId>aspnet-WebApplication-0799fe3e-6eaf-4c5f-b40e-7c6bfd5dfa9a</UserSecretsId>
@@ -18,10 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Extensions\Wise.goodREST.Extensions.SwaggerExtension\GoodREST.Extensions.SwaggerExtension.csproj" />
-    <ProjectReference Include="..\..\src\Wise.goodREST.Middleware\GoodREST.Middleware.csproj" />
-    <ProjectReference Include="..\Wise.goodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
-    <ProjectReference Include="..\Wise.goodREST.Core.Test.Services\GoodREST.Core.Test.Services.csproj" />
+    <ProjectReference Include="..\..\src\GoodREST.Middleware\GoodREST.Middleware.csproj" />
+    <ProjectReference Include="..\Extensions\GoodREST.Extensions.SwaggerExtension.Tests\GoodREST.Extensions.SwaggerExtension.Tests.csproj" />
+    <ProjectReference Include="..\GoodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
+    <ProjectReference Include="..\GoodREST.Core.Test.Services\GoodREST.Core.Test.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

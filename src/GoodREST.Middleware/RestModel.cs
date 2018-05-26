@@ -18,7 +18,9 @@ namespace GoodREST.Middleware
         public List<string> SecuirtyExcludedPaths { get; private set; }
         public bool IsSecuritySetToReadOnlyForUnkownAuth { get; private set; }
 
-        public void RegisterMessageModel<T>()
+		public string CharacterEncoding { get; set; }
+
+		public void RegisterMessageModel<T>()
         {
             var attrib = typeof(T).GetTypeInfo().GetCustomAttributes<RouteAttribute>();
 

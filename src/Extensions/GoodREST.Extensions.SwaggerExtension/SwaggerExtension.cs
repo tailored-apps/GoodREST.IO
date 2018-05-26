@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using GoodREST.Middleware.Interface;
 using System.Text;
 using System.IO;
 using System.Reflection;
@@ -11,6 +10,8 @@ using Microsoft.AspNetCore.Routing;
 using GoodREST.Middleware;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
+using GoodREST.Middleware.Interface;
+using GoodREST.Middleware;
 using GoodREST.Annotations;
 
 namespace GoodREST.Extensions.SwaggerExtension
