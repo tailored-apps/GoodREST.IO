@@ -11,6 +11,9 @@ namespace GoodREST.Middleware.Interface
     public interface ISecurityService
     {
         IEnumerable<string> GetCurrentUserRoles();
+
         bool IsUserInRole(string role);
+
+        string GetAuthToken();
     }
 }
