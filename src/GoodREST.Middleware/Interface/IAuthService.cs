@@ -8,6 +8,7 @@ namespace GoodREST.Middleware.Interface
     {
         string AuthUrl { get; }
         string AuthUser(string login, string pass, string salt);
+         string PassGen(string password, string salt);
         bool CheckAccess(string xauth);
     }
 }

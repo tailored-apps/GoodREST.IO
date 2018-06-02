@@ -15,5 +15,7 @@ namespace GoodREST.Middleware.Interface
         bool IsUserInRole(string role);
 
         string GetAuthToken();
+
+        string GetUserId();
     }
 }

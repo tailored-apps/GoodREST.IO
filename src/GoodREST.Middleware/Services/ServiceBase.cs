@@ -9,7 +9,6 @@ namespace GoodREST.Middleware.Services
 {
     public abstract class ServiceBase
     {
-        public IAuthService AuthService { get; set; }
         public ISecurityService SecurityService { get; set; }
     }
 }

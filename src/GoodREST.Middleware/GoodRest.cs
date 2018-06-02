@@ -26,7 +26,8 @@ namespace GoodREST.Middleware
             action.Invoke(model);
 
             app.AddScoped<IRestModel>(x=> { return model; });
-
+            
+            app.AddScoped<IRequestProvider,RequestProvider>();
             return app;
         }
 
@@ -36,25 +37,20 @@ namespace GoodREST.Middleware
             //var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
             
-            authService = app.ApplicationServices.GetService<IAuthService>();
+            authService = app.ApplicationServices.CreateScope().ServiceProvider.GetService<IAuthService>();
             var extension = app.ApplicationServices.GetServices<IExtension>();
 
             var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();
 
-            var trackPackageRouteHandler = new RouteHandler(context =>
-            {
-                var routeValues = context.GetRouteData().Values;
-                return context.Response.WriteAsync(
-                    $"Hello! Route values: {string.Join(", ", routeValues)}");
-            });
-
+           
             model.Build(app.ApplicationServices.CreateScope().ServiceProvider.GetServices<ServiceBase>().Select(x => x.GetType()));
 
-            var routeBuilder = new RouteBuilder(app, trackPackageRouteHandler);
+            var routeBuilder = new RouteBuilder(app);
 
             routeBuilder.MapGet("", conext =>
             {
-                var urls = new StringBuilder();
+                
+                   var urls = new StringBuilder();
 
                 urls.AppendLine("<html>");
                 urls.AppendLine("<body>");
@@ -123,12 +119,13 @@ namespace GoodREST.Middleware
                    {
                        req.CorrelationId = Guid.NewGuid().ToString();
                    }
-
                    context.Items.Add("requestModel", requestModel);
                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
-                   var service = app.ApplicationServices.CreateScope().ServiceProvider.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
-                   service.AuthService = authService;
-                   service.SecurityService = app.ApplicationServices.GetService<ISecurityService>();
+                   var scopedSerciceProvider = app.ApplicationServices.CreateScope().ServiceProvider;
+                   
+                   
+                   var service= scopedSerciceProvider.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
+                   service.SecurityService = scopedSerciceProvider.GetService<ISecurityService>();
                    var returnValueFromService = method.Invoke(service, new[] { requestModel });
 
 
@@ -166,7 +163,7 @@ namespace GoodREST.Middleware
 
             if (authService == null)
             {
-                throw new Exception("ISecurityService not registered");
+                throw new Exception("IAuthService not registered");
             }
             return authService.CheckAccess(token);
 
