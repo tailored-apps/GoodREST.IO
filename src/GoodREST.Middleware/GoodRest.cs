@@ -135,9 +135,10 @@ namespace GoodREST.Middleware
                    {
                        resp.CorrelationId = req.CorrelationId;
                    }
+                   var iResponse = returnValueFromService as IResponse;
 
-					context.Response.ContentType = serializer.ContentType + "; " + model.CharacterEncoding;
-
+                    context.Response.ContentType = serializer.ContentType + "; " + model.CharacterEncoding;
+                   context.Response.StatusCode = iResponse?.HttpStatusCode ?? context.Response.StatusCode;
                    return context.Response.WriteAsync(serializer.Serialize(returnValueFromService));
                });
             }
