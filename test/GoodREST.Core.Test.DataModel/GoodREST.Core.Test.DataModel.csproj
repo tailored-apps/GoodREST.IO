@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\goodREST\GoodREST.csproj" />
+    <ProjectReference Include="..\..\src\GoodREST\GoodREST.csproj" />
   </ItemGroup>
 
 </Project>

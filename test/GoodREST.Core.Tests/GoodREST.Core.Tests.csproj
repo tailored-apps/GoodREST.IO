@@ -12,7 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Extensions\GoodREST.Extensions.SwaggerExtension\GoodREST.Extensions.SwaggerExtension.csproj" />
     <ProjectReference Include="..\..\src\GoodREST.Middleware\GoodREST.Middleware.csproj" />
-    <ProjectReference Include="..\..\src\goodREST\GoodREST.csproj" />
+    <ProjectReference Include="..\..\src\GoodREST\GoodREST.csproj" />
     <ProjectReference Include="..\GoodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
     <ProjectReference Include="..\GoodREST.Core.Test.Services\GoodREST.Core.Test.Services.csproj" />
   </ItemGroup>
