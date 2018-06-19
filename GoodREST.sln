@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{AC49A9B4
 		NugetCreate.ps1 = NugetCreate.ps1
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST", "src\goodREST\GoodREST.csproj", "{4F985A92-DED9-4FA0-89A3-0C7D47DE99ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST", "src\GoodREST\GoodREST.csproj", "{4F985A92-DED9-4FA0-89A3-0C7D47DE99ED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST.Middleware", "src\GoodREST.Middleware\GoodREST.Middleware.csproj", "{0804CFBF-0E47-4DB4-BEDF-C5CD2DE083F3}"
 EndProject

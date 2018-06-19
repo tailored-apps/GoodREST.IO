@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Company>Tailored Apps. Łukasz Kowalski</Company>
+    <Company>Tailored Apps. Lukasz Kowalski</Company>
     <PackageProjectUrl>http://goodREST.io</PackageProjectUrl>
-    <Copyright>Tailored Apps. Łukasz Kowalski</Copyright>
-    <Authors>Tailored Apps. Łukasz Kowalski</Authors>
+    <Copyright>Tailored Apps. Lukasz Kowalski</Copyright>
+    <Authors>Tailored Apps. Lukasz Kowalski</Authors> 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
