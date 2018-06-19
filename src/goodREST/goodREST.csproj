@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+  <PackageId>GoodREST</PackageId>
+  <Version>1.0.0.3</Version>
+  <FileVersion>1.0.0.3</FileVersion>
+  <AssemblyVersion>1.0.0.3</AssemblyVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company>Tailored Apps. Lukasz Kowalski</Company>
     <PackageProjectUrl>http://goodREST.io</PackageProjectUrl>
