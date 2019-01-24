@@ -149,7 +149,7 @@ namespace GoodREST.Middleware
 
         }
 
-        private static T CheckRights<T>(IRestModel model, string verb, string path, IHeaderDictionary headers, out string resp) where T : new()
+        private static T CheckRights<T>(IRestModel model, string verb, string path, IHeaderDictionary headers, out string resp) where T : class, new()
         {
             resp = string.Empty;
             if (model.IsSecuritySetToReadOnlyForUnkownAuth && verb == "GET")
