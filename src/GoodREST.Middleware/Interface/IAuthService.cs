@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GoodREST.Middleware.Interface
+﻿namespace GoodREST.Middleware.Interface
 {
     public interface IAuthService
     {
         string AuthUrl { get; }
-        string AuthUser(string login, string pass, string salt);
-         string PassGen(string password, string salt);
-        bool CheckAccess(string xauth);
+        T AuthUser<T>(string login, string pass, string salt) where T : new();
+        string PassGen(string password, string salt);
+        T CheckAccess<T>(string xauth) where T : new();
     }
 }
