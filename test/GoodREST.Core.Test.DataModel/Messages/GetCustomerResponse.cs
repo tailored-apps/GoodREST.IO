@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GoodREST.Core.Test.DataModel.DTO;
 using GoodREST.Interfaces;
-using GoodREST.Core.Test.DataModel.DTO;
+using System.Collections.Generic;
 
 namespace GoodREST.Core.Test.DataModel.Messages
 
@@ -13,5 +12,8 @@ namespace GoodREST.Core.Test.DataModel.Messages
         public IList<Customer> Customers { get; set; }
 
         public int HttpStatusCode { get; set; }
+        public string HttpStatus { get; set; }
+        public ICollection<string> Errors { get; set; }
+        public ICollection<string> Warnings { get; set; }
     }
 }
