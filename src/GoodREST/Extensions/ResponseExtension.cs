@@ -48,9 +48,10 @@ namespace GoodREST.Extensions
             {
                 response.HttpStatusCode = errorCode.Value;
             }
-            else if (response.HttpStatusCode == 0 && !errorCode.HasValue && errors.Any())
+            else if (response.HttpStatusCode == 0 && !errorCode.HasValue && errors != null && errors.Any())
             {
                 response.HttpStatusCode = 500;
+                response.HttpStatus = "Internal Server Error";
             }
 
             response.Warnings = warningCollection;
