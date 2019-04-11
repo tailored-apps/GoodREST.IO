@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <DebugType>portable</DebugType>
+    <AssemblyName>GoodREST.Core.Test.Services</AssemblyName>
+    <PackageId>Wise.goodREST.Core.Test.Services</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\GoodREST.Middleware\GoodREST.Middleware.csproj" />
+    <ProjectReference Include="..\GoodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
+  </ItemGroup>
+
+</Project>
