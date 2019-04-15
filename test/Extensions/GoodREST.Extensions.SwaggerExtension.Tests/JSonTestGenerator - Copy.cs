@@ -1,0 +1,79 @@
+﻿using GoodREST.Extensions.SwaggerExtension.Auxillary;
+using GoodREST.Interfaces;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
+
+namespace GoodREST.Extensions.SwaggerExtension.Tests
+{
+    public class GetAllTypesDown
+    {
+        [Fact]
+        public void Test()
+        {
+            Dictionary<Type, bool> types = new Dictionary<Type, bool>() {
+                { typeof(GetMeMore), false },
+                { typeof(TypeProperty), false },
+                { typeof(SomeCollectionData), false },
+                { typeof(GetMeMoreResponse), false },
+                { typeof(ReturnType), false },
+                { typeof(RetrurnedElements), false },
+            };
+            var type = typeof(GetMeMore);
+
+
+            var result = type.GetNeastedTypes();
+
+            Assert.Equal(types.Count(), result.Count());
+            Assert.All(types, x => Assert.True(x.Value, $" {x.Key.Name} not found"));
+        }
+
+    }
+    public class GetMeMore : IHasResponse<GetMeMoreResponse>, ICorrelation
+    {
+        public int Id { get; set; }
+        public string StringValiue { get; set; }
+        public string CorrelationId { get; set; }
+        public TypeProperty TypeProperty { get; set; }
+        public ICollection<int> Ids { get; set; }
+        public ICollection<SomeCollectionData> SomeCollectionData { get; set; }
+    }
+    public class GetMeMoreResponse : IResponse, ICorrelation
+    {
+        public int HttpStatusCode { get; set; }
+        public string HttpStatus { get; set; }
+        public ICollection<string> Errors { get; set; }
+        public ICollection<string> Warnings { get; set; }
+        public string CorrelationId { get; set; }
+
+        public ReturnType ReturnType { get; set; }
+    }
+    public class TypeProperty
+    {
+        public int Id { get; set; }
+        public string StringValiue { get; set; }
+    }
+    public class ReturnType
+    {
+        public int Id { get; set; }
+        public string StringValiue { get; set; }
+        ICollection<RetrurnedElements> RetrurnedElements { get; set; }
+
+    }
+    public class RetrurnedElements
+    {
+        public int ElementId { get; set; }
+        public string StringValiue { get; set; }
+
+    }
+    public class SomeCollectionData
+    {
+        public int ElementId { get; set; }
+        public string StringValiue { get; set; }
+
+    }
+
+}
