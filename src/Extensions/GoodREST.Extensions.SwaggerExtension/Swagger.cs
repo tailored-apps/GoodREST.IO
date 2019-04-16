@@ -84,12 +84,7 @@ namespace GoodREST.Extensions.SwaggerExtension
                 var properties = new Dictionary<string, object>();
                 foreach (var prop in objectDefinition.properties)
                 {
-                    var desc = new Dictionary<string, object>();
-                    if (!string.IsNullOrWhiteSpace(prop.propertyDescription.description)) { desc.Add("description", prop.propertyDescription.description); }
-                    if (!string.IsNullOrWhiteSpace(prop.propertyDescription.format)) { desc.Add("format", prop.propertyDescription.format); }
-                    if (!string.IsNullOrWhiteSpace(prop.propertyDescription.type)) { desc.Add("type", prop.propertyDescription.type); }
-                    if (prop.propertyDescription.@enum.Any()) { desc.Add("enum", prop.propertyDescription.@enum); }
-                    properties.Add(prop.name, desc);
+                    properties.Add(prop.name, prop.propertyDescription);
                 }
                 def.Add("properties", properties);
             }

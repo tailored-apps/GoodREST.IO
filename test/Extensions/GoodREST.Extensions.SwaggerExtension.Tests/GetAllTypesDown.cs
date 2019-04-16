@@ -25,10 +25,53 @@ namespace GoodREST.Extensions.SwaggerExtension.Tests
             var type = typeof(GetMeMore);
 
 
-            var result = type.GetNeastedTypes();
+            var result = type.GetTypeTree();
+            
+            foreach(var scannedType in result)
+            {
+                types[scannedType] = true;
+            }
+            Assert.All(types, x => Assert.True(x.Value, $" Type '{x.Key.Name}' not found"));
+        }
+        [Fact]
+        public void TestParams()
+        {
+            Dictionary<Type, bool> types = new Dictionary<Type, bool>() {
+                { typeof(ReturnType), false },
+                { typeof(RetrurnedElements), false },
+            };
+            var type = typeof(ReturnType);
+
+
+            var result = type.GetTypeTree();
 
             Assert.Equal(types.Count(), result.Count());
+
+            foreach (var scannedType in result)
+            {
+                types[scannedType] = true;
+            }
             Assert.All(types, x => Assert.True(x.Value, $" {x.Key.Name} not found"));
+        }
+
+
+        [Fact]
+        public void TestStackOverflow()
+        {
+            Dictionary<Type, bool> types = new Dictionary<Type, bool>() {
+                { typeof(A), false },
+                { typeof(B), false }
+            };
+            var type = typeof(A);
+
+
+            var result = type.GetTypeTree();
+
+            foreach (var scannedType in result)
+            {
+                types[scannedType] = true;
+            }
+            Assert.All(types, x => Assert.True(x.Value, $" Type '{x.Key.Name}' not found"));
         }
 
     }
@@ -60,7 +103,7 @@ namespace GoodREST.Extensions.SwaggerExtension.Tests
     {
         public int Id { get; set; }
         public string StringValiue { get; set; }
-        ICollection<RetrurnedElements> RetrurnedElements { get; set; }
+        public ICollection<RetrurnedElements> RetrurnedElements { get; set; }
 
     }
     public class RetrurnedElements
@@ -74,6 +117,16 @@ namespace GoodREST.Extensions.SwaggerExtension.Tests
         public int ElementId { get; set; }
         public string StringValiue { get; set; }
 
+    }
+
+
+    public class A
+    {
+        public B ClassB { get; set; }
+    }
+    public class B
+    {
+        public A ClassA { get; set; }
     }
 
 }

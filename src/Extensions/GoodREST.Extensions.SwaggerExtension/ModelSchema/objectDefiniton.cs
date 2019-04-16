@@ -16,5 +16,13 @@ namespace GoodREST.Extensions.SwaggerExtension
             var prop = properties as List<property>;
             prop.Add(property);
         }
+        public void AddProperty(IEnumerable<property> property)
+        {
+            if (properties == null) { properties = new List<property>(); }
+
+            var prop = properties as List<property>;
+            prop.AddRange(property);
+        }
+
     }
 }

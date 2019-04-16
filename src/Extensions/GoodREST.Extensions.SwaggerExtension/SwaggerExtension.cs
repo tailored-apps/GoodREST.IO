@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Hosting;
 using GoodREST.Middleware.Interface;
 using GoodREST.Middleware;
 using GoodREST.Annotations;
+using Microsoft.Extensions.Configuration;
+using System.Text.RegularExpressions;
+using GoodREST.Interfaces;
 
 namespace GoodREST.Extensions.SwaggerExtension
 {
@@ -21,12 +24,14 @@ namespace GoodREST.Extensions.SwaggerExtension
         private IRestModel model;
         private Swagger swaggerDefinition;
         private readonly IHostingEnvironment env;
-        public SwaggerExtension(IRestModel restModel, IHostingEnvironment env)
+        private readonly IConfiguration configuration;
+        public SwaggerExtension(IRestModel restModel, IHostingEnvironment env, IConfiguration configuration)
         {
             this.env = env;
             model = restModel;
-           
-            
+            this.configuration = configuration;
+
+
         }
         private void BuildServiceSchema()
         {
@@ -37,6 +42,7 @@ namespace GoodREST.Extensions.SwaggerExtension
                 #region info
                 info = new info
                 {
+
                     description = "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
                     version = typeof(Swagger).GetTypeInfo().Assembly.ImageRuntimeVersion,
                     title = "Swagger Petstore",
@@ -45,21 +51,45 @@ namespace GoodREST.Extensions.SwaggerExtension
                     license = new license { name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html" }
                 },
                 #endregion info
-                host = System.Environment.MachineName,
-                basePath = env.WebRootPath,
+                host = null,
+                basePath = @"/",
                 schemes = new[] { "http" },
 
                 externalDocs = new externalDocs { description = "Find out more about Swagger", url = "http://swagger.io" }
             };
 
             #region objectDefinitions
+            List<Type> created = new List<Type>();
             foreach (var modelToRegister in model.GetRouteForType())
             {
 
+                var registeredRequest = modelToRegister.Value;
+                var returnResponse = registeredRequest.GetInterfaces().Single(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(IHasResponse<>))).GenericTypeArguments.Single();
 
-                var petDefinition = new objectDefiniton { type = "object", RequiredProperties = new[] { "name", "photoUrls" } };
-                petDefinition.AddProperty(new property { name = "id", propertyDescription = new propertyDescription { format = "int64", type = "integer" } });
-                swaggerDefinition.AddObjectDefinition(modelToRegister.Value.Name, petDefinition);
+
+                var properties = modelToRegister.Value.GetProperties().Select(x =>
+                {
+                    return new property()
+                    {
+                        name = x.Name,
+                        propertyDescription = x.PropertyType.GetPropertyDescription(swaggerDefinition, created)
+
+                    };
+                }).ToList();
+                properties.Add(
+                new property()
+                {
+                    name = returnResponse.Name,
+                    propertyDescription = returnResponse.GetPropertyDescription(swaggerDefinition, created)
+
+                });
+
+                var objectDefinition = new objectDefiniton
+                {
+                    properties = properties
+                };
+
+                swaggerDefinition.AddObjectDefinition(registeredRequest.Name, objectDefinition);
 
             }
             #endregion objectDefinitions
@@ -88,7 +118,7 @@ namespace GoodREST.Extensions.SwaggerExtension
                 name = "api_key",
                 @in = "header"
             });
-            
+
 
             #endregion securityDefinition
             #region pathDescription
@@ -98,50 +128,43 @@ namespace GoodREST.Extensions.SwaggerExtension
 
                 var @pathDesc = new pathDescription
                 {
-                    tags = new[] { item.Key.Key },
-                    summary = method.DeclaringType.GetTypeInfo().GetCustomAttribute<ServiceDescriptionAttribute>().Description,
-                    description = method.DeclaringType.GetTypeInfo().GetCustomAttribute<ServiceDescriptionAttribute>().Description,
-                    operationId = method.Name,
+                    tags = new[] { item.Key.Key.Split("/").FirstOrDefault() },
+                    summary = method.GetAttribute<ServiceDescriptionAttribute>()?.Description,
+                    description = method.GetAttribute<ServiceDescriptionAttribute>()?.Description,
+                    operationId = item.Value.Name,
                     consumes = new[] { "application/json", "application/xml" },
                     produces = new[] { "application/xml", "application/json" },
                 };
 
                 pathDesc.AddSecurity(new verbSecurity { value = "petstore_auth", operations = new[] { "write:pets", "read:pets" } });
                 pathDesc.AddResponse(new response { code = "405", description = new responseDescription { description = "Invalid input" } });
-                pathDesc.AddParameter(new parameter
+                var parts = item.Key.Key.GetPathParts();
+                foreach (var parameter in parts)
                 {
-                    @in = "body",
-                    name = "body",
-                    description = "Pet object that needs to be added to the store",
-                    required = true,
-                    schema = new Dictionary<string, string>() { { "$ref", "#/definitions/Pet" } }
-                });
+                    pathDesc.AddParameter(new parameter
+                    {
+                        @in = "path",
+                        name = parameter,
+                        description = "The " + parameter + " key",
+                        required = true
+                    });
 
-                swaggerDefinition.AddOperation(item.Key.Key, item.Key.Value.ToString(), pathDesc);
+                }
+
+                if (item.Key.Value != Enums.HttpVerb.GET)
+                {
+                    pathDesc.AddParameter(new parameter
+                    {
+                        @in = "body",
+                        name = "body",
+                        description = "The " + item.Value.Name + " key",
+                        required = true,
+                        schema = new Dictionary<string, string> { { "$ref", "#/definitions/" + item.Value.Name } }
+                    });
+                }
+                swaggerDefinition.AddOperation(@"/" + item.Key.Key, item.Key.Value.ToString().ToLower(), pathDesc);
 
             }
-            //var @pathDesc = new pathDescription
-            //{
-            //    tags = new[] { "pet" },
-            //    summary = "Add a new pet to the store",
-            //    description = string.Empty,
-            //    operationId = "addPet",
-            //    consumes = new[] { "application/json", "application/xml" },
-            //    produces = new[] { "application/xml", "application/json" },
-            //};
-
-            //pathDesc.AddSecurity(new verbSecurity { value = "petstore_auth", operations = new[] { "write:pets", "read:pets" } });
-            //pathDesc.AddResponse(new response { code = "405", description = new responseDescription { description = "Invalid input" } });
-            //pathDesc.AddParameter(new parameter
-            //{
-            //    @in = "body",
-            //    name = "body",
-            //    description = "Pet object that needs to be added to the store",
-            //    required = true,
-            //    schema = new Dictionary<string, string>() { { "$ref", "#/definitions/Pet" } }
-            //});
-
-            //swaggerDefinition.AddOperation("/pet", "post", pathDesc);
             #endregion pathDescription
         }
 
@@ -149,7 +172,7 @@ namespace GoodREST.Extensions.SwaggerExtension
         {
 
             var assembly = typeof(SwaggerExtension).GetTypeInfo().Assembly;
-            var requestResourceName = @"GoodREST.Extensions.SwaggerExtension.swagger.dist" + builder.Request.Path.Value.Replace(@"swagger/", string.Empty).Replace("/", ".");
+            var requestResourceName = @"GoodREST.Extensions.SwaggerExtension.swagger" + builder.Request.Path.Value.Replace(@"swagger/", string.Empty).Replace("/", ".");
             var resourceStream = assembly.GetManifestResourceStream(requestResourceName);
 
 
@@ -218,7 +241,10 @@ namespace GoodREST.Extensions.SwaggerExtension
                 }
 #endif
                 conext.Response.ContentType = "text/json; charset=UTF-8";
-                return conext.Response.WriteAsync(JsonConvert.SerializeObject(swaggerDefinition));
+                var settings = new JsonSerializerSettings();
+                settings.NullValueHandling = NullValueHandling.Ignore;
+
+                return conext.Response.WriteAsync(JsonConvert.SerializeObject(swaggerDefinition, settings));
             });
             routeBuilder.MapGet(@"swagger/{url}", conext =>
             {
@@ -232,4 +258,115 @@ namespace GoodREST.Extensions.SwaggerExtension
 
         }
     }
+    public static class OperationHelpers
+    {
+        public static T GetAttribute<T>(this MethodInfo methodInfo) where T : System.Attribute
+        {
+            var customTypes = methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes<T>();
+            var attribute = customTypes != null ? customTypes.SingleOrDefault(x => x.GetType() == typeof(T)) : (System.Attribute)null;
+            return (T)attribute;
+        }
+
+        public static IEnumerable<string> GetPathParts(this string uri)
+        {
+            string pattern = "{(.*?)}";
+            var result = Regex.Matches(uri, pattern);
+            return result.Select(x => x.Value.Replace(@"{", string.Empty).Replace(@"}", string.Empty));
+        }
+        private static Dictionary<Type, string> typeDict = new Dictionary<Type, string>()
+        {
+            { typeof(Int16),"integer"},
+            { typeof(Int32),"integer"},
+            { typeof(Int64),"integer"},
+            { typeof(UInt16),"integer"},
+            { typeof(UInt32),"integer"},
+            { typeof(UInt64),"integer"},
+            { typeof(float),"number"},
+            { typeof(decimal),"number"},
+            { typeof(bool),"boolean"},
+            { typeof(DateTime),"date"},
+
+            { typeof(Nullable<Int16>),"integer"},
+            { typeof(Nullable<Int32>),"integer"},
+            { typeof(Nullable<Int64>),"integer"},
+            { typeof(Nullable<UInt16>),"integer"},
+            { typeof(Nullable<UInt32>),"integer"},
+            { typeof(Nullable<UInt64>),"integer"},
+            { typeof(Nullable<float>),"number"},
+            { typeof(Nullable<decimal>),"number"},
+            { typeof(Nullable<bool>),"boolean"},
+            { typeof(Nullable<DateTime>),"date"},
+
+            { typeof(string),"string"}
+        };
+        public static string GetJavascriptType(this Type type)
+        {
+            string outType = "";
+            return typeDict.TryGetValue(type, out outType) ? outType : type.IsArray ? "array" : (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>)))) ? "array" : "object";
+        }
+        public static Dictionary<string, object> GetPropertyDescription(this Type type, Swagger swagger, List<Type> generatedTypes)
+        {
+
+            var objectDefinition = new objectDefiniton
+            {
+
+            };
+
+            var propertyDescription = new Dictionary<string, object>() {
+                { "type", type.GetJavascriptType() }
+            };
+
+            if (!generatedTypes.Contains(type))
+            {
+                generatedTypes.Add(type);
+                if (type.Name == "Meal")
+                {
+                    Console.WriteLine("Meal");
+                }
+
+                if (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>))))
+                {
+                    propertyDescription.Add("items", new Dictionary<string, string> { { "$ref", "#/definitions/" + type.GenericTypeArguments.First().Name } });
+
+                    objectDefinition.AddProperty(type.GenericTypeArguments.First().GetProperties().Select(x =>
+                    {
+                        return new property()
+                        {
+                            name = x.Name,
+                            propertyDescription = x.PropertyType.GetPropertyDescription(swagger, generatedTypes)
+
+                        };
+                    }));
+
+                    swagger.AddObjectDefinition(type.GenericTypeArguments.First().Name, objectDefinition);
+                }
+
+                else if (propertyDescription["type"] == "object")
+                {
+                    objectDefinition.AddProperty(type.GetProperties().Select(x =>
+                                            {
+                                                return new property()
+                                                {
+                                                    name = x.Name,
+                                                    propertyDescription = x.PropertyType.GetPropertyDescription(swagger, generatedTypes)
+
+                                                };
+                                            }));
+
+                    swagger.AddObjectDefinition(type.Name, objectDefinition);
+
+                    propertyDescription.Add("$ref", "#/definitions/" + type.Name);
+
+                }
+
+                if (Nullable.GetUnderlyingType(type) != null)
+                {
+                    propertyDescription.Add("nullable", "true");
+                }
+            }
+            return propertyDescription;
+        }
+    }
+
+
 }
