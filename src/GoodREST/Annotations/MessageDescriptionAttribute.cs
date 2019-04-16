@@ -3,7 +3,7 @@
 namespace GoodREST.Annotations
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class ServiceDescriptionAttribute : Attribute
+    public class MessageDescriptionAttribute : Attribute
     {
         public string Name { get; set; }
 

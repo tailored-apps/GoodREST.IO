@@ -1,8 +1,10 @@
-﻿namespace GoodREST.Extensions.SwaggerExtension
+﻿using System.Collections.Generic;
+
+namespace GoodREST.Extensions.SwaggerExtension
 {
     public class response
     {
         public string code { get; set; }
-        public responseDescription description { get; set; }
+        public Dictionary<string,object> description { get; set; }
     }
 }
