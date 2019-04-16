@@ -2,15 +2,17 @@
 
 namespace GoodREST.Annotations
 {
+    [AttributeUsage(AttributeTargets.Class)]
     public class ServiceDescriptionAttribute : Attribute
     {
-        private string description;
+        public string Name { get; set; }
 
-        public ServiceDescriptionAttribute(string description)
-        {
-            this.description = description;
-        }
+        public string Description { get; set; }
 
-        public string Description { get { return description; } }
+        public string Summary { get; set; }
+
+        public string DocDescription { get; set; }
+
+        public string DocUrl { get; set; }
     }
 }
