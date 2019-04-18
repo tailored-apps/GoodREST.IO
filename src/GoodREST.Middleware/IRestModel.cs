@@ -15,5 +15,6 @@ namespace GoodREST.Middleware
         Dictionary<KeyValuePair<string, HttpVerb>, Type> GetRouteForType();
         void RegisterMessageModel<T>();
         MethodInfo GetServiceMethodForType(HttpVerb verb, Type requestType);
+        Type[] GetServices();
     }
 }

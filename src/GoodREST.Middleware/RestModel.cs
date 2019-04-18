@@ -13,14 +13,17 @@ namespace GoodREST.Middleware
         Dictionary<KeyValuePair<HttpVerb, Type>, MethodInfo> services = new Dictionary<KeyValuePair<HttpVerb, Type>, MethodInfo>();
 
         Dictionary<Type, IList<MethodInfo>> serviceMethods = new Dictionary<Type, IList<MethodInfo>>();
+        IEnumerable<Type> registeredServices;
 
         public bool IsSecurityEnabled { get; private set; }
+
         public List<string> SecuirtyExcludedPaths { get; private set; }
+
         public bool IsSecuritySetToReadOnlyForUnkownAuth { get; private set; }
 
-		public string CharacterEncoding { get; set; }
+        public string CharacterEncoding { get; set; }
 
-		public void RegisterMessageModel<T>()
+        public void RegisterMessageModel<T>()
         {
             var attrib = typeof(T).GetTypeInfo().GetCustomAttributes<RouteAttribute>();
 
@@ -54,9 +57,10 @@ namespace GoodREST.Middleware
 
         public void Build(IEnumerable<Type> registeredServices)
         {
+            this.registeredServices = registeredServices;
+
             foreach (var restService in registeredServices)
             {
-
                 var methods = restService.GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                 serviceMethods.Add(restService, new List<MethodInfo>(methods));
             }
@@ -86,6 +90,11 @@ namespace GoodREST.Middleware
         {
             IsSecurityEnabled = true;
             IsSecuritySetToReadOnlyForUnkownAuth = true;
+        }
+
+        public Type[] GetServices()
+        {
+            return registeredServices.ToArray();
         }
     }
 }
