@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace GoodREST.Core.Test.Services
 {
-    [ServiceDescription("ASD")]
+    [ServiceDescription(Description ="Customer Service")]
     public class CustomerService : ServiceBase
     {
         public CustomerService()
