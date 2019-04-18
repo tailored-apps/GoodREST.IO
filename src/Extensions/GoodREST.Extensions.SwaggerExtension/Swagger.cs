@@ -14,19 +14,19 @@ namespace GoodREST.Extensions.SwaggerExtension
         public IEnumerable<IDictionary<string, object>> tags { get; set; }
         public IEnumerable<string> schemes { get; set; }
         public IDictionary<string, IDictionary<string, pathDescription>> paths { get; set; }
-        public IDictionary<string, securityDefinitionInfo> securityDefinition { get; set; }
+        public IDictionary<string, securityDefinitionInfo> securityDefinitions { get; set; }
         public IDictionary<string, IDictionary<string, object>> definitions { get; set; }
         public externalDocs externalDocs { get; set; }
 
         public void AddSecurityDefinition(string security_name, securityDefinitionInfo definition)
         {
 
-            if (securityDefinition == null) { securityDefinition = new Dictionary<string, securityDefinitionInfo>(); }
-            if (!securityDefinition.ContainsKey(security_name))
+            if (securityDefinitions == null) { securityDefinitions = new Dictionary<string, securityDefinitionInfo>(); }
+            if (!securityDefinitions.ContainsKey(security_name))
             {
-                securityDefinition.Add(security_name, null);
+                securityDefinitions.Add(security_name, null);
             }
-            securityDefinition[security_name] = definition;
+            securityDefinitions[security_name] = definition;
         }
 
         public void AddTag(tag tag)
