@@ -112,12 +112,13 @@ namespace GoodREST.Extensions.SwaggerExtension
             { typeof(Nullable<bool>),"boolean"},
             { typeof(Nullable<DateTime>),"date"},
 
+            { typeof(Enum),"string"},
             { typeof(string),"string"}
         };
         public static string GetJavascriptType(this Type type)
         {
             string outType = "";
-            return typeDict.TryGetValue(type, out outType) ? outType : type.IsArray ? "array" : (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>)))) ? "array" : "object";
+            return typeDict.TryGetValue(type, out outType) ? outType : type.IsArray ? "array" : type.IsEnum ? "string": (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>)))) ? "array" : "object";
         }
         public static Dictionary<string, object> GetPropertyDescription(this Type type)
         {
@@ -130,8 +131,16 @@ namespace GoodREST.Extensions.SwaggerExtension
             var propertyDescription = new Dictionary<string, object>() {
                 { "type", type.GetJavascriptType() }
             };
+            if (type == typeof(byte[]))
+            {
 
-            if (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>))))
+                propertyDescription.Add("items", new Dictionary<string, string> { { "type", "string" }, { "format", "byte" } });
+            }
+            else if (type.IsEnum)
+            {
+                propertyDescription.Add("enum", Enum.GetNames(type) );
+            }
+            else if (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>))))
             {
                 var propertyType = type.GenericTypeArguments.First();
                 if (propertyType != typeof(string))

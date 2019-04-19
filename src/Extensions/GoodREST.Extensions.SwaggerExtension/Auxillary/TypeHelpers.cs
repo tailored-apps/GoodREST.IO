@@ -34,7 +34,7 @@ namespace GoodREST.Extensions.SwaggerExtension.Auxillary
         public static IEnumerable<Type> GetAllTypesUsedInType(this Type type)
         {
 
-            var types = type.GetProperties().Where(x => x.PropertyType != typeof(string) && x.PropertyType.IsClass).Select(x => x.PropertyType).ToList();
+            var types = type.GetProperties().Where(x => x.PropertyType != typeof(string) && (x.PropertyType.IsClass || x.PropertyType.IsEnum)).Select(x => x.PropertyType).ToList();
 
             var genericTypes = type.IsGenericType ? type.GenericTypeArguments : Enumerable.Empty<Type>();
             types.AddNotExistingRange(genericTypes);
