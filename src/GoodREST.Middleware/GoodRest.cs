@@ -35,7 +35,7 @@ namespace GoodREST.Middleware
             configureRoutes.Invoke(model);
 
             authService = app.ApplicationServices.CreateScope().ServiceProvider.GetService<IAuthService>();
-            var extension = app.ApplicationServices.GetServices<IExtension>();
+            var extension = app.ApplicationServices.CreateScope().ServiceProvider.GetServices<IExtension>();
 
             var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();
 
