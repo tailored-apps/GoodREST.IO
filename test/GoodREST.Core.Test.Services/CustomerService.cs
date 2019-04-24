@@ -45,15 +45,5 @@ namespace GoodREST.Core.Test.Services
             response.HttpStatusCode = 200;
             return response;
         }
-        public DeleteCustomerResponse Delete2(DeleteCustomer request)
-        {
-            var response = new DeleteCustomerResponse();
-            try { }
-            catch (Exception ex)
-            {
-                response.ConvertExceptionAsError(ex);
-            }
-            return response;
-        }
     }
 }

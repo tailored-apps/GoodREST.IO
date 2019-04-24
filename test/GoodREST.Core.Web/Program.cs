@@ -14,12 +14,12 @@ namespace WebApplication
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
+                .UseIISIntegration().UseDefaultServiceProvider(options => { options.ValidateScopes = true; })
                 .UseStartup<Startup>()
                 .Build();
 
             host.Run();
-            
+
         }
     }
 }
