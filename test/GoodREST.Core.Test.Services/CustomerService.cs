@@ -43,6 +43,7 @@ namespace GoodREST.Core.Test.Services
         {
             var response = new DeleteCustomerResponse();
             response.HttpStatusCode = 200;
+
             return response;
         }
     }
