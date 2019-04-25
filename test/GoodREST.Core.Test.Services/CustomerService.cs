@@ -11,28 +11,19 @@ namespace GoodREST.Core.Test.Services
     [ServiceDescription(Description = "Customer Service")]
     public class CustomerService : ServiceBase
     {
-        public CustomerService()
+        private readonly IMockingRepository mockingRepository;
+        public CustomerService(IMockingRepository mockingRepository)
         {
-            Console.WriteLine(DateTime.Now.ToShortDateString());
+            this.mockingRepository = mockingRepository;
         }
-        public GetCustomerResponse Get(GetCustomer request)
+
+        public GetCustomersResponse Get(GetCustomers request)
         {
-            var response = new GetCustomerResponse();
+            var response = new GetCustomersResponse();
             try
             {
-                response.Customers = new List<Customer>()
-                {
-                    new Customer()
-                    {
-                        Id = 1, Address = "Adres numer jeden", CreateDate = new DateTime(2012, 12, 2),
-                        Name = "user name to: " + request.UserName, Status = 23
-                    },
-                    new Customer()
-                    {
-                        Id = 2, Address = "Adres wesoły", CreateDate = new DateTime(2012, 06, 2),
-                        Name = "Kierunek wałbrzych", Status = 23
-                    },
-                };
+                response.Customers = this.mockingRepository.GetCustomers();
+
                 response.Ok();
             }
             catch (Exception ex)
@@ -43,9 +34,10 @@ namespace GoodREST.Core.Test.Services
         }
         public PostCustomerResponse Post(PostCustomer request)
         {
-            var response = new PostCustomerResponse(); try
+            var response = new PostCustomerResponse();
+            try
             {
-                response.asd = request.Customer.Name;
+                response.Customer = mockingRepository.Save(request.Customer);
                 response.Ok();
             }
             catch (Exception ex)
@@ -59,6 +51,8 @@ namespace GoodREST.Core.Test.Services
             var response = new PutCustomerResponse();
             try
             {
+                var customerToUpdate = mockingRepository.GetCustomer(request.Id);
+                response.Customer = mockingRepository.Update(customerToUpdate, request.Customer);
                 response.Ok();
             }
             catch (Exception ex)

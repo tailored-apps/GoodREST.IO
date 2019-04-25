@@ -13,6 +13,7 @@
     <ProjectReference Include="..\..\src\GoodREST\GoodREST.csproj" />
     <ProjectReference Include="..\GoodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
     <ProjectReference Include="..\GoodREST.Core.Test.Services\GoodREST.Core.Test.Services.csproj" />
+    <ProjectReference Include="..\GoodREST.Core.Web\GoodREST.Core.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>
