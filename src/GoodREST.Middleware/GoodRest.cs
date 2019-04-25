@@ -33,14 +33,15 @@ namespace GoodREST.Middleware
         {
             //var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
+            var scope = app.ApplicationServices.CreateScope();
 
-            authService = app.ApplicationServices.CreateScope().ServiceProvider.GetService<IAuthService>();
-            var extension = app.ApplicationServices.GetServices<IExtension>();
+            authService = scope.ServiceProvider.GetService<IAuthService>();
+            var extension = scope.ServiceProvider.GetServices<IExtension>();
 
-            var serializer = app.ApplicationServices.GetService<IRequestResponseSerializer>();
+            var serializer = scope.ServiceProvider.GetService<IRequestResponseSerializer>();
 
 
-            model.Build(app.ApplicationServices.CreateScope().ServiceProvider.GetServices<ServiceBase>().Select(x => x.GetType()));
+            model.Build(scope.ServiceProvider.GetServices<ServiceBase>().Select(x => x.GetType()));
 
             var routeBuilder = new RouteBuilder(app);
 
@@ -118,7 +119,7 @@ namespace GoodREST.Middleware
                    }
                    context.Items.Add("requestModel", requestModel);
                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
-                   var scopedSerciceProvider = app.ApplicationServices.CreateScope().ServiceProvider;
+                   var scopedSerciceProvider = scope.ServiceProvider;
 
 
                    var service = scopedSerciceProvider.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
@@ -138,8 +139,8 @@ namespace GoodREST.Middleware
                    context.Response.StatusCode = iResponse?.HttpStatusCode ?? context.Response.StatusCode;
                    return context.Response.WriteAsync(serializer.Serialize(returnValueFromService));
                });
-            }
 
+            }
 
 
             var routes = routeBuilder.Build();

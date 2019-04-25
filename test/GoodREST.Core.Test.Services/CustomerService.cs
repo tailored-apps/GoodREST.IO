@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace GoodREST.Core.Test.Services
 {
-    [ServiceDescription("ASD")]
+    [ServiceDescription(Description ="Customer Service")]
     public class CustomerService : ServiceBase
     {
         public CustomerService()
@@ -43,16 +43,7 @@ namespace GoodREST.Core.Test.Services
         {
             var response = new DeleteCustomerResponse();
             response.HttpStatusCode = 200;
-            return response;
-        }
-        public DeleteCustomerResponse Delete2(DeleteCustomer request)
-        {
-            var response = new DeleteCustomerResponse();
-            try { }
-            catch (Exception ex)
-            {
-                response.ConvertExceptionAsError(ex);
-            }
+
             return response;
         }
     }

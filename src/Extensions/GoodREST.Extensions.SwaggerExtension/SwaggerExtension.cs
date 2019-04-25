@@ -12,224 +12,175 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
 using GoodREST.Middleware.Interface;
 using GoodREST.Middleware;
-using GoodREST.Annotations;
+using Microsoft.Extensions.Configuration;
+using GoodREST.Extensions.SwaggerExtension.Auxillary;
+using Microsoft.Extensions.DependencyInjection;
+using GoodREST.Interfaces;
+using Microsoft.Extensions.Options;
 
 namespace GoodREST.Extensions.SwaggerExtension
 {
     public class SwaggerExtension : IExtension
     {
-        private IRestModel model;
-        private Swagger swaggerDefinition;
+        private IRestModel restModel;
         private readonly IHostingEnvironment env;
-        public SwaggerExtension(IRestModel restModel, IHostingEnvironment env)
+        private readonly IConfiguration configuration;
+        private readonly IServiceProvider services;
+        private readonly IOptions<info> optionsInfo;
+        private readonly IOptions<externalDocs> externalDocs;
+        public SwaggerExtension(IRestModel restModel,
+            IHostingEnvironment env,
+            IConfiguration configuration,
+            IServiceProvider services,
+            IOptions<info> optionsInfo,
+            IOptions<externalDocs> externalDocs)
         {
             this.env = env;
-            model = restModel;
-           
-            
+            this.restModel = restModel;
+            this.configuration = configuration;
+            this.services = services;
+            this.optionsInfo = optionsInfo;
+            this.externalDocs = externalDocs;
+
         }
-        private void BuildServiceSchema()
+        private Swagger BuildServiceSchema()
         {
-            swaggerDefinition = new Swagger
+            var swaggerDefinition = new Swagger
             {
 
                 swagger = "2.0",
                 #region info
-                info = new info
-                {
-                    description = "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
-                    version = typeof(Swagger).GetTypeInfo().Assembly.ImageRuntimeVersion,
-                    title = "Swagger Petstore",
-                    termsOfService = "http://swagger.io/terms/",
-                    contact = new contact { email = "apiteam@swagger.io" },
-                    license = new license { name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html" }
-                },
+                info = optionsInfo.Value,
                 #endregion info
-                host = System.Environment.MachineName,
-                basePath = env.WebRootPath,
-                schemes = new[] { "http" },
+                host = null,
+                basePath = @"/",
+                schemes = new[] { "http", "https" },
 
-                externalDocs = new externalDocs { description = "Find out more about Swagger", url = "http://swagger.io" }
+                externalDocs = externalDocs.Value
             };
 
             #region objectDefinitions
-            foreach (var modelToRegister in model.GetRouteForType())
+            var objectDefiniton = GenerateObjectDefinition(restModel);
+            foreach (var obj in objectDefiniton)
             {
-
-
-                var petDefinition = new objectDefiniton { type = "object", RequiredProperties = new[] { "name", "photoUrls" } };
-                petDefinition.AddProperty(new property { name = "id", propertyDescription = new propertyDescription { format = "int64", type = "integer" } });
-                swaggerDefinition.AddObjectDefinition(modelToRegister.Value.Name, petDefinition);
-
+                swaggerDefinition.AddObjectDefinition(obj.Item1, obj.Item2);
             }
             #endregion objectDefinitions
 
             #region tagDefinition
-            swaggerDefinition.AddTag(new tag { name = "pet", description = "Everything about your Pets", externalDocs = new doc { description = "Find out more", url = "http://swagger.io" } });
-            swaggerDefinition.AddTag(new tag { name = "store", description = "Access to Petstore orders" });
-            swaggerDefinition.AddTag(new tag { name = "user", description = "Operations about user", externalDocs = new doc { description = "Find out more about our store", url = "http://swagger.io" } });
+            var serviceDefinition = restModel.GetServices();
+            foreach (var service in serviceDefinition)
+            {
+                swaggerDefinition.AddTag(service.GetServiceTag());
+            }
+
             #endregion tagDefinition
+
             #region securityDefinition
-            swaggerDefinition.AddSecurityDefinition("petstore_auth", new securityDefinitionInfo
+            if (this.restModel.IsSecurityEnabled)
             {
-                type = "oauth2",
-                authorizationUrl = "http://petstore.swagger.io/oauth/dialog",
-                flow = "implicit",
-                scopes = new Dictionary<string, string>
+                swaggerDefinition.AddSecurityDefinition("X-Auth-Token", new securityDefinitionInfo
                 {
-                    { "write:pets", "modify pets in your account" }
-                }
+                    type = "apiKey",
+                    name = "X-Auth-Token",
+                    @in = "header"
+                });
+            }
 
-            });
-
-            swaggerDefinition.AddSecurityDefinition("api_key", new securityDefinitionInfo
-            {
-                type = "apiKey",
-                name = "api_key",
-                @in = "header"
-            });
-            
 
             #endregion securityDefinition
+            var contentTypes = services.GetServices<IRequestResponseSerializer>().Select(x => x.ContentType);
             #region pathDescription
-            foreach (var item in model.GetRouteForType())
+            foreach (var item in restModel.GetRouteForType())
             {
-                var method = model.GetServiceMethodForType(item.Key.Value, item.Value);
+                var method = restModel.GetServiceMethodForType(item.Key.Value, item.Value);
 
-                var @pathDesc = new pathDescription
+
+                var @pathDesc = method.GetMessageTag(item.Value, item.Value.Name, contentTypes);
+                if (!(item.Key.Value == Enums.HttpVerb.GET && this.restModel.IsSecuritySetToReadOnlyForUnkownAuth) && this.restModel.IsSecurityEnabled)
                 {
-                    tags = new[] { item.Key.Key },
-                    summary = method.DeclaringType.GetTypeInfo().GetCustomAttribute<ServiceDescriptionAttribute>().Description,
-                    description = method.DeclaringType.GetTypeInfo().GetCustomAttribute<ServiceDescriptionAttribute>().Description,
-                    operationId = method.Name,
-                    consumes = new[] { "application/json", "application/xml" },
-                    produces = new[] { "application/xml", "application/json" },
+
+                    pathDesc.AddSecurity(new verbSecurity { value = "X-Auth-Token", operations = new string[0] });
+
+                }
+                var parts = item.Key.Key.GetPathParts();
+                foreach (var parameter in parts)
+                {
+                    pathDesc.AddParameter(new parameter
+                    {
+                        @in = "path",
+                        name = parameter,
+                        description = "The " + parameter + " key",
+                        required = true
+                    });
+
+                }
+
+                if (item.Key.Value != Enums.HttpVerb.GET)
+                {
+                    pathDesc.AddParameter(new parameter
+                    {
+                        @in = "body",
+                        name = "body",
+                        description = "The " + item.Value.Name + " key",
+                        required = true,
+                        schema = new Dictionary<string, string> { { "$ref", "#/definitions/" + item.Value.Name } }
+                    });
+                }
+                swaggerDefinition.AddOperation(@"/" + item.Key.Key, item.Key.Value.ToString().ToLower(), pathDesc);
+
+            }
+            #endregion pathDescription
+            return swaggerDefinition;
+        }
+
+        private IEnumerable<(string, objectDefiniton)> GenerateObjectDefinition(IRestModel model)
+        {
+            List<Type> created = new List<Type>();
+            foreach (var modelToRegister in model.GetRouteForType())
+            {
+                created.AddNotExistingRange(modelToRegister.Value.GetTypeTree());
+            }
+            foreach (var type in created)
+            {
+                var properties = type.GetProperties().Select(x =>
+                {
+                    return new property()
+                    {
+                        name = x.Name,
+                        propertyDescription = x.PropertyType.GetPropertyDescription()
+                    };
+                }).ToList();
+
+                var objectDefinition = new objectDefiniton
+                {
+                    properties = properties
                 };
 
-                pathDesc.AddSecurity(new verbSecurity { value = "petstore_auth", operations = new[] { "write:pets", "read:pets" } });
-                pathDesc.AddResponse(new response { code = "405", description = new responseDescription { description = "Invalid input" } });
-                pathDesc.AddParameter(new parameter
-                {
-                    @in = "body",
-                    name = "body",
-                    description = "Pet object that needs to be added to the store",
-                    required = true,
-                    schema = new Dictionary<string, string>() { { "$ref", "#/definitions/Pet" } }
-                });
-
-                swaggerDefinition.AddOperation(item.Key.Key, item.Key.Value.ToString(), pathDesc);
-
-            }
-            //var @pathDesc = new pathDescription
-            //{
-            //    tags = new[] { "pet" },
-            //    summary = "Add a new pet to the store",
-            //    description = string.Empty,
-            //    operationId = "addPet",
-            //    consumes = new[] { "application/json", "application/xml" },
-            //    produces = new[] { "application/xml", "application/json" },
-            //};
-
-            //pathDesc.AddSecurity(new verbSecurity { value = "petstore_auth", operations = new[] { "write:pets", "read:pets" } });
-            //pathDesc.AddResponse(new response { code = "405", description = new responseDescription { description = "Invalid input" } });
-            //pathDesc.AddParameter(new parameter
-            //{
-            //    @in = "body",
-            //    name = "body",
-            //    description = "Pet object that needs to be added to the store",
-            //    required = true,
-            //    schema = new Dictionary<string, string>() { { "$ref", "#/definitions/Pet" } }
-            //});
-
-            //swaggerDefinition.AddOperation("/pet", "post", pathDesc);
-            #endregion pathDescription
-        }
-
-        private Task Swagger(HttpContext builder)
-        {
-
-            var assembly = typeof(SwaggerExtension).GetTypeInfo().Assembly;
-            var requestResourceName = @"GoodREST.Extensions.SwaggerExtension.swagger.dist" + builder.Request.Path.Value.Replace(@"swagger/", string.Empty).Replace("/", ".");
-            var resourceStream = assembly.GetManifestResourceStream(requestResourceName);
+                yield return (type.Name, objectDefinition);
 
 
-            if (requestResourceName.EndsWith("png"))
-            {
-
-                builder.Response.ContentType = "data:image/png;base64";
-
-                return builder.Response.WriteAsync(ConvertToBase64(resourceStream));
-            }
-            else if (requestResourceName.EndsWith("gif"))
-            {
-
-                builder.Response.ContentType = "data:image/gif;base64";
-                return builder.Response.WriteAsync(ConvertToBase64(resourceStream));
-            }
-            else
-            {
-                using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
-                {
-
-                    if (requestResourceName.EndsWith("css"))
-                    {
-
-                        builder.Response.ContentType = "text/css; charset=UTF-8";
-                    }
-                    else if (requestResourceName.EndsWith("ttf"))
-                    {
-
-                        builder.Response.ContentType = "font/opentype";
-                    }
-                    else if (requestResourceName.EndsWith("json"))
-                    {
-
-                        builder.Response.ContentType = "text/json; charset=UTF-8";
-                    }
-                    else
-                    {
-
-                        builder.Response.ContentType = "text/html; charset=UTF-8";
-                    }
-                    return builder.Response.WriteAsync(reader.ReadToEnd());
-                }
             }
         }
-        public string ConvertToBase64(Stream stream)
-        {
-            Byte[] inArray = new Byte[(int)stream.Length];
-            Char[] outArray = new Char[(int)(stream.Length * 1.34)];
-            stream.Read(inArray, 0, (int)stream.Length);
-            Convert.ToBase64CharArray(inArray, 0, inArray.Length, outArray, 0);
-            return Convert.ToBase64String(Encoding.UTF8.GetBytes(outArray));
-        }
-
 
         public void Install(RouteBuilder routeBuilder)
         {
             routeBuilder.MapGet(@"swagger/serviceSchema.json", conext =>
             {
-#if DEBUG
-                BuildServiceSchema();
-#else
-                if (swaggerDefinition == null)
-                {
-                    BuildServiceSchema();
-                }
-#endif
-                conext.Response.ContentType = "text/json; charset=UTF-8";
-                return conext.Response.WriteAsync(JsonConvert.SerializeObject(swaggerDefinition));
+                var schemaDefinition = BuildServiceSchema();
+                return conext.SwaggerSchema(schemaDefinition);
             });
             routeBuilder.MapGet(@"swagger/{url}", conext =>
             {
-                return Swagger(conext);
+                return conext.SwaggerUI();
             });
             routeBuilder.MapGet(@"swagger/{url}/{subdir}", conext =>
             {
-                return Swagger(conext);
+                return conext.SwaggerUI();
             });
-
-
         }
     }
+
+
 }
+
