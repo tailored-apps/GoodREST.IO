@@ -4,12 +4,9 @@ using GoodREST.Enums;
 
 namespace GoodREST.Core.Test.DataModel.Messages
 {
-    [Route("Customers/{UserName}", HttpVerb.GET)]
-    public class GetCustomer : IHasResponse<GetCustomerResponse>
+    [Route("Customers", HttpVerb.GET)]
+    public class GetCustomers : IHasResponse<GetCustomersResponse>
     {
-        public string UserName { get; set; }
-
-        public string TokenId { get; set; }
-        public string CorrelationId { get; set; }
+        
     }
 }

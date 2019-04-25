@@ -51,6 +51,7 @@ namespace WebApplication
             // Add application services.
             services.AddTransient<IRequestResponseSerializer,GoodREST.Serializers.JsonSerializer>();
             services.AddScoped<ServiceBase, CustomerService>();
+            services.AddScoped<IMockingRepository, MoqRepository>();
 
             services.AddTransient<IExtension, SwaggerExtension>();
         }
@@ -87,7 +88,7 @@ namespace WebApplication
 
             app.TakeGoodRest(configure =>
             {
-                configure.RegisterMessageModel<GetCustomer>();
+                configure.RegisterMessageModel<GetCustomers>();
                 configure.RegisterMessageModel<PostCustomer>();
                 configure.RegisterMessageModel<PutCustomer>();
                 configure.RegisterMessageModel<DeleteCustomer>();

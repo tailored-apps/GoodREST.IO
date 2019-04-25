@@ -11,5 +11,6 @@ namespace GoodREST.Core.Test.DataModel.Messages
         public string HttpStatus { get; set; }
         public ICollection<string> Errors { get; set; }
         public ICollection<string> Warnings { get; set; }
+        public DTO.Customer Customer { get; set; }
     }
 }

@@ -5,11 +5,10 @@ using System.Collections.Generic;
 namespace GoodREST.Core.Test.DataModel.Messages
 
 {
-    public class GetCustomerResponse : IResponse
+    public class GetCustomersResponse : IResponse
     {
-        public string CorrelationId { get; set; }
 
-        public IList<Customer> Customers { get; set; }
+        public ICollection<Customer> Customers { get; set; }
 
         public int HttpStatusCode { get; set; }
         public string HttpStatus { get; set; }

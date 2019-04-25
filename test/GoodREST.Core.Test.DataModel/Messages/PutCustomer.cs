@@ -9,7 +9,7 @@ namespace GoodREST.Core.Test.DataModel.Messages
     public class PutCustomer : IHasResponse<PutCustomerResponse>
     {
         public Customer Customer { get; set; }
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string TokenId { get; set; }
         public string CorrelationId { get; set; }
