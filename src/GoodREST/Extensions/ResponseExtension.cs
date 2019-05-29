@@ -11,10 +11,12 @@ namespace GoodREST.Extensions
         {
             return ConvertExceptionAsError<T>(response, ex, null);
         }
+
         public static T ConvertExceptionAsError<T>(this T response, Exception ex, int? errorCode) where T : IResponse
         {
             return ConvertExceptionAsError<T>(response, ex, errorCode, null, null);
         }
+
         public static T ConvertExceptionAsError<T>(this T response, Exception ex, int? errorCode, ICollection<string> errors) where T : IResponse
         {
             return ConvertExceptionAsError<T>(response, ex, errorCode, errors, null);
@@ -59,7 +61,6 @@ namespace GoodREST.Extensions
             return response;
         }
 
-
         public static T Ok<T>(this T response) where T : IResponse
         {
             response.HttpStatus = "Ok";
@@ -92,6 +93,7 @@ namespace GoodREST.Extensions
         {
             return Forbidden(response, null);
         }
+
         public static T Forbidden<T>(this T response, ICollection<string> errors) where T : IResponse
         {
             var errorCollection = new List<string>();
@@ -111,6 +113,7 @@ namespace GoodREST.Extensions
         {
             return NotFound(response, null);
         }
+
         public static T NotFound<T>(this T response, ICollection<string> errors) where T : IResponse
         {
             var errorCollection = new List<string>();
@@ -125,10 +128,12 @@ namespace GoodREST.Extensions
 
             return response;
         }
+
         public static T MethodNotAllowed<T>(this T response) where T : IResponse
         {
             return MethodNotAllowed(response, null);
         }
+
         public static T MethodNotAllowed<T>(this T response, ICollection<string> errors) where T : IResponse
         {
             var errorCollection = new List<string>();
@@ -143,10 +148,12 @@ namespace GoodREST.Extensions
 
             return response;
         }
+
         public static T Created<T>(this T response) where T : IResponse
         {
             return Created(response, null);
         }
+
         public static T Created<T>(this T response, ICollection<string> warnings) where T : IResponse
         {
             var warningCollection = new List<string>();
@@ -161,10 +168,12 @@ namespace GoodREST.Extensions
 
             return response;
         }
+
         public static T Accepted<T>(this T response) where T : IResponse
         {
             return Accepted(response, null);
         }
+
         public static T Accepted<T>(this T response, ICollection<string> warnings) where T : IResponse
         {
             var warningCollection = new List<string>();

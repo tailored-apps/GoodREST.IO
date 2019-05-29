@@ -1,10 +1,8 @@
 ﻿using GoodREST.Extensions.SwaggerExtension.Auxillary;
 using GoodREST.Interfaces;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace GoodREST.Extensions.SwaggerExtension.Tests
@@ -24,15 +22,15 @@ namespace GoodREST.Extensions.SwaggerExtension.Tests
             };
             var type = typeof(GetMeMore);
 
-
             var result = type.GetTypeTree();
-            
-            foreach(var scannedType in result)
+
+            foreach (var scannedType in result)
             {
                 types[scannedType] = true;
             }
             Assert.All(types, x => Assert.True(x.Value, $" Type '{x.Key.Name}' not found"));
         }
+
         [Fact]
         public void TestParams()
         {
@@ -41,7 +39,6 @@ namespace GoodREST.Extensions.SwaggerExtension.Tests
                 { typeof(RetrurnedElements), false },
             };
             var type = typeof(ReturnType);
-
 
             var result = type.GetTypeTree();
 
@@ -54,7 +51,6 @@ namespace GoodREST.Extensions.SwaggerExtension.Tests
             Assert.All(types, x => Assert.True(x.Value, $" {x.Key.Name} not found"));
         }
 
-
         [Fact]
         public void TestStackOverflow()
         {
@@ -64,7 +60,6 @@ namespace GoodREST.Extensions.SwaggerExtension.Tests
             };
             var type = typeof(A);
 
-
             var result = type.GetTypeTree();
 
             foreach (var scannedType in result)
@@ -73,8 +68,8 @@ namespace GoodREST.Extensions.SwaggerExtension.Tests
             }
             Assert.All(types, x => Assert.True(x.Value, $" Type '{x.Key.Name}' not found"));
         }
-
     }
+
     public class GetMeMore : IHasResponse<GetMeMoreResponse>, ICorrelation
     {
         public int Id { get; set; }
@@ -84,6 +79,7 @@ namespace GoodREST.Extensions.SwaggerExtension.Tests
         public ICollection<int> Ids { get; set; }
         public ICollection<SomeCollectionData> SomeCollectionData { get; set; }
     }
+
     public class GetMeMoreResponse : IResponse, ICorrelation
     {
         public int HttpStatusCode { get; set; }
@@ -94,39 +90,39 @@ namespace GoodREST.Extensions.SwaggerExtension.Tests
 
         public ReturnType ReturnType { get; set; }
     }
+
     public class TypeProperty
     {
         public int Id { get; set; }
         public string StringValiue { get; set; }
     }
+
     public class ReturnType
     {
         public int Id { get; set; }
         public string StringValiue { get; set; }
         public ICollection<RetrurnedElements> RetrurnedElements { get; set; }
-
     }
+
     public class RetrurnedElements
     {
         public int ElementId { get; set; }
         public string StringValiue { get; set; }
-
     }
+
     public class SomeCollectionData
     {
         public int ElementId { get; set; }
         public string StringValiue { get; set; }
-
     }
-
 
     public class A
     {
         public B ClassB { get; set; }
     }
+
     public class B
     {
         public A ClassA { get; set; }
     }
-
 }

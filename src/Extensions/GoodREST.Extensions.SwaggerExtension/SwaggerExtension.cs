@@ -1,22 +1,15 @@
-﻿using System;
+﻿using GoodREST.Extensions.SwaggerExtension.Auxillary;
+using GoodREST.Interfaces;
+using GoodREST.Middleware;
+using GoodREST.Middleware.Interface;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using System.Text;
-using System.IO;
-using System.Reflection;
-using Microsoft.AspNetCore.Routing;
-using GoodREST.Middleware;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Hosting;
-using GoodREST.Middleware.Interface;
-using GoodREST.Middleware;
-using Microsoft.Extensions.Configuration;
-using GoodREST.Extensions.SwaggerExtension.Auxillary;
-using Microsoft.Extensions.DependencyInjection;
-using GoodREST.Interfaces;
-using Microsoft.Extensions.Options;
 
 namespace GoodREST.Extensions.SwaggerExtension
 {
@@ -28,6 +21,7 @@ namespace GoodREST.Extensions.SwaggerExtension
         private readonly IServiceProvider services;
         private readonly IOptions<info> optionsInfo;
         private readonly IOptions<externalDocs> externalDocs;
+
         public SwaggerExtension(IRestModel restModel,
             IHostingEnvironment env,
             IConfiguration configuration,
@@ -41,17 +35,20 @@ namespace GoodREST.Extensions.SwaggerExtension
             this.services = services;
             this.optionsInfo = optionsInfo;
             this.externalDocs = externalDocs;
-
         }
+
         private Swagger BuildServiceSchema()
         {
             var swaggerDefinition = new Swagger
             {
-
                 swagger = "2.0",
+
                 #region info
+
                 info = optionsInfo.Value,
+
                 #endregion info
+
                 host = null,
                 basePath = @"/",
                 schemes = new[] { "http", "https" },
@@ -60,14 +57,17 @@ namespace GoodREST.Extensions.SwaggerExtension
             };
 
             #region objectDefinitions
+
             var objectDefiniton = GenerateObjectDefinition(restModel);
             foreach (var obj in objectDefiniton)
             {
                 swaggerDefinition.AddObjectDefinition(obj.Item1, obj.Item2);
             }
+
             #endregion objectDefinitions
 
             #region tagDefinition
+
             var serviceDefinition = restModel.GetServices();
             foreach (var service in serviceDefinition)
             {
@@ -77,6 +77,7 @@ namespace GoodREST.Extensions.SwaggerExtension
             #endregion tagDefinition
 
             #region securityDefinition
+
             if (this.restModel.IsSecurityEnabled)
             {
                 swaggerDefinition.AddSecurityDefinition("X-Auth-Token", new securityDefinitionInfo
@@ -87,21 +88,20 @@ namespace GoodREST.Extensions.SwaggerExtension
                 });
             }
 
-
             #endregion securityDefinition
+
             var contentTypes = services.GetServices<IRequestResponseSerializer>().Select(x => x.ContentType);
+
             #region pathDescription
+
             foreach (var item in restModel.GetRouteForType())
             {
                 var method = restModel.GetServiceMethodForType(item.Key.Value, item.Value);
 
-
                 var @pathDesc = method.GetMessageTag(item.Value, item.Value.Name, contentTypes);
                 if (!(item.Key.Value == Enums.HttpVerb.GET && this.restModel.IsSecuritySetToReadOnlyForUnkownAuth) && this.restModel.IsSecurityEnabled)
                 {
-
                     pathDesc.AddSecurity(new verbSecurity { value = "X-Auth-Token", operations = new string[0] });
-
                 }
                 var parts = item.Key.Key.GetPathParts();
                 foreach (var parameter in parts)
@@ -113,7 +113,6 @@ namespace GoodREST.Extensions.SwaggerExtension
                         description = "The " + parameter + " key",
                         required = true
                     });
-
                 }
 
                 if (item.Key.Value != Enums.HttpVerb.GET)
@@ -128,9 +127,10 @@ namespace GoodREST.Extensions.SwaggerExtension
                     });
                 }
                 swaggerDefinition.AddOperation(@"/" + item.Key.Key, item.Key.Value.ToString().ToLower(), pathDesc);
-
             }
+
             #endregion pathDescription
+
             return swaggerDefinition;
         }
 
@@ -158,8 +158,6 @@ namespace GoodREST.Extensions.SwaggerExtension
                 };
 
                 yield return (type.Name, objectDefinition);
-
-
             }
         }
 
@@ -180,7 +178,4 @@ namespace GoodREST.Extensions.SwaggerExtension
             });
         }
     }
-
-
 }
-

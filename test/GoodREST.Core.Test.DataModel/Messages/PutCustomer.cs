@@ -1,7 +1,7 @@
-﻿using GoodREST.Interfaces;
-using GoodREST.Annotations;
-using GoodREST.Enums;
+﻿using GoodREST.Annotations;
 using GoodREST.Core.Test.DataModel.DTO;
+using GoodREST.Enums;
+using GoodREST.Interfaces;
 
 namespace GoodREST.Core.Test.DataModel.Messages
 {
@@ -10,7 +10,6 @@ namespace GoodREST.Core.Test.DataModel.Messages
     {
         public Customer Customer { get; set; }
         public int Id { get; set; }
-
         public string TokenId { get; set; }
         public string CorrelationId { get; set; }
     }
