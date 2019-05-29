@@ -1,0 +1,43 @@
+# Project information
+site_name: 'GoodREST'
+site_description: 'A Developer guide to GoodREST'
+site_author: 'Lukasz Kowalski'
+site_url: 'https://GoodREST.IO/'
+
+# Repository
+repo_name: 'tailored-apps/GoodREST.IO'
+repo_url: 'https://github.com/tailored-apps/GoodREST.IO'
+
+# Copyright
+copyright: 'Copyright &copy; 2016 - 2019 Tailored Apps'
+
+# Configuration
+theme:
+  name: 'material'
+  language: 'en'
+  palette:
+    primary: 'indigo'
+    accent: 'indigo'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+
+# Customization
+extra:
+  manifest: 'manifest.webmanifest'
+  social:
+    - type: 'github'
+      link: 'https://github.com/tailored-apps'
+
+# Google Analytics
+google_analytics:
+  - 'UA-XXXXXXXX-X'
+  - 'auto'
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true

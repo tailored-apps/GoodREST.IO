@@ -42,6 +42,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST.Extensions.Swagger
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST", "src\GoodREST\GoodREST.csproj", "{975D2A06-6C06-4024-8F76-B6D10FC7F7B6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{37E87AF4-3116-4768-9B69-1509752828AF}"
+	ProjectSection(SolutionItems) = preProject
+		docs\mkdocs.yml = docs\mkdocs.yml
+		docs\README.md = docs\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
