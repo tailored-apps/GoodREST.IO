@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using GoodREST.Annotations;
-using System.Linq;
+﻿using GoodREST.Annotations;
 using GoodREST.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace GoodREST.Middleware
 {
     public class RestModel : IRestModel
     {
-        Dictionary<KeyValuePair<string, HttpVerb>, Type> types = new Dictionary<KeyValuePair<string, HttpVerb>, Type>();
-        Dictionary<KeyValuePair<HttpVerb, Type>, MethodInfo> services = new Dictionary<KeyValuePair<HttpVerb, Type>, MethodInfo>();
-
-        Dictionary<Type, IList<MethodInfo>> serviceMethods = new Dictionary<Type, IList<MethodInfo>>();
-        IEnumerable<Type> registeredServices;
-
         public bool IsSecurityEnabled { get; private set; }
-
         public List<string> SecuirtyExcludedPaths { get; private set; }
-
         public bool IsSecuritySetToReadOnlyForUnkownAuth { get; private set; }
-
         public string CharacterEncoding { get; set; }
+        private Dictionary<KeyValuePair<string, HttpVerb>, Type> types = new Dictionary<KeyValuePair<string, HttpVerb>, Type>();
+        private Dictionary<KeyValuePair<HttpVerb, Type>, MethodInfo> services = new Dictionary<KeyValuePair<HttpVerb, Type>, MethodInfo>();
+
+        private Dictionary<Type, IList<MethodInfo>> serviceMethods = new Dictionary<Type, IList<MethodInfo>>();
+        private IEnumerable<Type> registeredServices;
 
         public void RegisterMessageModel<T>()
         {
@@ -40,7 +36,6 @@ namespace GoodREST.Middleware
                     }
                 }
             }
-
         }
 
         public Dictionary<KeyValuePair<string, HttpVerb>, Type> GetRouteForType()
@@ -48,10 +43,8 @@ namespace GoodREST.Middleware
             return types;
         }
 
-
         public MethodInfo GetServiceMethodForType(HttpVerb verb, Type requestType)
         {
-
             return services[new KeyValuePair<HttpVerb, Type>(verb, requestType)];
         }
 
@@ -83,7 +76,6 @@ namespace GoodREST.Middleware
                     }
                 }
             }
-
         }
 
         public void SetSecurityToReadOnlyForUnkownAuth()

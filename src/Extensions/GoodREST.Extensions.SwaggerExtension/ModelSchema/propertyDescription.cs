@@ -9,6 +9,7 @@ namespace GoodREST.Extensions.SwaggerExtension
         {
             @enum = Enumerable.Empty<string>();
         }
+
         public string type { get; set; }
         public string format { get; set; }
         public string description { get; set; }

@@ -1,10 +1,8 @@
 ﻿using GoodREST.Annotations;
-using GoodREST.Core.Test.DataModel.DTO;
 using GoodREST.Core.Test.DataModel.Messages;
 using GoodREST.Extensions;
 using GoodREST.Middleware.Services;
 using System;
-using System.Collections.Generic;
 
 namespace GoodREST.Core.Test.Services
 {
@@ -12,6 +10,7 @@ namespace GoodREST.Core.Test.Services
     public class CustomerService : ServiceBase
     {
         private readonly IMockingRepository mockingRepository;
+
         public CustomerService(IMockingRepository mockingRepository)
         {
             this.mockingRepository = mockingRepository;
@@ -32,6 +31,7 @@ namespace GoodREST.Core.Test.Services
             }
             return response;
         }
+
         public PostCustomerResponse Post(PostCustomer request)
         {
             var response = new PostCustomerResponse();
@@ -46,6 +46,7 @@ namespace GoodREST.Core.Test.Services
             }
             return response;
         }
+
         public PutCustomerResponse Put(PutCustomer request)
         {
             var response = new PutCustomerResponse();
@@ -61,6 +62,7 @@ namespace GoodREST.Core.Test.Services
             }
             return response;
         }
+
         public DeleteCustomerResponse Delete(DeleteCustomer request)
         {
             var response = new DeleteCustomerResponse(); try

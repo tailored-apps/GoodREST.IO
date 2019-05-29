@@ -1,7 +1,7 @@
-﻿using System;
+﻿using GoodREST.Enums;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using GoodREST.Enums;
 
 namespace GoodREST.Middleware
 {
@@ -9,12 +9,18 @@ namespace GoodREST.Middleware
     {
         bool IsSecurityEnabled { get; }
         bool IsSecuritySetToReadOnlyForUnkownAuth { get; }
-		string CharacterEncoding { get; }
+        string CharacterEncoding { get; }
+
         void SetSecurityToReadOnlyForUnkownAuth();
+
         void Build(IEnumerable<Type> registeredServices);
+
         Dictionary<KeyValuePair<string, HttpVerb>, Type> GetRouteForType();
+
         void RegisterMessageModel<T>();
+
         MethodInfo GetServiceMethodForType(HttpVerb verb, Type requestType);
+
         Type[] GetServices();
     }
 }

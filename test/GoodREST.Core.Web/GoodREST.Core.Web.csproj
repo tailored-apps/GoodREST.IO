@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Extensions\GoodREST.Extensions.HealthCheck\GoodREST.Extensions.HealthCheck.csproj" />
     <ProjectReference Include="..\..\src\GoodREST.Middleware\GoodREST.Middleware.csproj" />
     <ProjectReference Include="..\Extensions\GoodREST.Extensions.SwaggerExtension.Tests\GoodREST.Extensions.SwaggerExtension.Tests.csproj" />
     <ProjectReference Include="..\GoodREST.Core.Test.DataModel\GoodREST.Core.Test.DataModel.csproj" />
