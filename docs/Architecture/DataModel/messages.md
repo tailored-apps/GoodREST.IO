@@ -1,7 +1,6 @@
-# Architecture
-## Messages
+# Messages
 In GoodREST.IO we uses two main object for defining data structure used for communication  with services:
-### Request
+## Request
 Request objects are used for orchestration and definition how endpoint will behave and how data will be processed in service layer.
 We can highlight few major features of request objects:
 1. Route Definiton
@@ -27,7 +26,7 @@ namespace Contoso.Foo.WebApi.Messages
 ```
 this is simplest example of request message definition only two requirements which such object should have is `Route` annotation and `IHasResponse<>` inheritance 
 
-#### Route Attribute
+### Route Attribute
 Route attribute are used for marking service url path and marking verb how REST api will be used.
 we can highlight supported verbs:
 ```
@@ -60,7 +59,7 @@ namespace Contoso.Foo.WebApi.Messages
 ```
 as you can see we introduced new parameter `CustomerId` which should be curly braced in Path definition and we should add same parameter to class object so we can easily access parameter data from message object.
 
-#### Adding custom parameters in message
+### Adding custom parameters in message
 For some operations you might need to pass more than one parameter shared throught path, purpose of that data is to have abilitiy of updating or creating new objects in system.
 So for example lets suppose we would like to create new Customer object in system with given name and address , what we should actually do ? 
 
@@ -89,7 +88,7 @@ namespace Contoso.Foo.WebApi.Messages
 ```
 as You probably noticed we just putted properties on message class there is nothing else just that. 
 other important part is Response message definition which is PostCustomerResponse which will return Customer object of newly creatd customer and that scenario we will cover in Response part:
-### Response
+## Response
 Response object are used for defining response message structure. One requirement for that objects is that those implements `IResponse` interface so service will be able to correctly process data throught GoodREST libriary
 
 ```

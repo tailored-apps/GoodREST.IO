@@ -9,5 +9,8 @@ One of core benefits of that approach is that we have typed end-to-end API.
 3. Enables decomposition of large monolith actions into multiple smaller requests
 
 ## DataModel
-That part of solution is used for orchestration of message  objects and domain models which represents some data structures. For more  detailed information you can refer [Messages](.\DataModel\messages.md) and [Models](.\DataModel\models.md)
-We highly recommend to follow [Good Practices](.\DataModel\good-practices.md) when you starting designing your first Message Based Web Service
+That part of solution is used for orchestration of message  objects and domain models which represents some data structures used by your API. For more  detailed information you can refer [Messages](.\DataModel\messages.md) and [Models](.\DataModel\models.md)
+We highly recommend to follow [Good Practices](.\DataModel\good-practices.md) when you starting designing your first Message Based Web Service.
+
+## Services
+That part of solution is used for building Service layer responsible for processing your project data.

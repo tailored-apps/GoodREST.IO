@@ -74,6 +74,7 @@ namespace Contoso.Foo.WebApi.Services
             try
             {
                 response.FooBar = "It Works!";
+                response.Ok();
             }
             catch (Exception ex)
             {

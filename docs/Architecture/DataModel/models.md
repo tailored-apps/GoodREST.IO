@@ -1,5 +1,4 @@
-# Architecture
-## Models
+# Models
 Purpose of model object is to define structure of data which represents some kind of business data. 
 In Example we may want to model Customer data
 One of key properties of Customer are: Name, Address, City, PostalCode, Country. So rather of copy-pasting such properties all over we can extract them into specyfic models.

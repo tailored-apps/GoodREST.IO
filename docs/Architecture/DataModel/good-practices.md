@@ -1,5 +1,4 @@
-# Architecture
-## Good practices for DataModel objects. 
+# Good practices 
 For having maximum benefits of using message-based architecture we recommend to extract DataModel into separate library project.
 For maximum compatability level we are suggesting to create that project with usage of .NET Standard, so you can share that project throught .Net Framework Clients and .Net Core Clients
 
