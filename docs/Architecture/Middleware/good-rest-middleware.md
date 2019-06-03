@@ -21,7 +21,7 @@ services.AddTransient<IRequestResponseSerializer, GoodREST.Serializers.JsonSeria
 
 services.AddScoped<ServiceBase, BarService>();
 ```
-where `services.AddScoped<ServiceBase, BarService>(); ` is responsible for registration your [Service classes](..\Services\simple-service.md)
+where `services.AddScoped<ServiceBase, BarService>(); ` is responsible for registration your [Service classes](../Services/simple-service.md)
 
 under `Configure` method last step is to register all messages used by service 
 ```
