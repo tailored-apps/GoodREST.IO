@@ -45,11 +45,12 @@ namespace WebApplication
             //  .AddDefaultTokenProviders();
 
             services.AddRouting();
-            services.AddGoodRest(x => {
-				x.CharacterEncoding = "utf-8";
-			});
+            services.AddGoodRest(x =>
+            {
+                x.CharacterEncoding = "utf-8";
+            });
             // Add application services.
-            services.AddTransient<IRequestResponseSerializer,GoodREST.Serializers.JsonSerializer>();
+            services.AddTransient<IRequestResponseSerializer, GoodREST.Serializers.JsonSerializer>();
             services.AddScoped<ServiceBase, CustomerService>();
             services.AddScoped<IMockingRepository, MoqRepository>();
 
@@ -78,7 +79,7 @@ namespace WebApplication
             //app.UseIdentity();
 
             //// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-            
+
             //app.UseMvc(routes =>
             //{
             //    routes.MapRoute(

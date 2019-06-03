@@ -17,9 +17,10 @@ You have two path:
 2. Add goodRest Packages from package manager
 
 ## Add REST API objects
-1.Create folder with name `Messages` under your project.
-2. Add Two classes one for Request `GetBar.cs` and for response `GetBarResponse.cs` under newly created `Messages` folder
-3. Modify `GetBar.cs` which following code:
+### Creating Message Objects for handling request and response
+Create folder with name `Messages` under your project. and add two classes, one for Request `GetBar.cs` and for response `GetBarResponse.cs`
+
+Modify `GetBar.cs` which following code:
 
 ```
 using GoodREST.Annotations;
@@ -55,7 +56,8 @@ namespace Contoso.Foo.WebApi.Messages
 ```
 By this you're good with service message models which will be handled by service class:
 
-5. Create service class `BarService.cs` under `Services` folder which will handle business logic and should look following:
+### Building service class which will handle request and response.
+Create service class `BarService.cs` under `Services` folder which will handle business logic and should look following:
 ```
 using System;
 using Contoso.Foo.WebApi.Messages;
@@ -82,8 +84,8 @@ namespace Contoso.Foo.WebApi.Services
     }
 }
 ```
-
-6. Register all required call's under `Startup.cs` so your file should look similar to 
+### Register dependencies and add GoodREST middleware to your asp.net core app
+Register all required call's under `Startup.cs` so your file should look similar to 
 ```
 using System;
 using System.Collections.Generic;
@@ -128,10 +130,26 @@ namespace Contoso.Foo.WebApi
         }
     }
 }
-
 ```
+## Run project 
+Basically if youre command line user and you like shell just type `dotnet run` , you should see similar message:
+```
+Hosting environment: Development
+Content root path: D:\WORK\GoodREST.IO\example\QuickStart\Contoso.Foo.WebApi
+Now listening on: https://localhost:5001
+Now listening on: http://localhost:5000
+Application started. Press Ctrl+C to shut down.
+```
+by this you know that you're app is listetning on port `5000` for `HTTP` and `5001` for `HTTPS`
 
-7. Run your project by calling dotnet run from command line! Now Your service is built and available for consumers under `http://localhost:{yourport}/FooBar`
+7. open you're favorite web browser and navigate to `http://localhost:{yourport}/FooBar`
+You should get something like this:
 
+![It Works](./it-works.png)
 ## Working Example
 Working example of application you can find in repository under `example\QuickStart\Contoso.Foo.WebApi`
+
+
+## This was just quickstart example
+For getting information about library itself and design principles of message-based api concept, please see [Architecture](../Architecture/index.md) page.
+You will be able to find there more information about concepts, why its good to orchestrate your code such way. And you learn all benefits from building your app such way.
