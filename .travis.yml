@@ -1,9 +1,23 @@
-language: csharp
+language: csharp, python 
 mono: none
 sudo: required
 dist: bionic
 dotnet: 2.2
+python: 3.6 
 
+install:
+    - pip install mkdocs mkdocs-material pymdown-extensions pygments
+
+before_deploy:
+    - mkdocs build --verbose --clean --strict
+
+deploy: # Deploy documentation to Github in the gh_pages branch
+    provider: pages
+    skip_cleanup: true
+    github_token: $github_token
+    local_dir: site
+    on:
+        branch: master
 branches:
   only:
   - master
