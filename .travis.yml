@@ -1,4 +1,4 @@
-language: csharp, python 
+language: csharp
 mono: none
 sudo: required
 dist: bionic
