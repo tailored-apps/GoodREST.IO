@@ -1,8 +1,8 @@
 # Home
 
-Welcome on our documentation page, if you're browsing that page on Github, please consider to switch [Built Docs version](https://GoodREST.IO) its more user friendly
+Welcome on our documentation page, if you're browsing that page on Github, please consider to switch on [Official Documentation](http://GoodREST.IO) page, it's more user friendly
 
-If You're already on [Built Docs page](https://GoodREST.IO) select your topic above to start.
+If You're already on [Docs page](http://GoodREST.IO) select your topic from menu to start.
 
 ## Current Status of build is:
 We are trying to have as much stable version of our library as much possible, below you can figure out current status of library 

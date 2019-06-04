@@ -1,4 +1,4 @@
-# Simple Services
+# Simple Example
 Service classes are used for orchestration service behaviour. Service classes have to inherit from ServiceBase class by what GoodRest will know how to read that class.
 
 Below its shown BarService from QuickStartExample , you can find that service class is corresponding to domain area and method name is corresponding to operation Verb. 
