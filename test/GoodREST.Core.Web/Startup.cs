@@ -3,6 +3,7 @@ using GoodREST.Core.Test.Services;
 using GoodREST.Extensions.HealthCheck;
 using GoodREST.Extensions.HealthCheck.Messages;
 using GoodREST.Extensions.SwaggerExtension;
+using GoodREST.Extensions.HealthCheck;
 using GoodREST.Interfaces;
 using GoodREST.Middleware;
 using GoodREST.Middleware.Interface;
