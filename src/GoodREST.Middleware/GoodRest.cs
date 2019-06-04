@@ -33,7 +33,6 @@ namespace GoodREST.Middleware
 
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app, Action<IRestModel> configureRoutes)
         {
-            //var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
             var scope = app.ApplicationServices.CreateScope();
 
@@ -46,29 +45,7 @@ namespace GoodREST.Middleware
 
             var routeBuilder = new RouteBuilder(app);
 
-            //routeBuilder.MapGet("", conext =>
-            //{
-            //    var urls = new StringBuilder();
 
-            //    urls.AppendLine("<html>");
-            //    urls.AppendLine("<body>");
-            //    urls.Append("<h3>API LIST:</h3>");
-            //    urls.AppendLine("<table>");
-            //    urls.AppendFormat(@"<tr><th>Path</th> <th>Operation</th> <th>Message</th></tr>");
-            //    foreach (var route in model.GetRouteForType().OrderBy(x => x.Key.Key))
-            //    {
-            //        urls.AppendFormat(@"<tr><td>{0}</td> <td>{1}</td> <td>{2}</td></tr>", route.Key.Key, route.Key.Value, route.Value.FullName);
-
-            //    }
-            //    urls.AppendLine("</table>");
-
-            //    urls.AppendLine("</body>");
-            //    urls.AppendLine("</html>");
-
-            //    conext.Response.ContentType = "text/html; " + model.CharacterEncoding;
-
-            //    return conext.Response.WriteAsync(urls.ToString());
-            //});
 
             if (extension != null && extension.Any())
             {

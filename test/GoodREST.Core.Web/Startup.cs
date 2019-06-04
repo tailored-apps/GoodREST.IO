@@ -41,6 +41,12 @@ namespace WebApplication
             {
                 x.CharacterEncoding = "utf-8";
             });
+            // Add application services.
+            services.AddTransient<IRequestResponseSerializer, GoodREST.Serializers.JsonSerializer>();
+            services.AddGoodRest(x =>
+            {
+                x.CharacterEncoding = "utf-8";
+            });
 
             services.AddTransient<IRequestResponseSerializer, GoodREST.Serializers.JsonSerializer>();
             services.AddScoped<ServiceBase, CustomerService>();

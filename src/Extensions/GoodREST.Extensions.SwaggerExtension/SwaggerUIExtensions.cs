@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.IO;
 using System.Reflection;
@@ -12,10 +13,14 @@ namespace GoodREST.Extensions.SwaggerExtension
     {
         public static Task SwaggerSchema(this HttpContext builder, Swagger swagger)
         {
+            DefaultContractResolver contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
             builder.Response.ContentType = "text/json; charset=UTF-8";
             var settings = new JsonSerializerSettings();
             settings.NullValueHandling = NullValueHandling.Ignore;
-
+            settings.ContractResolver = contractResolver;
             return builder.Response.WriteAsync(JsonConvert.SerializeObject(swagger, settings));
         }
 
