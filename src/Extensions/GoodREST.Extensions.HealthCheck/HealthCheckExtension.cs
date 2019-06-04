@@ -10,6 +10,7 @@ namespace GoodREST.Extensions.HealthCheck
         public static void AddHealthCheck(this IServiceCollection services)
         {
             services.AddScoped<ServiceBase, HealthCheckService>();
+            services.AddScoped<IExtension, HealthCheckExtension>();
         }
     }
 
