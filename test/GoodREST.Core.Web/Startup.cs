@@ -1,6 +1,7 @@
 using GoodREST.Core.Test.DataModel.Messages;
 using GoodREST.Core.Test.Services;
 using GoodREST.Extensions.SwaggerExtension;
+using GoodREST.Extensions.HealthCheck;
 using GoodREST.Interfaces;
 using GoodREST.Middleware;
 using GoodREST.Middleware.Interface;
@@ -45,15 +46,17 @@ namespace WebApplication
             //  .AddDefaultTokenProviders();
 
             services.AddRouting();
-            services.AddGoodRest(x => {
-				x.CharacterEncoding = "utf-8";
-			});
+            services.AddGoodRest(x =>
+            {
+                x.CharacterEncoding = "utf-8";
+            });
             // Add application services.
-            services.AddTransient<IRequestResponseSerializer,GoodREST.Serializers.JsonSerializer>();
+            services.AddTransient<IRequestResponseSerializer, GoodREST.Serializers.JsonSerializer>();
             services.AddScoped<ServiceBase, CustomerService>();
             services.AddScoped<IMockingRepository, MoqRepository>();
 
             services.AddTransient<IExtension, SwaggerExtension>();
+            services.AddTransient<IExtension, HealthCheck>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,7 +81,7 @@ namespace WebApplication
             //app.UseIdentity();
 
             //// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-            
+
             //app.UseMvc(routes =>
             //{
             //    routes.MapRoute(
