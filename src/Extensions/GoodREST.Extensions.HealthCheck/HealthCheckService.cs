@@ -1,29 +1,23 @@
-﻿using System;
-using System.Text;
-using GoodREST.Extensions.HealthCheck.Messages;
-using GoodREST.Middleware.Interface;
+﻿using GoodREST.Extensions.HealthCheck.Messages;
 using GoodREST.Middleware.Services;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace GoodREST.Extensions.HealthCheck
 {
-    public class HealthCheckService : ServiceBase
+    internal class HealthCheckService : ServiceBase
     {
-        public CheckResponse Get(Check request)
+        public GetHealthCheckResponse Get(Messages.GetHealthCheck request)
         {
-            var response = new CheckResponse();
+            var response = new GetHealthCheckResponse();
             try
             {
-                response.Message = "Alive";
+                response.Message = "Alive!";
                 response.Ok();
-
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                response.ConvertExceptionAsError(e);
+                response.ConvertExceptionAsError(ex, 500);
             }
-
             return response;
         }
     }

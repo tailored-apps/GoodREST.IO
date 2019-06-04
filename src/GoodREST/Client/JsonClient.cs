@@ -1,16 +1,15 @@
-﻿using System;
-using GoodREST.Enums;
+﻿using GoodREST.Enums;
 using Newtonsoft.Json;
-using GoodREST.Interfaces;
+using System;
 using System.Net.Http;
-using System.Linq;
 
 namespace GoodREST.Client
 {
     public class JsonClient : GoodClient<Serializers.JsonSerializer>, IDisposable
     {
-        HttpClient client;
-        JsonSerializer serializer;
+        private HttpClient client;
+        private JsonSerializer serializer;
+
         public JsonClient(string endpointAddress)
         {
             serializer = new Newtonsoft.Json.JsonSerializer();
@@ -20,13 +19,12 @@ namespace GoodREST.Client
             {
                 client.BaseAddress = uri;
             }
-
         }
 
         public override void SetAuthorizationTokenHeader(string authToken)
         {
             base.SetAuthorizationTokenHeader(authToken);
-            if (!string.IsNullOrEmpty(authToken) )
+            if (!string.IsNullOrEmpty(authToken))
             {
                 client.DefaultRequestHeaders.Add("X-Auth-Token", authToken);
             }
@@ -45,7 +43,6 @@ namespace GoodREST.Client
             var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
             return serializer.Deserialize<R>(jsonReader);
-
         }
 
         public void Dispose()
@@ -65,7 +62,6 @@ namespace GoodREST.Client
             var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
             return serializer.Deserialize<R>(jsonReader);
-
         }
 
         public override R Post<R, K>(K request)
@@ -74,7 +70,6 @@ namespace GoodREST.Client
             var jsonWriter = new JsonTextWriter(textWriter);
 
             serializer.Serialize(jsonWriter, request);
-            
 
             var data = new StringContent(textWriter.ToString());
             var url = MapVariablesToRequestValues<R, K>(request);
@@ -83,7 +78,6 @@ namespace GoodREST.Client
             var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
             return serializer.Deserialize<R>(jsonReader);
-
         }
 
         public override R Patch<R, K>(K request)
@@ -100,7 +94,6 @@ namespace GoodREST.Client
             var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
             return serializer.Deserialize<R>(jsonReader);
-
         }
 
         public override R Put<R, K>(K request)
@@ -117,9 +110,7 @@ namespace GoodREST.Client
             var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
             return serializer.Deserialize<R>(jsonReader);
-
         }
-
 
         public override R Get<R, K>(K request, string url)
         {
@@ -128,48 +119,42 @@ namespace GoodREST.Client
             {
                 throw new InvalidOperationException("Http verb different than GET is not allowed for that operation");
             }
-            var call = client.GetAsync(MapVariablesToRequestValues<R, K>(request,url)).GetAwaiter();
+            var call = client.GetAsync(MapVariablesToRequestValues<R, K>(request, url)).GetAwaiter();
             var result = call.GetResult().Content;
             var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
             return serializer.Deserialize<R>(jsonReader);
-
         }
 
         public override R Post<R, K>(K request, string url)
         {
-
             var textWriter = new System.IO.StringWriter();
             var jsonWriter = new JsonTextWriter(textWriter);
 
             serializer.Serialize(jsonWriter, request);
 
             var data = new StringContent(textWriter.ToString());
-            
+
             var call = client.PostAsync(MapVariablesToRequestValues<R, K>(request, url), data).GetAwaiter();
             var result = call.GetResult().Content;
             var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
             return serializer.Deserialize<R>(jsonReader);
-
-
         }
 
         public override R Put<R, K>(K request, string url)
         {
-
             var textWriter = new System.IO.StringWriter();
             var jsonWriter = new JsonTextWriter(textWriter);
 
             serializer.Serialize(jsonWriter, request);
 
             var data = new StringContent(textWriter.ToString());
-            var call = client.PutAsync(MapVariablesToRequestValues<R, K>(request,url), data).GetAwaiter();
+            var call = client.PutAsync(MapVariablesToRequestValues<R, K>(request, url), data).GetAwaiter();
             var result = call.GetResult().Content;
             var reader = new System.IO.StreamReader(result.ReadAsStreamAsync().GetAwaiter().GetResult());
             var jsonReader = new JsonTextReader(reader);
             return serializer.Deserialize<R>(jsonReader);
-
         }
 
         public override R Patch<R, K>(K request, string url)
@@ -179,7 +164,6 @@ namespace GoodREST.Client
 
         public override R Delete<R, K>(K request, string url)
         {
-
             var verb = GetRequestVerbs<R, K>(request);
             if (verb != HttpVerb.DELETE)
             {

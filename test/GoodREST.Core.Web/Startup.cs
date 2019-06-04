@@ -1,5 +1,7 @@
 using GoodREST.Core.Test.DataModel.Messages;
 using GoodREST.Core.Test.Services;
+using GoodREST.Extensions.HealthCheck;
+using GoodREST.Extensions.HealthCheck.Messages;
 using GoodREST.Extensions.SwaggerExtension;
 using GoodREST.Extensions.HealthCheck;
 using GoodREST.Interfaces;
@@ -25,7 +27,6 @@ namespace WebApplication
 
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets<Startup>();
             }
             builder.AddEnvironmentVariables();
@@ -34,63 +35,27 @@ namespace WebApplication
 
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //   options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-
-            // services.AddIdentity<ApplicationUser, IdentityRole>()
-            //   .AddEntityFrameworkStores<ApplicationDbContext>()
-            //  .AddDefaultTokenProviders();
-
             services.AddRouting();
             services.AddGoodRest(x =>
             {
                 x.CharacterEncoding = "utf-8";
             });
-            // Add application services.
+
             services.AddTransient<IRequestResponseSerializer, GoodREST.Serializers.JsonSerializer>();
             services.AddScoped<ServiceBase, CustomerService>();
             services.AddScoped<IMockingRepository, MoqRepository>();
-
+            services.AddHealthCheck();
             services.AddTransient<IExtension, SwaggerExtension>();
-            services.AddTransient<IExtension, HealthCheck>();
+            services.AddTransient<IExtension, HealthCheckExtension>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            //loggerFactory.AddDebug();
-
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //    app.UseDatabaseErrorPage();
-            //    app.UseBrowserLink();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Home/Error");
-            //}
-
-            //app.UseStaticFiles();
-
-            //app.UseIdentity();
-
-            //// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});
-
             app.TakeGoodRest(configure =>
             {
+                configure.RegisterMessageModel<GetHealthCheck>();
                 configure.RegisterMessageModel<GetCustomers>();
                 configure.RegisterMessageModel<PostCustomer>();
                 configure.RegisterMessageModel<PutCustomer>();

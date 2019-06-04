@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GoodREST.Extensions.SwaggerExtension
 {
@@ -20,7 +17,6 @@ namespace GoodREST.Extensions.SwaggerExtension
 
         public void AddSecurityDefinition(string security_name, securityDefinitionInfo definition)
         {
-
             if (securityDefinitions == null) { securityDefinitions = new Dictionary<string, securityDefinitionInfo>(); }
             if (!securityDefinitions.ContainsKey(security_name))
             {
@@ -38,7 +34,6 @@ namespace GoodREST.Extensions.SwaggerExtension
             if (!string.IsNullOrWhiteSpace(tag.name)) { newElemenet.Add("name", tag.name); }
             if (!string.IsNullOrWhiteSpace(tag.description)) { newElemenet.Add("description", tag.description); }
             if (tag.externalDocs != null) { newElemenet.Add("externalDocs", tag.externalDocs); }
-
 
             list.Add(newElemenet);
         }
@@ -63,7 +58,7 @@ namespace GoodREST.Extensions.SwaggerExtension
 
         public void AddObjectDefinition(string definitionName, objectDefiniton objectDefinition)
         {
-            if (definitions == null) { definitions = new Dictionary<string, IDictionary<string,object>>(); };
+            if (definitions == null) { definitions = new Dictionary<string, IDictionary<string, object>>(); };
             if (!definitions.ContainsKey(definitionName))
             {
                 definitions.Add(definitionName, new Dictionary<string, object>());

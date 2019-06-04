@@ -1,11 +1,10 @@
 ﻿using GoodREST.Annotations;
+using GoodREST.Core.Test.DataModel.DTO;
 using GoodREST.Enums;
 using GoodREST.Interfaces;
-using GoodREST.Core.Test.DataModel.DTO;
 
 namespace GoodREST.Core.Test.DataModel.Messages
 {
-
     [Route("Customers/", HttpVerb.POST)]
     public class PostCustomer : IHasResponse<PostCustomerResponse>
     {
