@@ -10,7 +10,9 @@
     <PackageProjectUrl>http://goodREST.io</PackageProjectUrl>
     <Copyright>Tailored Apps. Lukasz Kowalski</Copyright>
     <Authors>Tailored Apps. Lukasz Kowalski</Authors> 
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild> 
+    <RepositoryUrl>https://github.com/tailored-apps/GoodREST.IO</RepositoryUrl> 
+    <RepositoryType>Github</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>

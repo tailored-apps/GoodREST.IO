@@ -11,6 +11,10 @@
     <FileVersion>1.0.0.3</FileVersion>
     <AssemblyVersion>1.0.0.3</AssemblyVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>http://goodREST.io</PackageProjectUrl>
+    <Authors>Tailored Apps. Lukasz Kowalski</Authors>
+    <RepositoryUrl>https://github.com/tailored-apps/GoodREST.IO</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\..\..\swagger-ui\dist\favicon-16x16.png" Link="swagger\favicon-16x16.png">
