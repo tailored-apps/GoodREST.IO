@@ -13,6 +13,9 @@
     <Product>GoodREST.Middleware</Product>
     <RootNamespace>GoodREST.Middleware</RootNamespace>
     <Description>This is free and always will be for free</Description>
+    <PackageProjectUrl>http://goodREST.io</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tailored-apps/GoodREST.IO</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />

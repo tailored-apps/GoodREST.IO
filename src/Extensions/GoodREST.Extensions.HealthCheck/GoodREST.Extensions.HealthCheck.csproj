@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0.3</Version>
+    <Company>Tailored Apps. Łukasz Kowalski</Company>
+    <Authors>Tailored Apps. Lukasz Kowalski</Authors>
+    <PackageProjectUrl>http://goodREST.io</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tailored-apps/GoodREST.IO</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
