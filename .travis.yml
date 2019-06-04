@@ -11,13 +11,6 @@ install:
 before_deploy:
     - mkdocs build --verbose --clean --strict
 
-deploy: # Deploy documentation to Github in the gh_pages branch
-    provider: pages
-    skip_cleanup: true
-    github_token: $github_token
-    local_dir: site
-    on:
-        branch: master
 branches:
   only:
   - master
