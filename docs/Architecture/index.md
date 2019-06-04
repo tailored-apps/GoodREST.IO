@@ -1,4 +1,4 @@
-# Architecture
+# Overview
 ## Message-based WebServices
 ### Idea
 Message based system architecture is actually architecture which focus on data processed throuhght system and facilitation of its communication layer in given middleware.

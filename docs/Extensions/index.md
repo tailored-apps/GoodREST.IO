@@ -1,4 +1,4 @@
 # Extnsions
 
-#### [GoodREST.Extensions.HealthCheck](./GoodREST.Extensions.HealthCheck/index.md)
-#### [GoodREST.Extensions.SwaggerExtension](./GoodREST.Extensions.SwaggerExtension/index.md)
+#### [GoodREST.Extensions.HealthCheck](./health-check.md)
+#### [GoodREST.Extensions.SwaggerExtension](./swagger-ui.md)

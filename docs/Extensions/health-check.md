@@ -1,4 +1,4 @@
-# GoodREST.Extensions.HealthCheck  
+# Health Check
 ## Overview 
 That Extension is used for checking if service responds for request, general purpose is to check instance 
 of service is still alive, othervise we can recycle that instance and initiate it again

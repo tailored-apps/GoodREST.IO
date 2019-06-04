@@ -1,4 +1,4 @@
-# Middleware
+# AddGoodRest
 
 GoodREST.IO library is based on Middleware pattern used by ASP.NET Core. Services can be used with all possible lifetime scopes available in framework.
 

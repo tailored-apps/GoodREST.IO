@@ -1,4 +1,4 @@
-# GoodREST.Extensions.SwaggerExtension  
+# Swagger UI
 ## Overview 
 That Extension is used for generation swagger UI and swagger schema of current service , general purpose is to generate nice UI which might be used for calling service and for generation service clients from json schema.
 ## Dependencies 
