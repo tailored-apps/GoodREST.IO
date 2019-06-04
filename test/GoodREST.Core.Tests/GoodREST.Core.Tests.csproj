@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Extensions\GoodREST.Extensions.HealthCheck\GoodREST.Extensions.HealthCheck.csproj" />
     <ProjectReference Include="..\..\src\Extensions\GoodREST.Extensions.SwaggerExtension\GoodREST.Extensions.SwaggerExtension.csproj" />
     <ProjectReference Include="..\..\src\GoodREST.Middleware\GoodREST.Middleware.csproj" />
     <ProjectReference Include="..\..\src\GoodREST\GoodREST.csproj" />

@@ -9,4 +9,4 @@ We are trying to have as much stable version of our library as much possible, be
 
 <a href="https://ci.appveyor.com/project/tailored-apps/wise-goodrest"><img src="https://ci.appveyor.com/api/projects/status/4956bfopiekhtrxd" alt="Build status"/></a>
 
-<a href="https://travis-ci.org/nieprzecietny/GoodREST"><img src="https://travis-ci.org/nieprzecietny/GoodREST.svg?branch=master" alt="Build status"/></a>
+<a href="https://travis-ci.org/tailored-apps/GoodREST.IO"><img src="https://travis-ci.org/tailored-apps/GoodREST.IO.svg?branch=master" alt="Build status"/></a>

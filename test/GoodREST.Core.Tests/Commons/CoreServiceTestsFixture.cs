@@ -1,11 +1,9 @@
 ﻿using GoodREST.Client;
 using Microsoft.AspNetCore.Hosting;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using WebApplication;
 using Xunit;
 
@@ -16,6 +14,7 @@ namespace GoodREST.Core.Tests.Commons
         private static readonly string HOST_LOCAL_TEST = @"http://localhost:4323/";
         private static IWebHost host;
         private static object lockObject = new object();
+
         public static IWebHost Host
         {
             get
@@ -24,8 +23,6 @@ namespace GoodREST.Core.Tests.Commons
                 {
                     if (host == null)
                     {
-
-
                         host = new WebHostBuilder()
                             .UseKestrel()
                            .UseContentRoot(Directory.GetCurrentDirectory())
@@ -38,7 +35,6 @@ namespace GoodREST.Core.Tests.Commons
                 }
                 return host;
                 {
-
                 }
             }
         }
@@ -46,7 +42,6 @@ namespace GoodREST.Core.Tests.Commons
 
     public class CoreServiceTestsFixture : IDisposable
     {
-
         private readonly string HOST_LOCAL_TEST = @"http://localhost:4323/";
         private readonly IWebHost host;
 
@@ -61,15 +56,14 @@ namespace GoodREST.Core.Tests.Commons
 
         public void Dispose()
         {
-
         }
 
         public class TestClient : JsonClient
         {
             public TestClient(string endpointAddress) : base(endpointAddress)
             {
-
             }
+
             public override R Put<R, K>(K request)
             {
                 var routeAttribute = request.GetType().GetTypeInfo().GetCustomAttribute<GoodREST.Annotations.RouteAttribute>();
@@ -92,6 +86,7 @@ namespace GoodREST.Core.Tests.Commons
                 }
                 return base.Delete<R, K>(request);
             }
+
             public override R Get<R, K>(K request)
             {
                 var routeAttribute = request.GetType().GetTypeInfo().GetCustomAttributes<GoodREST.Annotations.RouteAttribute>();
@@ -102,6 +97,7 @@ namespace GoodREST.Core.Tests.Commons
                 }
                 return base.Get<R, K>(request);
             }
+
             public override R Post<R, K>(K request)
             {
                 var routeAttribute = request.GetType().GetTypeInfo().GetCustomAttribute<GoodREST.Annotations.RouteAttribute>();
@@ -112,6 +108,7 @@ namespace GoodREST.Core.Tests.Commons
                 }
                 return base.Post<R, K>(request);
             }
+
             public override R Patch<R, K>(K request)
             {
                 var routeAttribute = request.GetType().GetTypeInfo().GetCustomAttribute<GoodREST.Annotations.RouteAttribute>();
@@ -123,6 +120,5 @@ namespace GoodREST.Core.Tests.Commons
                 return base.Patch<R, K>(request);
             }
         }
-
     }
 }

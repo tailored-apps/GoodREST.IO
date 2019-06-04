@@ -17,6 +17,7 @@ namespace GoodREST.Middleware
     public static class GoodRest
     {
         private static RestModel model;
+
         public static IServiceCollection AddGoodRest(this IServiceCollection app, Action<RestModel> action)
         {
             model = new RestModel();
@@ -29,9 +30,9 @@ namespace GoodREST.Middleware
         }
 
         private static IAuthService authService;
+
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app, Action<IRestModel> configureRoutes)
         {
-            //var model = app.ApplicationServices.GetService<IRestModel>();
             configureRoutes.Invoke(model);
             var scope = app.ApplicationServices.CreateScope();
 
@@ -40,42 +41,17 @@ namespace GoodREST.Middleware
 
             var serializer = scope.ServiceProvider.GetService<IRequestResponseSerializer>();
 
-
             model.Build(scope.ServiceProvider.GetServices<ServiceBase>().Select(x => x.GetType()));
 
             var routeBuilder = new RouteBuilder(app);
 
-            routeBuilder.MapGet("", conext =>
-            {
 
-                var urls = new StringBuilder();
-
-                urls.AppendLine("<html>");
-                urls.AppendLine("<body>");
-                urls.Append("<h3>API LIST:</h3>");
-                urls.AppendLine("<table>");
-                urls.AppendFormat(@"<tr><th>Path</th> <th>Operation</th> <th>Message</th></tr>");
-                foreach (var route in model.GetRouteForType().OrderBy(x => x.Key.Key))
-                {
-                    urls.AppendFormat(@"<tr><td>{0}</td> <td>{1}</td> <td>{2}</td></tr>", route.Key.Key, route.Key.Value, route.Value.FullName);
-
-                }
-                urls.AppendLine("</table>");
-
-                urls.AppendLine("</body>");
-                urls.AppendLine("</html>");
-
-                conext.Response.ContentType = "text/html; " + model.CharacterEncoding;
-
-                return conext.Response.WriteAsync(urls.ToString());
-            });
 
             if (extension != null && extension.Any())
             {
                 foreach (var ext in extension)
                 {
                     ext.Install(routeBuilder);
-
                 }
             }
 
@@ -86,7 +62,6 @@ namespace GoodREST.Middleware
                 var result = Regex.Matches(template, pattern);
                 routeBuilder.MapVerb(route.Key.Value.ToString(), template, context =>
                {
-
                    if (model.IsSecurityEnabled)
                    {
                        var verb = route.Key.Value.ToString();
@@ -121,12 +96,9 @@ namespace GoodREST.Middleware
                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
                    var scopedSerciceProvider = scope.ServiceProvider;
 
-
                    var service = scopedSerciceProvider.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
                    service.SecurityService = scopedSerciceProvider.GetService<ISecurityService>();
                    var returnValueFromService = method.Invoke(service, new[] { requestModel });
-
-
 
                    var resp = (returnValueFromService as ICorrelation);
                    if (resp != null)
@@ -139,15 +111,12 @@ namespace GoodREST.Middleware
                    context.Response.StatusCode = iResponse?.HttpStatusCode ?? context.Response.StatusCode;
                    return context.Response.WriteAsync(serializer.Serialize(returnValueFromService));
                });
-
             }
-
 
             var routes = routeBuilder.Build();
             app.UseRouter(routes);
 
             return app;
-
         }
 
         private static T CheckRights<T>(IRestModel model, string verb, string path, IHeaderDictionary headers, out string resp) where T : class, new()
@@ -165,14 +134,11 @@ namespace GoodREST.Middleware
                 throw new Exception("IAuthService not registered");
             }
             return authService.CheckAccess<T>(token);
-
         }
 
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app)
         {
             return app;
-
         }
     }
 }
-

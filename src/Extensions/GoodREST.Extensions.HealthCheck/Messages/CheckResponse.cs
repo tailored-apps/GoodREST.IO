@@ -1,10 +1,11 @@
-﻿using GoodREST.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GoodREST.Interfaces;
 
-namespace GoodREST.Core.Test.DataModel.Messages
+namespace GoodREST.Extensions.HealthCheck.Messages
 {
-    public class DeleteCustomerResponse : IResponse
+    public class CheckResponse : IResponse
     {
+        public string Message { get; set; }
         public int HttpStatusCode { get; set; }
         public string HttpStatus { get; set; }
         public ICollection<string> Errors { get; set; }

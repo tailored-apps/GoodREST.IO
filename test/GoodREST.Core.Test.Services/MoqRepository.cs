@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GoodREST.Core.Test.DataModel.DTO;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using GoodREST.Core.Test.DataModel.DTO;
-using Moq;
 
 namespace GoodREST.Core.Test.Services
 {
@@ -22,9 +22,11 @@ namespace GoodREST.Core.Test.Services
             mock.Setup(x => x.GetCustomer(It.IsAny<int>())).Returns<int>((x) => mock.Object.GetCustomers().Single(cust => cust.Id == x));
 
             mock.Setup(x => x.Save(It.IsAny<Customer>())).Returns<Customer>((x) => { x.Id = mock.Object.GetCustomers().Max(c => c.Id) + 1; return x; });
-            mock.Setup(x=>x.Update(It.IsAny<Customer>(), It.IsAny<Customer>())).Returns<Customer, Customer>((x,y) => { 
+            mock.Setup(x => x.Update(It.IsAny<Customer>(), It.IsAny<Customer>())).Returns<Customer, Customer>((x, y) =>
+            {
                 y.Id = x.Id;
-                return y; });
+                return y;
+            });
             mock.Setup(x => x.DeleteCustomer(It.IsAny<int>()));
         }
 
@@ -45,7 +47,7 @@ namespace GoodREST.Core.Test.Services
 
         public Customer Save(Customer customer)
         {
-         return   mock.Object.Save(customer);
+            return mock.Object.Save(customer);
         }
 
         public Customer Update(Customer customerToUpdate, Customer customer)

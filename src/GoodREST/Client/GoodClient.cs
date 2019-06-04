@@ -1,41 +1,51 @@
-﻿using System;
+﻿using GoodREST.Annotations;
+using GoodREST.Enums;
+using GoodREST.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using GoodREST.Annotations;
-using GoodREST.Enums;
-using GoodREST.Interfaces;
 
 namespace GoodREST.Client
 {
     public abstract class GoodClient<T> where T : IRequestResponseSerializer
     {
         private readonly T serializer;
+
         public GoodClient()
         {
             this.serializer = serializer;
         }
+
         protected string authToken;
+
         public virtual void SetAuthorizationTokenHeader(string authToken)
         {
             this.authToken = authToken;
         }
 
         public abstract R Get<R, K>(K request) where K : IHasResponse<R> where R : IResponse;
+
         public abstract R Post<R, K>(K request) where K : IHasResponse<R> where R : IResponse;
+
         public abstract R Put<R, K>(K request) where K : IHasResponse<R> where R : IResponse;
+
         public abstract R Patch<R, K>(K request) where K : IHasResponse<R> where R : IResponse;
+
         public abstract R Delete<R, K>(K request) where K : IHasResponse<R> where R : IResponse;
 
         public abstract R Get<R, K>(K request, string url) where K : IHasResponse<R> where R : IResponse;
+
         public abstract R Post<R, K>(K request, string url) where K : IHasResponse<R> where R : IResponse;
+
         public abstract R Put<R, K>(K request, string url) where K : IHasResponse<R> where R : IResponse;
+
         public abstract R Patch<R, K>(K request, string url) where K : IHasResponse<R> where R : IResponse;
+
         public abstract R Delete<R, K>(K request, string url) where K : IHasResponse<R> where R : IResponse;
 
-
         private static Dictionary<Type, KeyValuePair<string, HttpVerb>> dict = new Dictionary<Type, KeyValuePair<string, HttpVerb>>();
+
         protected string GetRequestUrl<R, K>(K request) where K : IHasResponse<R> where R : IResponse
         {
             if (!dict.ContainsKey(typeof(K)))
@@ -48,11 +58,11 @@ namespace GoodREST.Client
                 foreach (var item in attrib)
                 {
                     dict.Add(typeof(K), new KeyValuePair<string, HttpVerb>(item.Path, (HttpVerb)item.Verb));
-
                 }
             }
             return dict[typeof(K)].Key;
         }
+
         protected HttpVerb GetRequestVerbs<R, K>(K request) where K : IHasResponse<R> where R : IResponse
         {
             if (!dict.ContainsKey(typeof(K)))
@@ -65,9 +75,7 @@ namespace GoodREST.Client
                 }
                 var item = attrib.First();
 
-
                 dict.Add(typeof(K), new KeyValuePair<string, HttpVerb>(item.Path, (HttpVerb)item.Verb));
-
             }
             return dict[typeof(K)].Value;
         }
@@ -92,7 +100,6 @@ namespace GoodREST.Client
             return MapVariablesToRequestValues<R, K>(request, GetRequestUrl<R, K>(request));
         }
 
-
         protected string MapVariablesToRequestValues<R, K>(K request, string url) where K : IHasResponse<R> where R : IResponse
         {
             var urlPattern = url;
@@ -103,6 +110,5 @@ namespace GoodREST.Client
             }
             return urlPattern;
         }
-
     }
 }

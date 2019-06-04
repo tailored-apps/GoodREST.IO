@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GoodREST.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GoodREST.Annotations;
 using System.Text.RegularExpressions;
 
 namespace GoodREST.Extensions.SwaggerExtension
@@ -35,7 +35,6 @@ namespace GoodREST.Extensions.SwaggerExtension
                 operationId = operationId,
                 consumes = serializers,
                 produces = serializers
-
             };
             description.AddResponse(new response()
             {
@@ -48,7 +47,6 @@ namespace GoodREST.Extensions.SwaggerExtension
                 }}
             }
             });
-
 
             var responseOpertations = type.ReturnType.GetCustomAttributes<ResponseAttribute>().Select(x =>
              {
@@ -75,6 +73,7 @@ namespace GoodREST.Extensions.SwaggerExtension
 
             return description;
         }
+
         public static T GetAttribute<T>(this MethodInfo methodInfo) where T : System.Attribute
         {
             var customTypes = methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes<T>();
@@ -88,6 +87,7 @@ namespace GoodREST.Extensions.SwaggerExtension
             var result = Regex.Matches(uri, pattern);
             return result.Select(x => x.Value.Replace(@"{", string.Empty).Replace(@"}", string.Empty));
         }
+
         private static Dictionary<Type, string> typeDict = new Dictionary<Type, string>()
         {
             { typeof(Int16),"integer"},
@@ -115,17 +115,17 @@ namespace GoodREST.Extensions.SwaggerExtension
             { typeof(Enum),"string"},
             { typeof(string),"string"}
         };
+
         public static string GetJavascriptType(this Type type)
         {
             string outType = "";
-            return typeDict.TryGetValue(type, out outType) ? outType : type.IsArray ? "array" : type.IsEnum ? "string": (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>)))) ? "array" : "object";
+            return typeDict.TryGetValue(type, out outType) ? outType : type.IsArray ? "array" : type.IsEnum ? "string" : (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>)))) ? "array" : "object";
         }
+
         public static Dictionary<string, object> GetPropertyDescription(this Type type)
         {
-
             var objectDefinition = new objectDefiniton
             {
-
             };
 
             var propertyDescription = new Dictionary<string, object>() {
@@ -133,12 +133,11 @@ namespace GoodREST.Extensions.SwaggerExtension
             };
             if (type == typeof(byte[]))
             {
-
                 propertyDescription.Add("items", new Dictionary<string, string> { { "type", "string" }, { "format", "byte" } });
             }
             else if (type.IsEnum)
             {
-                propertyDescription.Add("enum", Enum.GetNames(type) );
+                propertyDescription.Add("enum", Enum.GetNames(type));
             }
             else if (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>))))
             {
@@ -150,27 +149,18 @@ namespace GoodREST.Extensions.SwaggerExtension
                 else
                 {
                     propertyDescription.Add("items", new Dictionary<string, string> { { "type", "string" } });
-
                 }
-
-
             }
-
             else if (propertyDescription["type"] == "object")
             {
                 propertyDescription.Add("$ref", "#/definitions/" + type.Name);
-
             }
 
             if (Nullable.GetUnderlyingType(type) != null)
             {
                 propertyDescription.Add("nullable", "true");
-
             }
             return propertyDescription;
         }
     }
-
-
 }
-
