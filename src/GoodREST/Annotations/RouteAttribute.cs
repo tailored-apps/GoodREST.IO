@@ -1,9 +1,9 @@
-﻿using System;
-using GoodREST.Enums;
+﻿using GoodREST.Enums;
+using System;
 
 namespace GoodREST.Annotations
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple =true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class RouteAttribute : Attribute
     {
         private string path;
@@ -20,8 +20,8 @@ namespace GoodREST.Annotations
             this.path = path;
             this.verbs = verbs;
         }
-        public string Path { get { return path; } }
 
+        public string Path { get { return path; } }
         public Enum Verb { get { return verbs; } }
     }
 }

@@ -1,6 +1,6 @@
-﻿using GoodREST.Interfaces;
-using GoodREST.Annotations;
+﻿using GoodREST.Annotations;
 using GoodREST.Enums;
+using GoodREST.Interfaces;
 
 namespace GoodREST.Core.Test.DataModel.Messages
 {
@@ -8,7 +8,6 @@ namespace GoodREST.Core.Test.DataModel.Messages
     public class DeleteCustomer : IHasResponse<DeleteCustomerResponse>
     {
         public int Id { get; set; }
-
         public string TokenId { get; set; }
         public string CorrelationId { get; set; }
     }

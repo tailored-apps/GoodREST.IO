@@ -7,9 +7,7 @@ namespace GoodREST.Core.Test.DataModel.Messages
 {
     public class GetCustomersResponse : IResponse
     {
-
         public ICollection<Customer> Customers { get; set; }
-
         public int HttpStatusCode { get; set; }
         public string HttpStatus { get; set; }
         public ICollection<string> Errors { get; set; }

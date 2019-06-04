@@ -6,7 +6,6 @@ namespace GoodREST.Annotations
     public class ResponseAttribute : Attribute
     {
         public string Code { get; set; }
-
         public string Description { get; set; }
         public Type ExceptionType { get; set; }
     }

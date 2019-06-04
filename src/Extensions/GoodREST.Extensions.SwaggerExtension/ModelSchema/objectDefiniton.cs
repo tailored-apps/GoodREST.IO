@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GoodREST.Extensions.SwaggerExtension
 {
@@ -16,6 +15,7 @@ namespace GoodREST.Extensions.SwaggerExtension
             var prop = properties as List<property>;
             prop.Add(property);
         }
+
         public void AddProperty(IEnumerable<property> property)
         {
             if (properties == null) { properties = new List<property>(); }
@@ -23,6 +23,5 @@ namespace GoodREST.Extensions.SwaggerExtension
             var prop = properties as List<property>;
             prop.AddRange(property);
         }
-
     }
 }
