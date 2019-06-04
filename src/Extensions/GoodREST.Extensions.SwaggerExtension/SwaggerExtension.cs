@@ -13,6 +13,14 @@ using System.Linq;
 
 namespace GoodREST.Extensions.SwaggerExtension
 {
+    public static class SwaggerExtensionMethod
+    {
+        public static void AddSwaggerUISupport(this IServiceCollection services)
+        {
+            services.AddTransient<IExtension, SwaggerExtension>();
+        }
+    }
+
     public class SwaggerExtension : IExtension
     {
         private IRestModel restModel;

@@ -3,9 +3,6 @@ using GoodREST.Core.Test.Services;
 using GoodREST.Extensions.HealthCheck;
 using GoodREST.Extensions.HealthCheck.Messages;
 using GoodREST.Extensions.SwaggerExtension;
-
-using GoodREST.Extensions.HealthCheck;
-
 using GoodREST.Interfaces;
 using GoodREST.Middleware;
 using GoodREST.Middleware.Interface;
@@ -46,11 +43,10 @@ namespace WebApplication
             });
 
             services.AddHealthCheck();
+            services.AddSwaggerUISupport();
             services.AddTransient<IRequestResponseSerializer, GoodREST.Serializers.JsonSerializer>();
             services.AddScoped<ServiceBase, CustomerService>();
             services.AddScoped<IMockingRepository, MoqRepository>();
-            services.AddTransient<IExtension, SwaggerExtension>();
-            services.AddTransient<IExtension, HealthCheckExtension>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
