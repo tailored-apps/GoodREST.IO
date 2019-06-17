@@ -2,6 +2,9 @@ using GoodREST.Core.Test.DataModel.Messages;
 using GoodREST.Core.Test.Services;
 using GoodREST.Extensions.HealthCheck;
 using GoodREST.Extensions.HealthCheck.Messages;
+using GoodREST.Extensions.ServiceDiscovery;
+using GoodREST.Extensions.ServiceDiscovery.DataModel.Messages;
+using GoodREST.Extensions.ServiceDiscovery.Middleware.Services;
 using GoodREST.Extensions.SwaggerExtension;
 using GoodREST.Interfaces;
 using GoodREST.Middleware;
@@ -49,9 +52,13 @@ namespace WebApplication
             });
 
             services.AddHealthCheck();
+            services.AddServiceDiscovery();
             services.AddSwaggerUISupport();
             services.AddTransient<IRequestResponseSerializer, GoodREST.Serializers.JsonSerializer>();
+
+            services.AddScoped<IServiceInfoPersister, InMemoryServiceInfoPersister>();
             services.AddScoped<ServiceBase, CustomerService>();
+            services.AddScoped<ServiceBase, ServiceDiscoveryService>();
             services.AddScoped<IMockingRepository, MoqRepository>();
         }
 
@@ -64,6 +71,9 @@ namespace WebApplication
                 configure.RegisterMessageModel<PostCustomer>();
                 configure.RegisterMessageModel<PutCustomer>();
                 configure.RegisterMessageModel<DeleteCustomer>();
+                configure.RegisterMessageModel<GetAllOperations>();
+                configure.RegisterMessageModel<GetAllRegisteredServices>();
+                configure.RegisterMessageModel<PostRegisterInServiceDiscovery>();
             });
         }
     }
