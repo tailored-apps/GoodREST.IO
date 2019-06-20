@@ -1,4 +1,4 @@
-# GoodREST.Extensions.ServiceDiscovery  
+# Service Discovery  
 ## Overview 
 That Extension is used for Hosting and registering service discovery in your microservices architecture This functionality gives you ability of registering all services in discovery service.
 That registrations can be used by ApiGetaway so your application automatically will be scallable and will allow you to create scallable architecture.
