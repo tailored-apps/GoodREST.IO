@@ -1,0 +1,16 @@
+{
+  "ServiceDiscovery": {
+    "Endpoint": {
+      "Url": "http://localhost:8080"
+    },
+    "SecureEndpoint": {
+      "Url": "https://www.wp.pl:8081"
+    },
+    "Api": {
+      "Prefix": "demo",
+      "Version": "1"
+    },
+    "FromEnvironmentVariable": true,
+    "ServiceDiscoveryUrl": "http://localhost:8080"
+  }
+}

@@ -22,7 +22,7 @@ Create folder with name `Messages` under your project. and add two classes, one 
 
 Modify `GetBar.cs` which following code:
 
-```
+```csharp
 using GoodREST.Annotations;
 using GoodREST.Enums;
 using GoodREST.Interfaces;
@@ -38,7 +38,7 @@ namespace Contoso.Foo.WebApi.Messages
 ```
 
 4. Modify `GetBarResponse.cs` with following code:
-```
+```csharp
 using System.Collections.Generic;
 using GoodREST.Interfaces;
 
@@ -58,7 +58,7 @@ By this you're good with service message models which will be handled by service
 
 ### Building service class which will handle request and response.
 Create service class `BarService.cs` under `Services` folder which will handle business logic and should look following:
-```
+```csharp
 using System;
 using Contoso.Foo.WebApi.Messages;
 using GoodREST.Extensions;
@@ -87,7 +87,7 @@ namespace Contoso.Foo.WebApi.Services
 ```
 ### Register dependencies and add GoodREST middleware to your asp.net core app
 Register all required call's under `Startup.cs` so your file should look similar to 
-```
+```csharp
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -134,7 +134,7 @@ namespace Contoso.Foo.WebApi
 ```
 ## Run project 
 Basically if youre command line user and you like shell just type `dotnet run` , you should see similar message:
-```
+```cmd
 Hosting environment: Development
 Content root path: D:\WORK\GoodREST.IO\example\QuickStart\Contoso.Foo.WebApi
 Now listening on: https://localhost:5001
