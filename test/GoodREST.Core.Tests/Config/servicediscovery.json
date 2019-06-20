@@ -10,7 +10,7 @@
       "Prefix": "demo",
       "Version": "1"
     },
-    "FromEnvironmentVariable": true,
+    "FromEnvironmentVariable": false,
     "ServiceDiscoveryUrl": "http://localhost:5011"
   }
 }

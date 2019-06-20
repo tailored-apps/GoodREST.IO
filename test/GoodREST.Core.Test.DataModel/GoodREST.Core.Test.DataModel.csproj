@@ -4,15 +4,14 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <DebugType>portable</DebugType>
     <AssemblyName>GoodREST.Core.Test.DataModel</AssemblyName>
-    <PackageId>Wise.goodREST.Core.Test.DataModel</PackageId>
+    <PackageId>GoodREST.Core.Test.DataModel</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\GoodREST\GoodREST.csproj" />
   </ItemGroup>
-
 </Project>

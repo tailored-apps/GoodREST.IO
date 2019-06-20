@@ -118,8 +118,7 @@ namespace GoodREST.Extensions.SwaggerExtension
 
         public static string GetJavascriptType(this Type type)
         {
-            string outType = "";
-            return typeDict.TryGetValue(type, out outType) ? outType : type.IsArray ? "array" : type.IsEnum ? "string" : (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>)))) ? "array" : "object";
+            return typeDict.TryGetValue(type, out string outType) ? outType : type.IsArray ? "array" : type.IsEnum ? "string" : (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>)))) ? "array" : "object";
         }
 
         public static Dictionary<string, object> GetPropertyDescription(this Type type)
@@ -151,7 +150,7 @@ namespace GoodREST.Extensions.SwaggerExtension
                     propertyDescription.Add("items", new Dictionary<string, string> { { "type", "string" } });
                 }
             }
-            else if (propertyDescription["type"] == "object")
+            else if (propertyDescription["type"].ToString() == "object")
             {
                 propertyDescription.Add("$ref", "#/definitions/" + type.Name);
             }
