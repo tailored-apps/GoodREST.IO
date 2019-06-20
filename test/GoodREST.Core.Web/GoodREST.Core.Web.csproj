@@ -6,7 +6,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>GoodREST.Core.Web</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>Wise.goodREST.Core.Web</PackageId>
+    <PackageId>GoodREST.Core.Web</PackageId>
     <UserSecretsId>aspnet-WebApplication-0799fe3e-6eaf-4c5f-b40e-7c6bfd5dfa9a</UserSecretsId>
     <RuntimeFrameworkVersion>2.2.0</RuntimeFrameworkVersion>
   </PropertyGroup>
