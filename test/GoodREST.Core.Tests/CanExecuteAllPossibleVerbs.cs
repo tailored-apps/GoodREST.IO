@@ -13,8 +13,6 @@ namespace Tests
             this.fixture = fixture;
         }
 
-        private readonly string HOST_LOCAL_TEST = @"http://localhost:4323/";
-
         [Fact]
         public void CanGet()
         {
@@ -35,7 +33,7 @@ namespace Tests
         {
             var resp = fixture.Client.Put<PutCustomerResponse, PutCustomer>(new PutCustomer() { Id = 1, Customer = new GoodREST.Core.Test.DataModel.DTO.Customer() { Name = "asd" } });
             Assert.True(resp.Customer.Id == 1);
-            Assert.Equal(resp.Customer.Name, "asd");
+            Assert.Equal("asd", resp.Customer.Name);
         }
 
         [Fact]

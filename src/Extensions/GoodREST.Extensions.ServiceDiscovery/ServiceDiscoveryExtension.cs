@@ -83,7 +83,7 @@ namespace GoodREST.Extensions.ServiceDiscovery
                     {
                         post = new Client.JsonClient(serviceConfiguration.ServiceDiscoveryUrl).Post<PostRegisterInServiceDiscoveryResponse, PostRegisterInServiceDiscovery>(message);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         System.Threading.Thread.Sleep(TimeSpan.FromSeconds(10));
                     }
@@ -124,7 +124,7 @@ namespace GoodREST.Extensions.ServiceDiscovery
             {
                 return GetPortFromUri(Environment.GetEnvironmentVariable("ASPNETCORE_URLS"));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new Exception("Can't parse system variable 'ASPNETCORE_URLS' ");
             }
@@ -136,7 +136,7 @@ namespace GoodREST.Extensions.ServiceDiscovery
             {
                 return GetHostFromUri(Environment.GetEnvironmentVariable("ASPNETCORE_URLS"));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new Exception("Can't parse system variable 'ASPNETCORE_URLS' ");
             }

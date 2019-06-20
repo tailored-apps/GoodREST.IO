@@ -10,11 +10,8 @@ namespace GoodREST.Client
 {
     public abstract class GoodClient<T> where T : IRequestResponseSerializer
     {
-        private readonly T serializer;
-
         public GoodClient()
         {
-            this.serializer = serializer;
         }
 
         protected string authToken;
