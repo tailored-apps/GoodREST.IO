@@ -4,7 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel;
+using Microsoft.Extensions.Configuration;
 
 namespace WebApplication
 {
@@ -12,19 +15,21 @@ namespace WebApplication
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-                .UseKestrel((options) =>
-                {
-                    options.Listen(IPAddress.Loopback, 0);
-                })
+            var config = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile($"Config/hosting.json", optional: true, reloadOnChange: true)
+                   .Build();
+
+            var host = WebHost.CreateDefaultBuilder()
+
+                .UseKestrel(x => x.Configure(config.GetSection("Kestrel")))
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseDefaultServiceProvider(options => { options.ValidateScopes = true; })
-                .UseStartup<Startup>().
-                UseUrls()
+                .UseStartup<Startup>()
                 .Build();
 
-            host.Start();
+            host.Run();
         }
     }
 }

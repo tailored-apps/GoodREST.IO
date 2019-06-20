@@ -14,7 +14,9 @@ namespace GoodREST.Extensions.ServiceDiscovery.DataModel.Messages
         public int ProcessId { get; set; }
         public string Version { get; set; }
         public ICollection<Operation> Operations { get; set; }
-        public string AppDomainName { get;  set; }
-        public string ApiPrefix { get;  set; }
+        public string AppDomainName { get; set; }
+        public string ApiPrefix { get; set; }
+        public string SslServiceHost { get; internal set; }
+        public int? SslPort { get; set; }
     }
 }
