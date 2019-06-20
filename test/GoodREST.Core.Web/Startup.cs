@@ -2,6 +2,10 @@ using GoodREST.Core.Test.DataModel.Messages;
 using GoodREST.Core.Test.Services;
 using GoodREST.Extensions.HealthCheck;
 using GoodREST.Extensions.HealthCheck.Messages;
+using GoodREST.Extensions.ServiceDiscovery;
+using GoodREST.Extensions.ServiceDiscovery.Config;
+using GoodREST.Extensions.ServiceDiscovery.DataModel.Messages;
+using GoodREST.Extensions.ServiceDiscovery.Middleware.Services;
 using GoodREST.Extensions.SwaggerExtension;
 using GoodREST.Interfaces;
 using GoodREST.Middleware;
@@ -21,8 +25,8 @@ namespace WebApplication
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile($"Config/appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"Config/servicediscovery.json", optional: true, reloadOnChange: true);
 
             if (env.IsDevelopment())
             {
@@ -36,6 +40,9 @@ namespace WebApplication
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var serviceDiscovery = Configuration.GetSection("ServiceDiscovery");
+            services.AddOptions<ServiceConfiguration>().Bind(serviceDiscovery);
+
             services.AddRouting();
             services.AddGoodRest(x =>
             {
@@ -49,9 +56,13 @@ namespace WebApplication
             });
 
             services.AddHealthCheck();
+            services.AddServiceDiscovery();
             services.AddSwaggerUISupport();
             services.AddTransient<IRequestResponseSerializer, GoodREST.Serializers.JsonSerializer>();
+
+            services.AddScoped<IServiceInfoPersister, InMemoryServiceInfoPersister>();
             services.AddScoped<ServiceBase, CustomerService>();
+            services.AddScoped<ServiceBase, ServiceDiscoveryService>();
             services.AddScoped<IMockingRepository, MoqRepository>();
         }
 
@@ -64,6 +75,9 @@ namespace WebApplication
                 configure.RegisterMessageModel<PostCustomer>();
                 configure.RegisterMessageModel<PutCustomer>();
                 configure.RegisterMessageModel<DeleteCustomer>();
+                configure.RegisterMessageModel<GetAllOperations>();
+                configure.RegisterMessageModel<GetAllRegisteredServices>();
+                configure.RegisterMessageModel<PostRegisterInServiceDiscovery>();
             });
         }
     }

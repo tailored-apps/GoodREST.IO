@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{37E87AF4-3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST.Extensions.HealthCheck", "src\Extensions\GoodREST.Extensions.HealthCheck\GoodREST.Extensions.HealthCheck.csproj", "{BC685A8B-FAF2-4E95-ACAA-D5F896BAFBEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodREST.Extensions.ServiceDiscovery", "src\Extensions\GoodREST.Extensions.ServiceDiscovery\GoodREST.Extensions.ServiceDiscovery.csproj", "{A85C4ADD-25AC-4685-9C08-9FAF836F85BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{BC685A8B-FAF2-4E95-ACAA-D5F896BAFBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC685A8B-FAF2-4E95-ACAA-D5F896BAFBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC685A8B-FAF2-4E95-ACAA-D5F896BAFBEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A85C4ADD-25AC-4685-9C08-9FAF836F85BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A85C4ADD-25AC-4685-9C08-9FAF836F85BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A85C4ADD-25AC-4685-9C08-9FAF836F85BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A85C4ADD-25AC-4685-9C08-9FAF836F85BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +114,7 @@ Global
 		{3718ADAB-C726-4049-885B-20636D0FD5BE} = {C57FC224-AEBD-4F0C-985D-060868CA8073}
 		{975D2A06-6C06-4024-8F76-B6D10FC7F7B6} = {7894F9E8-594E-46E5-A05D-C60A4E5C0EDB}
 		{BC685A8B-FAF2-4E95-ACAA-D5F896BAFBEF} = {C57FC224-AEBD-4F0C-985D-060868CA8073}
+		{A85C4ADD-25AC-4685-9C08-9FAF836F85BA} = {C57FC224-AEBD-4F0C-985D-060868CA8073}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5592FFFE-35F9-4D07-A64A-9349D45ECBB9}
