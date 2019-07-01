@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace GoodREST.Extensions.SwaggerExtension
 {
@@ -67,9 +68,9 @@ namespace GoodREST.Extensions.SwaggerExtension
 
             if (!def.ContainsKey("type"))
             {
-                def.Add("type", objectDefinition.type);
+                def.Add("type", "object");
             }
-            if (!def.ContainsKey("required"))
+            if (!def.ContainsKey("required") && (objectDefinition.RequiredProperties?.Any() ?? false))
             {
                 def.Add("required", objectDefinition.RequiredProperties);
             }

@@ -28,17 +28,14 @@ namespace GoodREST.Extensions.SwaggerExtension.Auxillary
             }
 
             return ListOfTypes;
-
         }
 
         public static IEnumerable<Type> GetAllTypesUsedInType(this Type type)
         {
-
             var types = type.GetProperties().Where(x => x.PropertyType != typeof(string) && (x.PropertyType.IsClass || x.PropertyType.IsEnum)).Select(x => x.PropertyType).ToList();
 
             var genericTypes = type.IsGenericType ? type.GenericTypeArguments : Enumerable.Empty<Type>();
             types.AddNotExistingRange(genericTypes);
-
 
             var inherit = type.GetInterfaces().Where(x => x.IsGenericType).SelectMany(x => x.GetGenericArguments());
             types.AddNotExistingRange(inherit);
@@ -48,9 +45,7 @@ namespace GoodREST.Extensions.SwaggerExtension.Auxillary
             types.AddNotExistingRange(genericProps);
 
             return types;
-
         }
-
 
         public static List<Type> AddNotExistingRange(this List<Type> type, IEnumerable<Type> enumerable)
         {
@@ -62,8 +57,8 @@ namespace GoodREST.Extensions.SwaggerExtension.Auxillary
                 }
             }
             return type;
-
         }
+
         public static List<Type> AddIfNotExists(this List<Type> type, Type item)
         {
             if (!type.Contains(item))
@@ -71,7 +66,41 @@ namespace GoodREST.Extensions.SwaggerExtension.Auxillary
                 type.Add(item);
             }
             return type;
+        }
 
+        private static Dictionary<Type, string> typeDict = new Dictionary<Type, string>()
+        {
+            { typeof(Int16),"integer"},
+            { typeof(Int32),"integer"},
+            { typeof(Int64),"integer"},
+            { typeof(UInt16),"integer"},
+            { typeof(UInt32),"integer"},
+            { typeof(UInt64),"integer"},
+            { typeof(float),"number"},
+            { typeof(decimal),"number"},
+            { typeof(bool),"boolean"},
+            { typeof(DateTime),"string"},
+            { typeof(Guid),"string"},
+
+            { typeof(Nullable<Int16>),"integer"},
+            { typeof(Nullable<Int32>),"integer"},
+            { typeof(Nullable<Int64>),"integer"},
+            { typeof(Nullable<UInt16>),"integer"},
+            { typeof(Nullable<UInt32>),"integer"},
+            { typeof(Nullable<UInt64>),"integer"},
+            { typeof(Nullable<float>),"number"},
+            { typeof(Nullable<decimal>),"number"},
+            { typeof(Nullable<bool>),"boolean"},
+            { typeof(Nullable<DateTime>),"string"},
+            { typeof(Nullable<Guid>),"string"},
+
+            { typeof(Enum),"string"},
+            { typeof(string),"string"}
+        };
+
+        public static string GetJavascriptType(this Type type)
+        {
+            return typeDict.TryGetValue(type, out string outType) ? outType : type.IsArray ? "array" : type.IsEnum ? "string" : (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>)))) ? "array" : "object";
         }
     }
 }
