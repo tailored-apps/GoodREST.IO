@@ -61,8 +61,17 @@ namespace GoodREST.Extensions.SwaggerExtension
                 basePath = @"/",
                 schemes = new[] { "http", "https" },
 
-                externalDocs = externalDocs.Value
+                externalDocs = (!string.IsNullOrWhiteSpace(externalDocs.Value?.url) ? externalDocs.Value : null)
             };
+
+            if (string.IsNullOrWhiteSpace(swaggerDefinition.info.title))
+            {
+                swaggerDefinition.info.title = AppDomain.CurrentDomain.FriendlyName;
+            }
+            if (string.IsNullOrWhiteSpace(swaggerDefinition.info.version))
+            {
+                swaggerDefinition.info.version = "1.0.0";
+            }
 
             #region objectDefinitions
 
@@ -119,7 +128,8 @@ namespace GoodREST.Extensions.SwaggerExtension
                         @in = "path",
                         name = parameter,
                         description = "The " + parameter + " key",
-                        required = true
+                        required = true,
+                        type = item.Value.GetProperty(parameter).PropertyType.GetJavascriptType()
                     });
                 }
 

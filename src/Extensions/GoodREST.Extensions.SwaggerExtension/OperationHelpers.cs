@@ -1,4 +1,5 @@
 ﻿using GoodREST.Annotations;
+using GoodREST.Extensions.SwaggerExtension.Auxillary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,11 @@ namespace GoodREST.Extensions.SwaggerExtension
             {
                 name = annotationData.Name,
                 description = annotationData.Description,
-                externalDocs = new doc
+                externalDocs = !string.IsNullOrWhiteSpace(annotationData.DocUrl) ? new doc
                 {
                     description = annotationData.DocDescription,
                     url = annotationData.DocUrl
-                }
+                } : null
             };
         }
 
@@ -88,39 +89,6 @@ namespace GoodREST.Extensions.SwaggerExtension
             return result.Select(x => x.Value.Replace(@"{", string.Empty).Replace(@"}", string.Empty));
         }
 
-        private static Dictionary<Type, string> typeDict = new Dictionary<Type, string>()
-        {
-            { typeof(Int16),"integer"},
-            { typeof(Int32),"integer"},
-            { typeof(Int64),"integer"},
-            { typeof(UInt16),"integer"},
-            { typeof(UInt32),"integer"},
-            { typeof(UInt64),"integer"},
-            { typeof(float),"number"},
-            { typeof(decimal),"number"},
-            { typeof(bool),"boolean"},
-            { typeof(DateTime),"date"},
-
-            { typeof(Nullable<Int16>),"integer"},
-            { typeof(Nullable<Int32>),"integer"},
-            { typeof(Nullable<Int64>),"integer"},
-            { typeof(Nullable<UInt16>),"integer"},
-            { typeof(Nullable<UInt32>),"integer"},
-            { typeof(Nullable<UInt64>),"integer"},
-            { typeof(Nullable<float>),"number"},
-            { typeof(Nullable<decimal>),"number"},
-            { typeof(Nullable<bool>),"boolean"},
-            { typeof(Nullable<DateTime>),"date"},
-
-            { typeof(Enum),"string"},
-            { typeof(string),"string"}
-        };
-
-        public static string GetJavascriptType(this Type type)
-        {
-            return typeDict.TryGetValue(type, out string outType) ? outType : type.IsArray ? "array" : type.IsEnum ? "string" : (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>)))) ? "array" : "object";
-        }
-
         public static Dictionary<string, object> GetPropertyDescription(this Type type)
         {
             var objectDefinition = new objectDefiniton
@@ -134,14 +102,21 @@ namespace GoodREST.Extensions.SwaggerExtension
             {
                 propertyDescription.Add("items", new Dictionary<string, string> { { "type", "string" }, { "format", "byte" } });
             }
-            else if (type.IsEnum)
+            else if (type.IsEnum || (type.GenericTypeArguments.FirstOrDefault()?.IsEnum ?? false))
             {
-                propertyDescription.Add("enum", Enum.GetNames(type));
+                if (type.GenericTypeArguments.FirstOrDefault()?.IsEnum ?? false)
+                {
+                    propertyDescription.Add("enum", Enum.GetNames(type.GenericTypeArguments.FirstOrDefault()));
+                }
+                else
+                {
+                    propertyDescription.Add("enum", Enum.GetNames(type));
+                }
             }
             else if (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>))))
             {
                 var propertyType = type.GenericTypeArguments.First();
-                if (propertyType != typeof(string))
+                if (propertyType != typeof(string) && propertyType != typeof(Guid))
                 {
                     propertyDescription.Add("items", new Dictionary<string, string> { { "$ref", "#/definitions/" + propertyType.Name } });
                 }
@@ -154,11 +129,15 @@ namespace GoodREST.Extensions.SwaggerExtension
             {
                 propertyDescription.Add("$ref", "#/definitions/" + type.Name);
             }
-
-            if (Nullable.GetUnderlyingType(type) != null)
+            else if (typeof(DateTime) == type || (type.GenericTypeArguments.FirstOrDefault()?.GetType() == typeof(DateTime)))
             {
-                propertyDescription.Add("nullable", "true");
+                propertyDescription.Add("format", "date-time");
             }
+
+            //if (Nullable.GetUnderlyingType(type) != null)
+            //{
+            //    propertyDescription.Add("nullable", "true");
+            //}
             return propertyDescription;
         }
     }
