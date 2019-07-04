@@ -43,7 +43,6 @@ namespace GoodREST.Extensions.SwaggerExtension
                 description = new Dictionary<string, object> {
                 { "description", "success" },
                 { "schema", new Dictionary<string, object>() {
-                    { "type", "object" },
                     { "$ref", "#/definitions/" + type.ReturnType.Name }
                 }}
             }
@@ -95,9 +94,12 @@ namespace GoodREST.Extensions.SwaggerExtension
             {
             };
 
-            var propertyDescription = new Dictionary<string, object>() {
-                { "type", type.GetJavascriptType() }
-            };
+            var isObject = type.GetJavascriptType() == "object";
+            var propertyDescription = new Dictionary<string, object>();
+            if (!isObject)
+            {
+                propertyDescription.Add("type", type.GetJavascriptType());
+            }
             if (type == typeof(byte[]))
             {
                 propertyDescription.Add("items", new Dictionary<string, string> { { "type", "string" }, { "format", "byte" } });
@@ -125,7 +127,7 @@ namespace GoodREST.Extensions.SwaggerExtension
                     propertyDescription.Add("items", new Dictionary<string, string> { { "type", "string" } });
                 }
             }
-            else if (propertyDescription["type"].ToString() == "object")
+            else if (isObject)
             {
                 propertyDescription.Add("$ref", "#/definitions/" + type.Name);
             }
