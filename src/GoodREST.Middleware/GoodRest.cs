@@ -45,8 +45,6 @@ namespace GoodREST.Middleware
 
             var routeBuilder = new RouteBuilder(app);
 
-
-
             if (extension != null && extension.Any())
             {
                 foreach (var ext in extension)
@@ -96,7 +94,7 @@ namespace GoodREST.Middleware
                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
                    var scopedSerciceProvider = scope.ServiceProvider;
 
-                   var service = scopedSerciceProvider.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
+                   var service = scopedSerciceProvider.CreateScope().ServiceProvider.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
                    service.SecurityService = scopedSerciceProvider.GetService<ISecurityService>();
                    var returnValueFromService = method.Invoke(service, new[] { requestModel });
 
