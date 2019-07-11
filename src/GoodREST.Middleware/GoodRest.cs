@@ -29,22 +29,16 @@ namespace GoodREST.Middleware
             return app;
         }
 
-        private static IAuthService authService;
-
         public static IApplicationBuilder TakeGoodRest(this IApplicationBuilder app, Action<IRestModel> configureRoutes)
         {
             configureRoutes.Invoke(model);
             var scope = app.ApplicationServices.CreateScope();
 
-            authService = scope.ServiceProvider.GetService<IAuthService>();
-            var extension = scope.ServiceProvider.GetServices<IExtension>();
-
-            var serializer = scope.ServiceProvider.GetService<IRequestResponseSerializer>();
-
             model.Build(scope.ServiceProvider.GetServices<ServiceBase>().Select(x => x.GetType()));
 
             var routeBuilder = new RouteBuilder(app);
 
+            var extension = scope.ServiceProvider.GetServices<IExtension>();
             if (extension != null && extension.Any())
             {
                 foreach (var ext in extension)
@@ -59,56 +53,58 @@ namespace GoodREST.Middleware
                 string pattern = "{(.*?)}";
                 var result = Regex.Matches(template, pattern);
                 routeBuilder.MapVerb(route.Key.Value.ToString(), template, context =>
-               {
-                   if (model.IsSecurityEnabled)
-                   {
-                       var verb = route.Key.Value.ToString();
-                       var path = route.Key.Key; //context.Request.Path;
-                       var headers = context.Request.Headers;
-                       string rightsResp = string.Empty;
-                       if (!path.Contains(authService.AuthUrl) && CheckRights<object>(model, verb, path, headers, out rightsResp) != null)
-                       {
-                           return context.Response.WriteAsync(rightsResp);
-                       };
-                   }
+                {
+                    var requestScope = app.ApplicationServices.CreateScope();
+                    var serializer = requestScope.ServiceProvider.GetService<IRequestResponseSerializer>();
+                    if (model.IsSecurityEnabled)
+                    {
+                        IAuthService authService = requestScope.ServiceProvider.GetService<IAuthService>();
+                        var verb = route.Key.Value.ToString();
+                        var path = route.Key.Key; //context.Request.Path;
+                        var headers = context.Request.Headers;
+                        string rightsResp = string.Empty;
+                        if (!path.Contains(authService.AuthUrl) && CheckRights<object>(authService, model, verb, path, headers, out rightsResp) != null)
+                        {
+                            return context.Response.WriteAsync(rightsResp);
+                        };
+                    }
 
-                   var requestModel = serializer.Deserialize(route.Value, new StreamReader(context.Request.Body).ReadToEnd()) ?? Activator.CreateInstance(route.Value);
+                    var requestModel = serializer.Deserialize(route.Value, new StreamReader(context.Request.Body).ReadToEnd()) ?? Activator.CreateInstance(route.Value);
 
-                   var modelTypeInfo = requestModel.GetType().GetTypeInfo();
+                    var modelTypeInfo = requestModel.GetType().GetTypeInfo();
 
-                   if (result != null)
-                   {
-                       foreach (Match param in result)
-                       {
-                           var propName = param.Value.Replace("{", string.Empty).Replace("}", string.Empty);
-                           modelTypeInfo.GetProperty(propName).SetValue(requestModel, Convert.ChangeType(context.GetRouteValue(propName), modelTypeInfo.GetProperty(propName).PropertyType));
-                       }
-                   }
+                    if (result != null)
+                    {
+                        foreach (Match param in result)
+                        {
+                            var propName = param.Value.Replace("{", string.Empty).Replace("}", string.Empty);
+                            modelTypeInfo.GetProperty(propName).SetValue(requestModel, Convert.ChangeType(context.GetRouteValue(propName), modelTypeInfo.GetProperty(propName).PropertyType));
+                        }
+                    }
 
-                   var req = (requestModel as ICorrelation);
-                   if (req != null && string.IsNullOrWhiteSpace(req.CorrelationId))
-                   {
-                       req.CorrelationId = Guid.NewGuid().ToString();
-                   }
-                   context.Items.Add("requestModel", requestModel);
-                   var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
-                   var scopedSerciceProvider = scope.ServiceProvider;
+                    var req = (requestModel as ICorrelation);
+                    if (req != null && string.IsNullOrWhiteSpace(req.CorrelationId))
+                    {
+                        req.CorrelationId = Guid.NewGuid().ToString();
+                    }
+                    context.Items.Add("requestModel", requestModel);
+                    var method = model.GetServiceMethodForType(route.Key.Value, route.Value);
 
-                   var service = scopedSerciceProvider.CreateScope().ServiceProvider.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
-                   service.SecurityService = scopedSerciceProvider.GetService<ISecurityService>();
-                   var returnValueFromService = method.Invoke(service, new[] { requestModel });
+                    var service = requestScope.ServiceProvider.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
+                    service.SecurityService = requestScope.ServiceProvider.GetService<ISecurityService>();
+                    var returnValueFromService = method.Invoke(service, new[] { requestModel });
 
-                   var resp = (returnValueFromService as ICorrelation);
-                   if (resp != null)
-                   {
-                       resp.CorrelationId = req.CorrelationId;
-                   }
-                   var iResponse = returnValueFromService as IResponse;
+                    var resp = (returnValueFromService as ICorrelation);
+                    if (resp != null)
+                    {
+                        resp.CorrelationId = req.CorrelationId;
+                    }
+                    var iResponse = returnValueFromService as IResponse;
 
-                   context.Response.ContentType = serializer.ContentType + "; " + model.CharacterEncoding;
-                   context.Response.StatusCode = iResponse?.HttpStatusCode ?? context.Response.StatusCode;
-                   return context.Response.WriteAsync(serializer.Serialize(returnValueFromService));
-               });
+                    context.Response.ContentType = serializer.ContentType + "; " + model.CharacterEncoding;
+                    context.Response.StatusCode = iResponse?.HttpStatusCode ?? context.Response.StatusCode;
+                    return context.Response.WriteAsync(serializer.Serialize(returnValueFromService));
+                });
             }
 
             var routes = routeBuilder.Build();
@@ -117,7 +113,7 @@ namespace GoodREST.Middleware
             return app;
         }
 
-        private static T CheckRights<T>(IRestModel model, string verb, string path, IHeaderDictionary headers, out string resp) where T : class, new()
+        private static T CheckRights<T>(IAuthService authService, IRestModel model, string verb, string path, IHeaderDictionary headers, out string resp) where T : class, new()
         {
             resp = string.Empty;
             if (model.IsSecuritySetToReadOnlyForUnkownAuth && verb == "GET")
