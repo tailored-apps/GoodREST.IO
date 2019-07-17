@@ -161,7 +161,9 @@ namespace GoodREST.Extensions.SwaggerExtension
             }
             foreach (var type in created)
             {
-                var properties = type.GetProperties().Select(x =>
+                if (type != typeof(byte) && type != typeof(byte[]))
+                {
+                    var properties = type.GetProperties().Select(x =>
                 {
                     return new property()
                     {
@@ -170,12 +172,13 @@ namespace GoodREST.Extensions.SwaggerExtension
                     };
                 }).ToList();
 
-                var objectDefinition = new objectDefiniton
-                {
-                    properties = properties
-                };
+                    var objectDefinition = new objectDefiniton
+                    {
+                        properties = properties
+                    };
 
-                yield return (type.Name, objectDefinition);
+                    yield return (type.Name, objectDefinition);
+                }
             }
         }
 
