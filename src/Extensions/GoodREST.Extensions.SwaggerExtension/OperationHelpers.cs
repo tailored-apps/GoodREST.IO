@@ -118,9 +118,13 @@ namespace GoodREST.Extensions.SwaggerExtension
             else if (type != typeof(string) && type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICollection<>) || i.GetGenericTypeDefinition() == typeof(IEnumerable<>))))
             {
                 var propertyType = type.GenericTypeArguments.First();
-                if (propertyType != typeof(string) && propertyType != typeof(Guid))
+                if (!propertyType.IsPrimitive && propertyType != typeof(string) && propertyType != typeof(Guid))
                 {
                     propertyDescription.Add("items", new Dictionary<string, string> { { "$ref", "#/definitions/" + propertyType.Name } });
+                }
+                else if (propertyType.IsPrimitive)
+                {
+                    propertyDescription.Add("items", new Dictionary<string, string> { { "type", propertyType.GetJavascriptType() } });
                 }
                 else
                 {
