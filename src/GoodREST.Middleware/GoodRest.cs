@@ -95,7 +95,7 @@ namespace GoodREST.Middleware
                     var returnValueFromService = method.Invoke(service, new[] { requestModel });
 
                     var resp = (returnValueFromService as ICorrelation);
-                    if (resp != null)
+                    if (resp != null && req != null)
                     {
                         resp.CorrelationId = req.CorrelationId;
                     }
