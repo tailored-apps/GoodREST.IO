@@ -1,5 +1,6 @@
 {
   "Kestrel": {
+    "AllowSynchronousIO": true,
     "Endpoints": {
       "Http": {
         "Url": "http://localhost:5011"
