@@ -108,7 +108,7 @@ namespace GoodREST.Extensions.SwaggerExtension
                 propertyDescription.Add("type", type.GetJavascriptType());
                 if (!type.IsNullable())
                 {
-                    propertyDescription.Add("required", "true");
+                    propertyDescription.Add("required", true);
                 }
             }
             if (type == typeof(byte[]))
