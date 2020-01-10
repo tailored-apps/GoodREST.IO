@@ -22,7 +22,8 @@ namespace WebApplication
 
             var host = WebHost.CreateDefaultBuilder()
 
-                .UseKestrel(x => x.Configure(config.GetSection("Kestrel")))
+                .UseKestrel(x => { x.Configure(config.GetSection("Kestrel")); x.AllowSynchronousIO = true; })
+                
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseDefaultServiceProvider(options => { options.ValidateScopes = true; })

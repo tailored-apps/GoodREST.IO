@@ -5,7 +5,7 @@
     <Version>1.0.0.3</Version>
     <FileVersion>1.0.0.3</FileVersion>
     <AssemblyVersion>1.0.0.3</AssemblyVersion>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Company>Tailored Apps. Lukasz Kowalski</Company>
     <PackageProjectUrl>http://goodREST.io</PackageProjectUrl>
     <Copyright>Tailored Apps. Lukasz Kowalski</Copyright>
@@ -16,6 +16,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 </Project>
