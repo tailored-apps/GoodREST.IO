@@ -1,4 +1,5 @@
-﻿using GoodREST.Extensions.SwaggerExtension.Auxillary;
+﻿using GoodREST.Annotations;
+using GoodREST.Extensions.SwaggerExtension.Auxillary;
 using GoodREST.Interfaces;
 using GoodREST.Middleware;
 using GoodREST.Middleware.Interface;
@@ -173,7 +174,7 @@ namespace GoodREST.Extensions.SwaggerExtension
                     };
 
                 }).ToList();
-                    var reqired = allProperties.Where(x => IsNullable(x.PropertyType)).Select(x => x.Name).ToList();
+                    var reqired = allProperties.Where(x => x.PropertyType.IsRequired()).Select(x => x.Name).ToList();
 
                     var objectDefinition = new objectDefiniton
                     {
@@ -186,12 +187,6 @@ namespace GoodREST.Extensions.SwaggerExtension
             }
         }
 
-        private  bool IsNullable(Type type)
-        {
-            if (!type.IsValueType) return true; // ref-type
-            if (Nullable.GetUnderlyingType(type) != null) return true; // Nullable<T>
-            return false; // value-type
-        }
         public void Install(RouteBuilder routeBuilder)
         {
             routeBuilder.MapGet(@"swagger/serviceSchema.json", conext =>
