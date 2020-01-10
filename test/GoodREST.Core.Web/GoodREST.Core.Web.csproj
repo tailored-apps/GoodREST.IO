@@ -1,14 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <DebugType>portable</DebugType>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>GoodREST.Core.Web</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>GoodREST.Core.Web</PackageId>
     <UserSecretsId>aspnet-WebApplication-0799fe3e-6eaf-4c5f-b40e-7c6bfd5dfa9a</UserSecretsId>
-    <RuntimeFrameworkVersion>2.2.0</RuntimeFrameworkVersion>
   </PropertyGroup>
 
   <ItemGroup>
