@@ -119,7 +119,7 @@ namespace GoodREST.Extensions.SwaggerExtension
             {
                 if (type.GenericTypeArguments.FirstOrDefault()?.IsEnum ?? false)
                 {
-                    propertyDescription.Add("type", "string");
+                    propertyDescription.TryAdd("type", "string");
                     propertyDescription.Add("enum", Enum.GetNames(type.GenericTypeArguments.FirstOrDefault()));
                 }
                 else
