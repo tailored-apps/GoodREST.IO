@@ -163,18 +163,22 @@ namespace GoodREST.Extensions.SwaggerExtension
             {
                 if (type != typeof(byte) && type != typeof(byte[]))
                 {
-                    var properties = type.GetProperties().Select(x =>
+                    var allProperties = type.GetProperties();
+                    var properties = allProperties.Select(x =>
                 {
                     return new property()
                     {
                         name = x.Name,
-                        propertyDescription = x.PropertyType.GetPropertyDescription()
+                        propertyDescription = x.PropertyType.GetPropertyDescription(),
                     };
+
                 }).ToList();
+                    var reqired = allProperties.Where(x => IsNullable(x.PropertyType)).Select(x => x.Name).ToList();
 
                     var objectDefinition = new objectDefiniton
                     {
-                        properties = properties
+                        properties = properties,
+                        RequiredProperties = reqired
                     };
 
                     yield return (type.Name, objectDefinition);
@@ -182,6 +186,12 @@ namespace GoodREST.Extensions.SwaggerExtension
             }
         }
 
+        static bool IsNullable(this Type type)
+        {
+            if (!type.IsValueType) return true; // ref-type
+            if (Nullable.GetUnderlyingType(type) != null) return true; // Nullable<T>
+            return false; // value-type
+        }
         public void Install(RouteBuilder routeBuilder)
         {
             routeBuilder.MapGet(@"swagger/serviceSchema.json", conext =>

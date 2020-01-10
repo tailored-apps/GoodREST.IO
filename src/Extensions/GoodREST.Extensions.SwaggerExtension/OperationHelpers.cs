@@ -88,28 +88,16 @@ namespace GoodREST.Extensions.SwaggerExtension
             return result.Select(x => x.Value.Replace(@"{", string.Empty).Replace(@"}", string.Empty));
         }
 
-        static bool IsNullable(this Type type)
-        {
-            if (!type.IsValueType) return true; // ref-type
-            if (Nullable.GetUnderlyingType(type) != null) return true; // Nullable<T>
-            return false; // value-type
-        }
 
         public static Dictionary<string, object> GetPropertyDescription(this Type type)
         {
-            var objectDefinition = new objectDefiniton
-            {
-            };
 
             var isObject = type.GetJavascriptType() == "object";
             var propertyDescription = new Dictionary<string, object>();
             if (!isObject)
             {
                 propertyDescription.Add("type", type.GetJavascriptType());
-                if (!type.IsNullable())
-                {
-                    propertyDescription.Add("required", true);
-                }
+                
             }
             if (type == typeof(byte[]))
             {
@@ -153,10 +141,6 @@ namespace GoodREST.Extensions.SwaggerExtension
                 propertyDescription.Add("format", "date-time");
             }
 
-            //if (Nullable.GetUnderlyingType(type) != null)
-            //{
-            //    propertyDescription.Add("nullable", "true");
-            //}
             return propertyDescription;
         }
     }
