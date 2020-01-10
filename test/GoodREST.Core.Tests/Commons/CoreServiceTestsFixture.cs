@@ -24,7 +24,7 @@ namespace GoodREST.Core.Tests.Commons
                     if (host == null)
                     {
                         host = new WebHostBuilder()
-                            .UseKestrel()
+                            .UseKestrel(x => { x.AllowSynchronousIO = true; })
                            .UseContentRoot(Directory.GetCurrentDirectory())
                            .UseEnvironment("dev")
                            .UseStartup<Startup>()
