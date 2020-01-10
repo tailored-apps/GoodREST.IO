@@ -186,7 +186,7 @@ namespace GoodREST.Extensions.SwaggerExtension
             }
         }
 
-        static bool IsNullable(this Type type)
+        private  bool IsNullable(Type type)
         {
             if (!type.IsValueType) return true; // ref-type
             if (Nullable.GetUnderlyingType(type) != null) return true; // Nullable<T>
