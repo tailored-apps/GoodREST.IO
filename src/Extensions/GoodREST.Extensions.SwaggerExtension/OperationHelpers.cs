@@ -97,7 +97,7 @@ namespace GoodREST.Extensions.SwaggerExtension
             if (!isObject)
             {
                 propertyDescription.Add("type", type.GetJavascriptType());
-                
+
             }
             if (type == typeof(byte[]))
             {
@@ -142,6 +142,16 @@ namespace GoodREST.Extensions.SwaggerExtension
             }
 
             return propertyDescription;
+        }
+        public static bool IsNullable(this Type type)
+        {
+            if (!type.IsValueType) return true; // ref-type
+            if (Nullable.GetUnderlyingType(type) != null) return true; // Nullable<T>
+            return false; // value-type
+        }
+        public static bool IsRequired(this Type type)
+        {
+            return type.GetCustomAttribute<RequiredAttribute>() != null || !type.IsNullable(); // value-type
         }
     }
 }
