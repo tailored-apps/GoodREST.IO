@@ -86,9 +86,6 @@ namespace GoodREST.Extensions.SwaggerExtension
                 def.Add("properties", properties);
             }
 
-            if (definitionName == "PartyType")
-            {
-            }
             if (objectDefinition != null && objectDefinition.properties.SelectMany(x => x.propertyDescription).Count() == 2 && objectDefinition.properties.SelectMany(x => x.propertyDescription).Any(z=>z.Key =="enum"))
             {
                 def["type"] = "string";

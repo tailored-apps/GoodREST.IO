@@ -162,10 +162,6 @@ namespace GoodREST.Extensions.SwaggerExtension
             }
             foreach (var type in created)
             {
-                if (type.Name == "PartyType" || type.Name == "Invoice")
-                {
-
-                }
                 if (type.IsEnum)
                 {
                     var props = new property()
