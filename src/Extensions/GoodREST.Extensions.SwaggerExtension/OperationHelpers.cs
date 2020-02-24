@@ -91,7 +91,6 @@ namespace GoodREST.Extensions.SwaggerExtension
 
         public static Dictionary<string, object> GetPropertyDescription(this Type type)
         {
-
             var isObject = type.GetJavascriptType() == "object";
             var propertyDescription = new Dictionary<string, object>();
             if (!isObject)

@@ -162,7 +162,24 @@ namespace GoodREST.Extensions.SwaggerExtension
             }
             foreach (var type in created)
             {
-                if (type != typeof(byte) && type != typeof(byte[]))
+                if (type.IsEnum)
+                {
+                    var props = new property()
+                    {
+                        name=type.Name,
+                        propertyDescription = new Dictionary<string, object>() { { "type", type.GetJavascriptType() }, { "enum", Enum.GetNames(type) } }
+
+                    };
+
+                    var objectDefinition = new objectDefiniton
+                    {
+                        properties = new List<property>() { props }
+                    };
+
+                    yield return (type.Name, objectDefinition);
+
+                }
+                else if (type != typeof(byte) && type != typeof(byte[]))
                 {
                     var allProperties = type.GetProperties();
                     var properties = allProperties.Select(x =>
