@@ -70,6 +70,7 @@ namespace GoodREST.Extensions.SwaggerExtension
             {
                 def.Add("type", "object");
             }
+
             if (!def.ContainsKey("required") && (objectDefinition.RequiredProperties?.Any() ?? false))
             {
                 def.Add("required", objectDefinition.RequiredProperties);
@@ -83,6 +84,18 @@ namespace GoodREST.Extensions.SwaggerExtension
                     properties.Add(prop.name, prop.propertyDescription);
                 }
                 def.Add("properties", properties);
+            }
+
+            if (definitionName == "PartyType")
+            {
+            }
+            if (objectDefinition != null && objectDefinition.properties.SelectMany(x => x.propertyDescription).Count() == 2 && objectDefinition.properties.SelectMany(x => x.propertyDescription).Any(z=>z.Key =="enum"))
+            {
+                def["type"] = "string";
+                def.Remove("properties");
+                def.Remove("required");
+
+                def.Add("enum", objectDefinition.properties.Where(x => x.propertyDescription.ContainsKey("enum")).Single().propertyDescription["enum"]);
             }
         }
     }
