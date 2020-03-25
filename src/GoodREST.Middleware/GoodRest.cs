@@ -1,4 +1,5 @@
-﻿using GoodREST.Interfaces;
+﻿using GoodREST.Extensions;
+using GoodREST.Interfaces;
 using GoodREST.Middleware.Interface;
 using GoodREST.Middleware.Services;
 using Microsoft.AspNetCore.Builder;
@@ -92,6 +93,40 @@ namespace GoodREST.Middleware
 
                     var service = requestScope.ServiceProvider.GetServices<ServiceBase>().Single(x => x.GetType() == method.DeclaringType);
                     service.SecurityService = requestScope.ServiceProvider.GetService<ISecurityService>();
+                    var roleAttirbutes = modelTypeInfo.GetCustomAttributes<GoodREST.Annotations.Role>();
+                    var authorizationAttirbutes = modelTypeInfo.GetCustomAttribute<GoodREST.Annotations.Authorization>();
+                    if (roleAttirbutes != null && roleAttirbutes.Any() || authorizationAttirbutes != null)
+                    {
+                        var hasValidRole = false;
+                        if (service.SecurityService != null || (authorizationAttirbutes != null && context.Request.Headers.ContainsKey("X-Auth-Token") ))
+                        {
+                            foreach (var role in roleAttirbutes)
+                            {
+
+                                var roleStatus = role.Codes.All(x => service.SecurityService.IsUserInRole(x));
+                                if (roleStatus)
+                                {
+                                    hasValidRole = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!hasValidRole)
+                        {
+                            var newResponse = Activator.CreateInstance(method.ReturnType) as IResponse;
+
+                            var correlatedResponse = (newResponse as ICorrelation);
+                            if (correlatedResponse != null && req != null)
+                            {
+                                correlatedResponse.CorrelationId = req.CorrelationId;
+                            }
+                            newResponse.Unauthorized();
+                            context.Response.ContentType = serializer.ContentType + "; " + model.CharacterEncoding;
+                            context.Response.StatusCode = newResponse?.HttpStatusCode ?? context.Response.StatusCode;
+                            return context.Response.WriteAsync(serializer.Serialize(newResponse));
+                        }
+                    }
+
                     var returnValueFromService = method.Invoke(service, new[] { requestModel });
 
                     var resp = (returnValueFromService as ICorrelation);

@@ -1,5 +1,6 @@
 using GoodREST.Core.Test.DataModel.Messages;
 using GoodREST.Core.Test.Services;
+using GoodREST.Core.Web;
 using GoodREST.Extensions.HealthCheck;
 using GoodREST.Extensions.HealthCheck.Messages;
 using GoodREST.Extensions.ServiceDiscovery;
@@ -64,6 +65,7 @@ namespace WebApplication
             services.AddScoped<ServiceBase, CustomerService>();
             services.AddScoped<ServiceBase, ServiceDiscoveryService>();
             services.AddScoped<IMockingRepository, MoqRepository>();
+            services.AddScoped<ISecurityService, MockedSecurityService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
