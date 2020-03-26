@@ -95,23 +95,33 @@ namespace GoodREST.Middleware
                     service.SecurityService = requestScope.ServiceProvider.GetService<ISecurityService>();
                     var roleAttirbutes = modelTypeInfo.GetCustomAttributes<GoodREST.Annotations.Role>();
                     var authorizationAttirbutes = modelTypeInfo.GetCustomAttribute<GoodREST.Annotations.Authorization>();
+
                     if (roleAttirbutes != null && roleAttirbutes.Any() || authorizationAttirbutes != null)
                     {
                         var hasValidRole = false;
-                        if (service.SecurityService != null || (authorizationAttirbutes != null && context.Request.Headers.ContainsKey("X-Auth-Token") ))
+                        var hasValidAuth = authorizationAttirbutes == null ? true : context.Request.Headers.ContainsKey("X-Auth-Token") && !string.IsNullOrEmpty(service.SecurityService.GetUserId());
+                        if (service.SecurityService != null)
                         {
-                            foreach (var role in roleAttirbutes)
-                            {
 
-                                var roleStatus = role.Codes.All(x => service.SecurityService.IsUserInRole(x));
-                                if (roleStatus)
+                            if (roleAttirbutes != null && roleAttirbutes.Any())
+                            {
+                                foreach (var role in roleAttirbutes)
                                 {
-                                    hasValidRole = true;
-                                    break;
+
+                                    var roleStatus = role.Codes.All(x => service.SecurityService.IsUserInRole(x));
+                                    if (roleStatus)
+                                    {
+                                        hasValidRole = true;
+                                        break;
+                                    }
                                 }
                             }
+                            else
+                            {
+                                hasValidRole = true;
+                            }
                         }
-                        if (!hasValidRole)
+                        if (!hasValidRole || !hasValidAuth)
                         {
                             var newResponse = Activator.CreateInstance(method.ReturnType) as IResponse;
 
@@ -120,7 +130,14 @@ namespace GoodREST.Middleware
                             {
                                 correlatedResponse.CorrelationId = req.CorrelationId;
                             }
-                            newResponse.Unauthorized();
+                            if (!hasValidAuth)
+                            {
+                                newResponse.Unauthorized();
+                            }
+                            else if (!hasValidRole)
+                            {
+                                newResponse.Forbidden();
+                            }
                             context.Response.ContentType = serializer.ContentType + "; " + model.CharacterEncoding;
                             context.Response.StatusCode = newResponse?.HttpStatusCode ?? context.Response.StatusCode;
                             return context.Response.WriteAsync(serializer.Serialize(newResponse));
