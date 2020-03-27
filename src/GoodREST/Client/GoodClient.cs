@@ -41,7 +41,7 @@ namespace GoodREST.Client
 
         public abstract R Delete<R, K>(K request, string url) where K : IHasResponse<R> where R : IResponse;
 
-        private static Dictionary<Type, KeyValuePair<string, HttpVerb>> dict = new Dictionary<Type, KeyValuePair<string, HttpVerb>>();
+        private  Dictionary<Type, KeyValuePair<string, HttpVerb>> dict = new Dictionary<Type, KeyValuePair<string, HttpVerb>>();
 
         protected string GetRequestUrl<R, K>(K request) where K : IHasResponse<R> where R : IResponse
         {
