@@ -1,0 +1,28 @@
+name: Gus.Regon.BIR11.Proxy develop feature/* bugfix/* Build
+
+on:
+  push:
+    branches: [ develop, feature/*, bugfix/* ]
+  pull_request:
+    branches: [ master, develop, feature/*, bugfix/* ]
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Install dot net tools
+      run: npm install dotnettools
+    - name: Bump version
+      run: node ./node_modules/dotnettools/bin/dnt.js bump-versions preview
+    - name: Install dependencies
+      run: dotnet restore ./GoodREST.sln
+    - name: Build
+      run: dotnet build ./GoodREST.sln --configuration Release --no-restore
+    - name: Test
+      run: dotnet test ./GoodREST.sln --no-restore --verbosity normal

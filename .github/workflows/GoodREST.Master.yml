@@ -1,0 +1,56 @@
+name: Gus.Regon.BIR11.Proxy Master Build
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Install dot net tools
+      run: npm install dotnettools
+    - name: Bump version
+      run: node ./node_modules/dotnettools/bin/dnt.js bump-versions patch
+    - name: Add & Commit
+      uses: EndBug/add-and-commit@v4.0.1
+      with:
+        message: Version update
+    - name: Install dependencies
+      run: dotnet restore ./GoodREST.sln
+    - name: Build
+      run: dotnet build ./GoodREST.sln --configuration Release --no-restore
+    - name: Test
+      run: dotnet test ./GoodREST.sln --no-restore --verbosity normal
+    - name: Publish GoodREST NuGet
+      uses: rohith/publish-nuget@v2.2.1
+      with:
+        PROJECT_FILE_PATH: ./src/GoodREST/GoodREST.csproj
+        NUGET_KEY: ${{ secrets.GoodRESTNugetKey }}
+    - name: Publish GoodREST.Middleware NuGet
+      uses: rohith/publish-nuget@v2.2.1
+      with:
+        PROJECT_FILE_PATH: ./src/GoodREST.Middleware/GoodREST.Middleware.csproj
+        NUGET_KEY: ${{ secrets.GoodRESTNugetKey }}
+    - name: Publish GoodREST.Extensions.HealthCheck NuGet
+      uses: rohith/publish-nuget@v2.2.1
+      with:
+        PROJECT_FILE_PATH: ./src/Extensions/GoodREST.Extensions.HealthCheck/GoodREST.Extensions.HealthCheck.csproj
+        NUGET_KEY: ${{ secrets.GoodRESTNugetKey }}
+    - name: Publish GoodREST.Extensions.ServiceDiscovery NuGet
+      uses: rohith/publish-nuget@v2.2.1
+      with:
+        PROJECT_FILE_PATH: ./src/Extensions/GoodREST.Extensions.ServiceDiscovery/GoodREST.Extensions.ServiceDiscovery.csproj
+        NUGET_KEY: ${{ secrets.GoodRESTNugetKey }}
+    - name: Publish GoodREST.Extensions.SwaggerExtension NuGet
+      uses: rohith/publish-nuget@v2.2.1
+      with:
+        PROJECT_FILE_PATH: ./src/Extensions/GoodREST.Extensions.SwaggerExtension/GoodREST.Extensions.SwaggerExtension.csproj
+        NUGET_KEY: ${{ secrets.GoodRESTNugetKey }}

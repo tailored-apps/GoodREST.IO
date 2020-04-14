@@ -4,9 +4,9 @@
     <DebugType>portable</DebugType>
     <AssemblyName>GoodREST.Middleware</AssemblyName>
     <PackageId>GoodREST.Middleware</PackageId>
-    <Version>1.0.0.3</Version>
-    <FileVersion>1.0.0.3</FileVersion>
-    <AssemblyVersion>1.0.0.3</AssemblyVersion>
+    <Version>1.1.0</Version>
+    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Tailored Apps</Authors>
     <Company>Tailored Apps</Company>
