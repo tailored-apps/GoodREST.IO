@@ -19,9 +19,6 @@
     <ProjectReference Include="..\GoodREST.Core.Test.Services\GoodREST.Core.Test.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Properties\" />
