@@ -1,4 +1,4 @@
-name: Gus.Regon.BIR11.Proxy develop feature/* bugfix/* Build
+name: GoodREST develop feature/* bugfix/* Build
 
 on:
   push:

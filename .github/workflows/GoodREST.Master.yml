@@ -1,4 +1,4 @@
-name: Gus.Regon.BIR11.Proxy Master Build
+name: GoodREST Master Build
 
 on:
   push:
