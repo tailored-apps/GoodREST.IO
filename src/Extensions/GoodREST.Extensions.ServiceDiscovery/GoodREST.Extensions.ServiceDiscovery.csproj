@@ -1,16 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Company>Tailored Apps. Łukasz Kowalski</Company>
     <Authors>Tailored Apps. Lukasz Kowalski</Authors>
     <PackageProjectUrl>http://goodREST.io</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailored-apps/GoodREST.IO</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\GoodREST.Middleware\GoodREST.Middleware.csproj" />
     <ProjectReference Include="..\..\GoodREST\GoodREST.csproj" />

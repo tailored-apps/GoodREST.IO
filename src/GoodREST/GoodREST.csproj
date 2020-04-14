@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <PackageId>GoodREST</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <FileVersion>1.1.0.0</FileVersion>
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -14,7 +13,6 @@
     <RepositoryUrl>https://github.com/tailored-apps/GoodREST.IO</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
