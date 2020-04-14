@@ -22,14 +22,14 @@ namespace WebApplication
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile($"Config/appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"Config/servicediscovery.json", optional: true, reloadOnChange: true);
 
-            if (env.IsDevelopment())
+            if (env.EnvironmentName != "PROD")
             {
                 builder.AddUserSecrets<Startup>();
             }
@@ -68,7 +68,7 @@ namespace WebApplication
             services.AddScoped<ISecurityService, MockedSecurityService>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.TakeGoodRest(configure =>
             {

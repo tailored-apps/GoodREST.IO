@@ -252,3 +252,4 @@ paket-files/
 *.sln.iml
 swagger-ui/**.*
 /site
+/package-lock.json
