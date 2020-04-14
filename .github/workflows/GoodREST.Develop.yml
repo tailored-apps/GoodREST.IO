@@ -24,12 +24,13 @@ jobs:
       run: dotnet restore ./GoodREST.sln
     - name: Install Swagger dependencies
       run: git submodule update --init --recursive
-    - name: Find and Replace
-      uses: jacobtomlinson/gha-find-replace@0.1.1
+    - name: Replace Action
+      uses: datamonsters/replace-action@v2
       with:
-        include: ./swagger-ui/dist/index.html
-        find: https://petstore.swagger.io/v2/swagger.json
-        replace: /swagger/serviceSchema.json
+        # Files, comma-separated. Supposed PLACEHOLDER in them
+        files: ./swagger-ui/dist/index.html
+        # Comma-separated pairs PLACEHOLDER=value
+        replacements: https://petstore.swagger.io/v2/swagger.json=/swagger/serviceSchema.json
     - name: Build
       run: dotnet build ./GoodREST.sln --configuration Release --no-restore
     - name: Test
