@@ -22,6 +22,8 @@ jobs:
       run: node ./node_modules/dotnettools/bin/dnt.js bump-versions preview
     - name: Install dependencies
       run: dotnet restore ./GoodREST.sln
+    - name: Install Swagger dependencies
+      run: git submodule update --init --recursive
     - name: Build
       run: dotnet build ./GoodREST.sln --configuration Release --no-restore
     - name: Test
