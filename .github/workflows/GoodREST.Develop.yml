@@ -27,7 +27,7 @@ jobs:
     - name: Find and Replace
       uses: jacobtomlinson/gha-find-replace@0.1.1
       with:
-        include: .\swagger-ui\dist\index.html
+        include: ./swagger-ui/dist/index.html
         find: https://petstore.swagger.io/v2/swagger.json
         replace: /swagger/serviceSchema.json
     - name: Build
