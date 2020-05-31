@@ -65,7 +65,9 @@ jobs:
         NUGET_KEY: ${{ secrets.GoodRESTNugetKey }}
     - name: Build goodrest.io install pip
       run: python3 -m pip install --upgrade pip
+    - name: update setuptools
+      run: pip3 install -U pip setuptools 
     - name: Build goodrest.io install mkdocs
-      run: pip3 install python3-setuptools mkdocs mkdocs-material
+      run: pip3 install mkdocs mkdocs-material
     - name: Build docs
       run: mkdocs build
