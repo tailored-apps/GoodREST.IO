@@ -64,8 +64,8 @@ jobs:
         PROJECT_FILE_PATH: ./src/Extensions/GoodREST.Extensions.SwaggerExtension/GoodREST.Extensions.SwaggerExtension.csproj
         NUGET_KEY: ${{ secrets.GoodRESTNugetKey }}
     - name: Build goodrest.io install pip
-      run: python -m pip install --upgrade pip
+      run: python3 -m pip install --upgrade pip
     - name: Build goodrest.io install mkdocs
-      run: pip install mkdocs mkdocs-material
+      run: pip3 install mkdocs mkdocs-material
     - name: Build docs
       run: mkdocs build
