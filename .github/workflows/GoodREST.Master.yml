@@ -66,6 +66,6 @@ jobs:
     - name: Build goodrest.io install pip
       run: python3 -m pip install --upgrade pip
     - name: Build goodrest.io install mkdocs
-      run: pip3 install mkdocs mkdocs-material
+      run: pip3 install python3-setuptools mkdocs mkdocs-material
     - name: Build docs
       run: mkdocs build
