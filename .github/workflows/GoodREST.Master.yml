@@ -72,4 +72,4 @@ jobs:
     - name: Build goodrest.io install mkdocs
       run: pip3 install mkdocs mkdocs-material
     - name: Build docs
-      run: mkdocs build
+      run: /home/runner/.local/bin/mkdocs build
