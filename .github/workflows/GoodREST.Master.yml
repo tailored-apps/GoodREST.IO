@@ -69,5 +69,7 @@ jobs:
       run: pip3 install -U pip setuptools 
     - name: Build goodrest.io install mkdocs
       run: pip3 install mkdocs mkdocs-material
+    - name: list installation dir
+      run: pip3 show mkdocs
     - name: Build docs
       run: mkdocs build
