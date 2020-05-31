@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.2</Version>
+    <Version>1.1.3</Version>
     <Company>Tailored Apps. Łukasz Kowalski</Company>
     <Authors>Tailored Apps. Lukasz Kowalski</Authors>
     <PackageProjectUrl>http://goodREST.io</PackageProjectUrl>
