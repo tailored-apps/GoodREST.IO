@@ -72,4 +72,4 @@ jobs:
     - name: list installation dir
       run:  export PATH=$PATH:~/.local/bin
     - name: Build docs
-      run: /home/runner/.local/lib/python3.6/site-packages/mkdocs build
+      run: mkdocs build
