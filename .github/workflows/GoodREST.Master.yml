@@ -70,6 +70,6 @@ jobs:
     - name: Build goodrest.io install mkdocs
       run: pip3 install mkdocs mkdocs-material
     - name: list installation dir
-      run:  export PATH=$PATH:/home/runner/.local/lib/python3.6/site-packages/mkdocs
+      run:  export PATH=$PATH:$HOME/.local/bin
     - name: Build docs
-      run: python3 mkdocs build
+      run: mkdocs build
