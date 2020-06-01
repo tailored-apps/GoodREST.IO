@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{AC49A9B4
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\GoodREST.Develop.yml = .github\workflows\GoodREST.Develop.yml
 		.github\workflows\GoodREST.Master.yml = .github\workflows\GoodREST.Master.yml
+		.github\workflows\GoodREST.MasterDocs.yml = .github\workflows\GoodREST.MasterDocs.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodREST.Middleware", "src\GoodREST.Middleware\GoodREST.Middleware.csproj", "{0804CFBF-0E47-4DB4-BEDF-C5CD2DE083F3}"

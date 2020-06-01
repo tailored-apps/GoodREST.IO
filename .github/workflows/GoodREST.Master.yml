@@ -63,26 +63,3 @@ jobs:
       with:
         PROJECT_FILE_PATH: ./src/Extensions/GoodREST.Extensions.SwaggerExtension/GoodREST.Extensions.SwaggerExtension.csproj
         NUGET_KEY: ${{ secrets.GoodRESTNugetKey }}
-    - name: list installation dir
-      run:  export PATH=$PATH:/home/runner/.local/bin
-    - name: Build goodrest.io install pip
-      run: python3 -m pip install --upgrade pip
-    - name: update setuptools
-      run: pip3 install -U setuptools 
-    - name: Build goodrest.io install -U mkdocs
-      run: pip3 install -U mkdocs mkdocs-material mkdocs-material-extensions
-    - name: Build docs
-      run: /home/runner/.local/bin/mkdocs build
-    - name: FTP Deploy
-      uses: SamKirkland/FTP-Deploy-Action@3.1.1
-      with:
-        # Deployment destination server & path. Formatted as protocol://domain.com:port/full/destination/path/
-        ftp-server: ${{ secrets.SSH_SERVER_URL_WITH_DEPLOYPATH }} 
-        # FTP account username
-        ftp-username: ${{ secrets.SSH_USERNAME }}
-        # FTP account password
-        ftp-password:  ${{ secrets.SSH_PASSWORD }}
-        # The local folder to copy, defaults to root project folder
-        local-dir: site
-        # Passes through options into git-ftp
-        git-ftp-args: --insecure
