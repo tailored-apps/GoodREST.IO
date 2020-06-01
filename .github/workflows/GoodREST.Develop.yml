@@ -19,7 +19,11 @@ jobs:
     - name: Install dot net tools
       run: npm install dotnettools
     - name: Bump version
-      run: node ./node_modules/dotnettools/bin/dnt.js bump-versions preview
+      run: node ./node_modules/dotnettools/bin/dnt.js bump-versions patch
+    - name: Add & Commit
+      uses: EndBug/add-and-commit@v4.0.1
+      with:
+        message: Version update
     - name: Install dependencies
       run: dotnet restore ./GoodREST.sln
     - name: Install Swagger dependencies
@@ -35,3 +39,26 @@ jobs:
       run: dotnet build ./GoodREST.sln --configuration Release --no-restore
     - name: Test
       run: dotnet test ./GoodREST.sln --no-restore --verbosity normal
+    - name: list installation dir
+      run:  export PATH=$PATH:/home/runner/.local/bin
+    - name: Build goodrest.io install pip
+      run: python3 -m pip install --upgrade pip
+    - name: update setuptools
+      run: pip3 install -U setuptools 
+    - name: Build goodrest.io install -U mkdocs
+      run: pip3 install -U mkdocs mkdocs-material mkdocs-material-extensions
+    - name: Build docs
+      run: /home/runner/.local/bin/mkdocs build
+    - name: FTP Deploy
+      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      with:
+        # Deployment destination server & path. Formatted as protocol://domain.com:port/full/destination/path/
+        ftp-server: ${{ secrets.SSH_SERVER_URL_WITH_DEPLOYPATH }}/test
+        # FTP account username
+        ftp-username: ${{ secrets.SSH_USERNAME }}
+        # FTP account password
+        ftp-password:  ${{ secrets.SSH_PASSWORD }}
+        # The local folder to copy, defaults to root project folder
+        local-dir: site
+        # Passes through options into git-ftp
+        git-ftp-args: --insecure
