@@ -16,14 +16,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-    - name: Install dot net tools
-      run: npm install dotnettools
-    - name: Bump version
-      run: node ./node_modules/dotnettools/bin/dnt.js bump-versions patch
-    - name: Add & Commit
-      uses: EndBug/add-and-commit@v4.0.1
-      with:
-        message: Version update
     - name: Install dependencies
       run: dotnet restore ./GoodREST.sln
     - name: Install Swagger dependencies
