@@ -25,9 +25,6 @@ theme:
 # Customization
 extra:
   manifest: 'manifest.webmanifest'
-  social:
-    - type: 'github'
-      link: 'https://github.com/tailored-apps'
 
 # Google Analytics
 google_analytics:
