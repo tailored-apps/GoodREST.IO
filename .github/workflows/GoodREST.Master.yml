@@ -73,6 +73,10 @@ jobs:
       run: pip3 install -U mkdocs mkdocs-material mkdocs-material-extensions
     - name: Build docs
       run: /home/runner/.local/bin/mkdocs build
+    - name: add files in workspace
+      run:  git add .
+    - name: commit workspace
+      run:  git commit -m "not to push"
     - name: FTP Deploy
       uses: SamKirkland/FTP-Deploy-Action@3.1.1
       with:
