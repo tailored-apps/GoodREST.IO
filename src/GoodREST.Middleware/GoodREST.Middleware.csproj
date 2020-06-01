@@ -4,7 +4,7 @@
     <DebugType>portable</DebugType>
     <AssemblyName>GoodREST.Middleware</AssemblyName>
     <PackageId>GoodREST.Middleware</PackageId>
-    <Version>1.1.23</Version>
+    <Version>1.1.24</Version>
     <FileVersion>1.1.0.0</FileVersion>
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
