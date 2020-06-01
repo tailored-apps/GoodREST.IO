@@ -24,6 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{AC49A9B4-64D4-434E-8B26-CF3AF261ED02}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\GoodREST.Develop.yml = .github\workflows\GoodREST.Develop.yml
+		.github\workflows\GoodREST.DevelopDocs.yml = .github\workflows\GoodREST.DevelopDocs.yml
 		.github\workflows\GoodREST.Master.yml = .github\workflows\GoodREST.Master.yml
 		.github\workflows\GoodREST.MasterDocs.yml = .github\workflows\GoodREST.MasterDocs.yml
 	EndProjectSection
