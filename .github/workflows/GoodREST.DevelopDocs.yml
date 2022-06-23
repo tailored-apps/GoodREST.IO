@@ -24,7 +24,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@3.1.1
       with:
         # Deployment destination server & path. Formatted as protocol://domain.com:port/full/destination/path/
-        ftp-server: ${{ secrets.SSH_SERVER_URL_WITH_DEPLOYPATH }}/test
+        ftp-server: ${{ secrets.SSH_SERVER_URL_WITH_DEPLOYPATH }}test/
         # FTP account username
         ftp-username: ${{ secrets.SSH_USERNAME }}
         # FTP account password
